@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard — DX Tools Design System</title>
   <script>const t=localStorage.getItem('dx-theme');document.documentElement.setAttribute('data-theme',t||'light');</script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/fonts.css">
   <link rel="stylesheet" href="../css/tokens.css">
   <link rel="stylesheet" href="../css/frame.css">
   <link rel="stylesheet" href="../css/components.css">
@@ -376,13 +374,13 @@
 
           <div class="dx-demo dx-demo--stack" style="padding: 0;">
             <div class="panel" style="border: none; border-radius: 0; padding: var(--space-6);">
-              <!-- Header row -->
-              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-6);">
-                <div>
+              <!-- Header row — use panel__header for consistent spacing and wrapping -->
+              <div class="panel__header" style="margin-bottom: var(--space-6);">
+                <div style="flex: 1; min-width: 0;">
                   <h2 style="font-size: var(--text-xl); font-weight: var(--weight-bold); margin-bottom: var(--space-1); color: var(--color-text);">DX Tools dashboard</h2>
                   <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0;">Last updated: May 22, 2026 at 9:14 AM</p>
                 </div>
-                <button class="btn btn--ghost btn--sm">
+                <button class="btn btn--ghost btn--sm" style="flex-shrink: 0;">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
                   Refresh
                 </button>
@@ -438,7 +436,7 @@
       </main>
     </div>
   </div>
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="../js/lucide.min.js"></script>
   <script src="../js/theme.js" defer></script>
   <script src="../js/code-copy.js" defer></script>
 </body>

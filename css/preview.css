@@ -196,23 +196,28 @@
   flex-shrink: 0;
 }
 
+/* Specificity: .dx-preview a (0,1,1) overrides .preview-nav__link (0,1,0).
+   Use .dx-preview .preview-nav__link (0,2,0) to win the cascade. */
+.dx-preview .preview-nav__link,
 .preview-nav__link {
   display: inline-flex;
   align-items: center;
   height: 100%;
   padding: 0 var(--space-3);
   font-size: var(--text-sm);
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.9);   /* #FFFFFF 90% → ~15:1 on Navy ✅ AAA */
   text-decoration: none;
   border-bottom: 3px solid transparent;
   transition: color var(--t-fast), border-color var(--t-fast);
 }
 
+.dx-preview .preview-nav__link:hover,
 .preview-nav__link:hover {
   color: #FFFFFF;
   border-bottom-color: var(--brand-yellow);
 }
 
+.dx-preview .preview-nav__link.active,
 .preview-nav__link.active {
   color: #FFFFFF;
   border-bottom-color: var(--brand-yellow);

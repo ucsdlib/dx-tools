@@ -267,9 +267,9 @@
 .panel__header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: var(--space-3);
   margin-bottom: var(--space-4);
+  flex-wrap: wrap;
 }
 
 .panel__title {
@@ -277,6 +277,8 @@
   font-weight: var(--weight-semibold);
   color: var(--color-text);
   line-height: var(--leading-snug);
+  flex: 1;           /* expands so any trailing badge/action sits at the end */
+  min-width: 0;      /* prevents flex overflow with long titles */
 }
 
 .panel__subtitle {
@@ -1299,6 +1301,51 @@ dialog.dx-dialog::backdrop {
 .drag-handle:active {
   cursor: grabbing;
   color: var(--color-accent);
+}
+
+/* Drag handle as a <button> — reset browser button styles */
+button.drag-handle {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+}
+
+/* Focus ring on the handle — visible for keyboard users */
+.drag-handle:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Keyboard "grabbed" state — handle is active via Space/Enter */
+.drag-handle[aria-pressed="true"] {
+  color: var(--color-accent);
+  background-color: var(--color-accent-muted);
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+  cursor: grabbing;
+}
+
+/* Grabbed item row — highlighted while keyboard-reordering */
+.sort-list__item.is-grabbed {
+  background-color: var(--color-accent-muted);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 1px var(--color-accent), var(--shadow-md);
+}
+
+/* Screen-reader only announcer — not hidden from AT */
+.sort-announcer {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* Draggable item */

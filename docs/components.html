@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Components — DX Tools Design System</title>
   <script>const t=localStorage.getItem('dx-theme');document.documentElement.setAttribute('data-theme',t||'light');</script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/fonts.css">
   <link rel="stylesheet" href="../css/tokens.css">
   <link rel="stylesheet" href="../css/frame.css">
   <link rel="stylesheet" href="../css/components.css">
@@ -57,6 +55,7 @@
             <li><a href="#code-display">Code display</a></li>
             <li><a href="#icons">Icons</a></li>
             <li><a href="#drag-drop">Drag &amp; drop</a></li>
+            <li><a href="#preview-container">Preview container</a></li>
           </ul>
         </div>
       </nav>
@@ -572,7 +571,7 @@
           <div class="code-block">
             <div class="code-block__toolbar"><span class="code-block__lang">html</span><button class="code-block__copy" aria-label="Copy code">Copy</button></div>
             <pre><code>&lt;!-- CDN (add before theme.js) --&gt;
-&lt;script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"&gt;&lt;/script&gt;
+&lt;script src="../js/lucide.min.js"&gt;&lt;/script&gt;
 
 &lt;!-- Usage: data-lucide attribute, initialized by theme.js --&gt;
 &lt;i data-lucide="check-circle" width="18" height="18" aria-hidden="true"&gt;&lt;/i&gt;
@@ -593,32 +592,48 @@
         <!-- Drag and Drop -->
         <section class="dx-section" id="drag-drop" aria-labelledby="drag-drop-title">
           <h2 id="drag-drop-title">Drag &amp; drop</h2>
-          <p>CSS classes for drag-and-drop and reorder interfaces. Use with the HTML5 Drag and Drop API or a library like SortableJS. All states use shape + color cues — never color alone.</p>
+          <p>CSS classes for drag-and-drop and reorder interfaces. Works with the HTML5 Drag and Drop API, SortableJS, or any drag library. All states use shape + color cues — never color alone.</p>
+          <p>Every drag interaction is fully keyboard-accessible: Tab to the handle, <kbd>Space</kbd> or <kbd>Enter</kbd> to grab, <kbd>↑ ↓</kbd> to reorder, <kbd>Escape</kbd> to cancel.</p>
 
           <h3>Sortable list</h3>
-          <p>The <code>.drag-handle</code> uses <code>grip-vertical</code> from Lucide. The dragging item becomes a ghost; the lifted clone follows the cursor.</p>
+          <p>The <code>.drag-handle</code> uses the <code>grip-vertical</code> Lucide icon. Implement it as a <code>&lt;button&gt;</code> for keyboard access — the demo below includes a full keyboard handler and ARIA live announcements.</p>
           <div class="dx-demo">
-            <ul class="sort-list" id="sort-demo" aria-label="Reorderable list — drag items to reorder">
+            <!-- sr-only keyboard instructions — referenced by aria-describedby -->
+            <p id="sort-kb-instructions" class="sort-announcer">
+              To reorder with a keyboard: Tab to a grip handle, press Space or Enter to grab the item, use Arrow Up or Arrow Down to move it, then press Space or Enter again to drop, or Escape to cancel.
+            </p>
+            <!-- sr-only live region — announces drag movements to screen readers -->
+            <div class="sort-announcer" aria-live="polite" aria-atomic="true" id="sort-announcer"></div>
+
+            <ul class="sort-list" id="sort-demo" role="list" aria-label="Reorderable project list">
               <li class="sort-list__item draggable" draggable="true" data-id="1">
-                <span class="drag-handle" aria-hidden="true"><i data-lucide="grip-vertical" width="16" height="16"></i></span>
+                <button class="drag-handle" type="button" aria-label="Reorder: Information Architecture Map" aria-describedby="sort-kb-instructions" aria-pressed="false">
+                  <i data-lucide="grip-vertical" width="16" height="16" aria-hidden="true"></i>
+                </button>
                 <i data-lucide="file-text" width="18" height="18" aria-hidden="true" style="color: var(--color-accent); flex-shrink:0;"></i>
                 <span style="flex:1;">Information Architecture Map</span>
                 <span class="badge">Active</span>
               </li>
               <li class="sort-list__item draggable" draggable="true" data-id="2">
-                <span class="drag-handle" aria-hidden="true"><i data-lucide="grip-vertical" width="16" height="16"></i></span>
+                <button class="drag-handle" type="button" aria-label="Reorder: Staff Directory Tool" aria-describedby="sort-kb-instructions" aria-pressed="false">
+                  <i data-lucide="grip-vertical" width="16" height="16" aria-hidden="true"></i>
+                </button>
                 <i data-lucide="users" width="18" height="18" aria-hidden="true" style="color: var(--color-text-muted); flex-shrink:0;"></i>
                 <span style="flex:1;">Staff Directory Tool</span>
                 <span class="badge badge--neutral">Draft</span>
               </li>
               <li class="sort-list__item draggable" draggable="true" data-id="3">
-                <span class="drag-handle" aria-hidden="true"><i data-lucide="grip-vertical" width="16" height="16"></i></span>
+                <button class="drag-handle" type="button" aria-label="Reorder: Analytics Dashboard" aria-describedby="sort-kb-instructions" aria-pressed="false">
+                  <i data-lucide="grip-vertical" width="16" height="16" aria-hidden="true"></i>
+                </button>
                 <i data-lucide="bar-chart-2" width="18" height="18" aria-hidden="true" style="color: var(--color-text-muted); flex-shrink:0;"></i>
                 <span style="flex:1;">Analytics Dashboard</span>
                 <span class="badge badge--neutral">Draft</span>
               </li>
               <li class="sort-list__item draggable" draggable="true" data-id="4">
-                <span class="drag-handle" aria-hidden="true"><i data-lucide="grip-vertical" width="16" height="16"></i></span>
+                <button class="drag-handle" type="button" aria-label="Reorder: Campus Map Editor" aria-describedby="sort-kb-instructions" aria-pressed="false">
+                  <i data-lucide="grip-vertical" width="16" height="16" aria-hidden="true"></i>
+                </button>
                 <i data-lucide="map" width="18" height="18" aria-hidden="true" style="color: var(--color-text-muted); flex-shrink:0;"></i>
                 <span style="flex:1;">Campus Map Editor</span>
                 <span class="badge badge--success">Published</span>
@@ -653,7 +668,9 @@
               <div>
                 <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-2);">Dragging item — ghost</p>
                 <div class="sort-list__item draggable is-dragging">
-                  <span class="drag-handle" aria-hidden="true"><i data-lucide="grip-vertical" width="16" height="16"></i></span>
+                  <button class="drag-handle" type="button" tabindex="-1" aria-hidden="true">
+                    <i data-lucide="grip-vertical" width="16" height="16" aria-hidden="true"></i>
+                  </button>
                   <i data-lucide="file-text" width="18" height="18" aria-hidden="true" style="color: var(--color-accent); flex-shrink:0;"></i>
                   <span>Item being dragged</span>
                 </div>
@@ -661,14 +678,38 @@
             </div>
           </div>
 
+          <h3>Keyboard interaction</h3>
+          <table class="table table--bordered" style="margin-bottom: var(--space-4);">
+            <thead>
+              <tr><th>Key</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><kbd>Tab</kbd></td><td>Move focus to the next drag handle</td></tr>
+              <tr><td><kbd>Space</kbd> / <kbd>Enter</kbd></td><td>Grab the focused item (toggle). Press again to drop in place.</td></tr>
+              <tr><td><kbd>↑</kbd> Arrow Up</td><td>While grabbed — move item one position up</td></tr>
+              <tr><td><kbd>↓</kbd> Arrow Down</td><td>While grabbed — move item one position down</td></tr>
+              <tr><td><kbd>Escape</kbd></td><td>Cancel drag; item returns to its original position</td></tr>
+            </tbody>
+          </table>
+
           <div class="code-block">
             <div class="code-block__toolbar"><span class="code-block__lang">html</span><button class="code-block__copy" aria-label="Copy code">Copy</button></div>
-            <pre><code>&lt;!-- Sortable list item --&gt;
-&lt;ul class="sort-list"&gt;
+            <pre><code>&lt;!-- sr-only keyboard instructions (referenced by handles) --&gt;
+&lt;p id="sort-kb-instructions" class="sort-announcer"&gt;
+  Tab to a grip handle, Space or Enter to grab, Arrow Up/Down to move,
+  Space or Enter to drop, Escape to cancel.
+&lt;/p&gt;
+&lt;!-- sr-only live region (screen reader movement announcements) --&gt;
+&lt;div class="sort-announcer" aria-live="polite" aria-atomic="true" id="sort-announcer"&gt;&lt;/div&gt;
+
+&lt;ul class="sort-list" role="list" aria-label="Reorderable list"&gt;
   &lt;li class="sort-list__item draggable" draggable="true"&gt;
-    &lt;span class="drag-handle" aria-hidden="true"&gt;
-      &lt;i data-lucide="grip-vertical" width="16" height="16"&gt;&lt;/i&gt;
-    &lt;/span&gt;
+    &lt;button class="drag-handle" type="button"
+            aria-label="Reorder: Item name"
+            aria-describedby="sort-kb-instructions"
+            aria-pressed="false"&gt;
+      &lt;i data-lucide="grip-vertical" width="16" height="16" aria-hidden="true"&gt;&lt;/i&gt;
+    &lt;/button&gt;
     Item content
   &lt;/li&gt;
 &lt;/ul&gt;
@@ -677,24 +718,256 @@
 &lt;div class="drop-zone" aria-label="Drop files here" role="region"&gt;
   &lt;i data-lucide="upload-cloud" width="20" height="20" aria-hidden="true"&gt;&lt;/i&gt;
   Drop files here
+&lt;/div&gt;</code></pre>
+          </div>
+
+          <div class="code-block" style="margin-top: var(--space-4);">
+            <div class="code-block__toolbar"><span class="code-block__lang">js</span><button class="code-block__copy" aria-label="Copy code">Copy</button></div>
+            <pre><code>// Keyboard reorder handler — attach to your sort list
+function initKeyboardSort(list, announcerId) {
+  var announcer = document.getElementById(announcerId);
+  var originalOrder = null; // saved on grab for Escape
+
+  function announce(msg) {
+    if (!announcer) return;
+    announcer.textContent = '';
+    setTimeout(function() { announcer.textContent = msg; }, 50);
+  }
+
+  function getPosition(item) {
+    return Array.from(list.querySelectorAll('.sort-list__item')).indexOf(item) + 1;
+  }
+
+  function countItems() {
+    return list.querySelectorAll('.sort-list__item').length;
+  }
+
+  list.querySelectorAll('.drag-handle').forEach(function(handle) {
+    handle.addEventListener('keydown', function(e) {
+      var item = handle.closest('.sort-list__item');
+      var grabbed = item.classList.contains('is-grabbed');
+
+      if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+        if (!grabbed) {
+          // Grab — save snapshot for Escape
+          originalOrder = Array.from(list.querySelectorAll('.sort-list__item'));
+          item.classList.add('is-grabbed');
+          handle.setAttribute('aria-pressed', 'true');
+          announce('Grabbed ' + handle.getAttribute('aria-label').replace('Reorder: ', '')
+            + '. Position ' + getPosition(item) + ' of ' + countItems()
+            + '. Use Arrow Up or Down to move, Escape to cancel.');
+        } else {
+          // Drop
+          item.classList.remove('is-grabbed');
+          handle.setAttribute('aria-pressed', 'false');
+          originalOrder = null;
+          announce('Dropped at position ' + getPosition(item) + ' of ' + countItems() + '.');
+        }
+
+      } else if (e.key === 'ArrowUp' && grabbed) {
+        e.preventDefault();
+        var prev = item.previousElementSibling;
+        if (prev && prev.classList.contains('sort-list__item')) {
+          list.insertBefore(item, prev);
+          handle.focus();
+          announce('Moved up. Now position ' + getPosition(item) + ' of ' + countItems() + '.');
+        } else {
+          announce('Already at the top.');
+        }
+
+      } else if (e.key === 'ArrowDown' && grabbed) {
+        e.preventDefault();
+        var next = item.nextElementSibling;
+        if (next && next.classList.contains('sort-list__item')) {
+          list.insertBefore(item, next.nextSibling);
+          handle.focus();
+          announce('Moved down. Now position ' + getPosition(item) + ' of ' + countItems() + '.');
+        } else {
+          announce('Already at the bottom.');
+        }
+
+      } else if (e.key === 'Escape' && grabbed) {
+        e.preventDefault();
+        // Restore original order
+        if (originalOrder) {
+          originalOrder.forEach(function(el) { list.appendChild(el); });
+          originalOrder = null;
+        }
+        item.classList.remove('is-grabbed');
+        handle.setAttribute('aria-pressed', 'false');
+        handle.focus();
+        announce('Cancelled. Order restored.');
+      }
+    });
+  });
+}
+
+// Usage
+initKeyboardSort(document.getElementById('sort-demo'), 'sort-announcer');</code></pre>
+          </div>
+
+          <h3>Accessibility notes</h3>
+          <ul style="font-size: var(--text-base); line-height: 1.7; padding-left: 1.5em; color: var(--color-text);">
+            <li>Use a <code>&lt;button&gt;</code> for the drag handle — not a <code>&lt;span&gt;</code> — so it is natively focusable and keyboard-operable.</li>
+            <li>Set <code>aria-pressed="false"</code> initially; toggle to <code>"true"</code> when grabbed. This tells screen readers the handle is a toggle button.</li>
+            <li><code>aria-describedby</code> on each handle points to the <code>.sort-announcer</code> element containing keyboard instructions. Screen readers read this on focus.</li>
+            <li>The <code>aria-live="polite"</code> region announces each move ("Moved up. Now position 2 of 4.") without interrupting the user mid-speech.</li>
+            <li>Escape always restores the original order — users can explore reordering without committing to changes.</li>
+            <li>Mouse drag still works alongside keyboard — the two modes are independent. <code>draggable="true"</code> on the <code>&lt;li&gt;</code> handles mouse; the <code>&lt;button&gt;</code> handles keyboard.</li>
+          </ul>
+        </section>
+
+        <!-- Preview container =========================================== -->
+        <section class="dx-section" id="preview-container" aria-labelledby="preview-container-title">
+          <h2 id="preview-container-title">Preview container</h2>
+          <p>The preview container wraps brand-faithful mockups in a browser-chrome frame — the same pattern used throughout this documentation. It visually separates tool UI from the content being previewed, making it clear what is interface and what is content.</p>
+          <p>The outer frame (<code>.preview-container</code> + <code>.preview-toolbar</code>) uses frame tokens. The inner area (<code>.dx-preview</code>) applies <code>preview.css</code> tokens — brand-faithful UC San Diego palette with Roboto, regardless of the outer frame's color mode.</p>
+
+          <h3>Basic preview</h3>
+          <div class="dx-demo">
+            <div class="preview-container">
+              <div class="preview-toolbar">
+                <div class="preview-toolbar__dots">
+                  <span class="preview-toolbar__dot"></span>
+                  <span class="preview-toolbar__dot"></span>
+                  <span class="preview-toolbar__dot"></span>
+                </div>
+                <span class="preview-toolbar__label">Preview</span>
+              </div>
+              <div class="dx-preview dx-preview--padded">
+                <h2 style="font-size:1.25rem; margin-bottom:0.5em;">UC San Diego Brand Content</h2>
+                <p>This area renders with brand-faithful UC San Diego styles — white background, Navy headings, Roboto font — regardless of whether the surrounding frame is in dark or light mode.</p>
+                <a href="#">Learn more about the design system</a>
+              </div>
+            </div>
+          </div>
+
+          <h3>Stage variant — dark background</h3>
+          <p>Use <code>.preview-container--stage</code> for content that is shown on a dark or Navy background, such as header or navigation mockups.</p>
+          <div class="dx-demo">
+            <div class="preview-container preview-container--stage">
+              <div class="preview-toolbar">
+                <div class="preview-toolbar__dots">
+                  <span class="preview-toolbar__dot"></span>
+                  <span class="preview-toolbar__dot"></span>
+                  <span class="preview-toolbar__dot"></span>
+                </div>
+                <span class="preview-toolbar__label">Preview</span>
+              </div>
+              <div class="dx-preview">
+                <nav class="preview-nav">
+                  <a href="#" class="preview-nav__brand">UC San Diego</a>
+                  <a href="#" class="preview-nav__link active">Home</a>
+                  <a href="#" class="preview-nav__link">About</a>
+                  <a href="#" class="preview-nav__link">Research</a>
+                  <a href="#" class="preview-nav__link">News</a>
+                </nav>
+                <div class="preview-gold-bar"></div>
+              </div>
+            </div>
+          </div>
+
+          <h3>Responsive viewport simulation</h3>
+          <p>Add <code>data-viewport="mobile"</code> or <code>data-viewport="tablet"</code> to the container to constrain the preview width, simulating different device breakpoints.</p>
+          <div class="dx-demo">
+            <div class="preview-container" data-viewport="mobile">
+              <div class="preview-toolbar">
+                <div class="preview-toolbar__dots">
+                  <span class="preview-toolbar__dot"></span>
+                  <span class="preview-toolbar__dot"></span>
+                  <span class="preview-toolbar__dot"></span>
+                </div>
+                <span class="preview-toolbar__label">Preview — Mobile (390px)</span>
+              </div>
+              <div class="dx-preview dx-preview--padded">
+                <h2 style="font-size:1.1rem; margin-bottom:0.5em;">Mobile layout</h2>
+                <p>Content is constrained to 390px to simulate an iPhone viewport.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="code-block" style="margin-top: var(--space-6);">
+            <div class="code-block__toolbar"><span class="code-block__lang">html</span><button class="code-block__copy" aria-label="Copy code">Copy</button></div>
+            <pre><code>&lt;!-- Basic preview container --&gt;
+&lt;div class="preview-container"&gt;
+  &lt;div class="preview-toolbar"&gt;
+    &lt;div class="preview-toolbar__dots"&gt;
+      &lt;span class="preview-toolbar__dot"&gt;&lt;/span&gt;
+      &lt;span class="preview-toolbar__dot"&gt;&lt;/span&gt;
+      &lt;span class="preview-toolbar__dot"&gt;&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;span class="preview-toolbar__label"&gt;Preview&lt;/span&gt;
+    &lt;!-- Optional: size buttons in .preview-toolbar__actions --&gt;
+  &lt;/div&gt;
+  &lt;div class="dx-preview dx-preview--padded"&gt;
+    &lt;!-- Brand-faithful UC San Diego content here --&gt;
+  &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;!-- JS: add .is-dragover on dragenter, remove on dragleave/drop --&gt;
-&lt;!-- JS: add .is-dragging to the original item while dragging --&gt;</code></pre>
+&lt;!-- Stage variant (Navy/dark background) --&gt;
+&lt;div class="preview-container preview-container--stage"&gt;...&lt;/div&gt;
+
+&lt;!-- Viewport simulation --&gt;
+&lt;div class="preview-container" data-viewport="mobile"&gt;...&lt;/div&gt;
+&lt;div class="preview-container" data-viewport="tablet"&gt;...&lt;/div&gt;
+
+&lt;!-- Padding modifiers on .dx-preview --&gt;
+&lt;div class="dx-preview dx-preview--padded"&gt;...&lt;/div&gt;  &lt;!-- space-8 all sides --&gt;
+&lt;div class="dx-preview dx-preview--sm"&gt;...&lt;/div&gt;      &lt;!-- space-4 all sides --&gt;</code></pre>
           </div>
+
+          <h3>Token boundary</h3>
+          <p>The <code>.dx-preview</code> scope creates a complete token reset. Tokens defined in <code>tokens.css</code> for the frame (surface colors, text colors, accent) are overridden at the <code>.dx-preview</code> boundary to use brand-faithful values. This means:</p>
+          <ul style="font-size: var(--text-base); line-height: 1.7; padding-left: 1.5em; color: var(--color-text); margin-bottom: var(--space-4);">
+            <li>Frame dark mode does <em>not</em> bleed into the preview area.</li>
+            <li>Preview always shows the light, brand-faithful UC San Diego palette.</li>
+            <li>Nav links inside <code>.dx-preview</code> use <code>.preview-nav__link</code> — the specificity is set to override the default <code>.dx-preview a</code> rule and keep white text on Navy.</li>
+            <li>Heading colors, body text, and link colors match the UC San Diego website palette.</li>
+          </ul>
+
+          <h3>CSS classes reference</h3>
+          <table class="table table--bordered">
+            <thead>
+              <tr><th>Class</th><th>Element</th><th>Purpose</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>.preview-container</code></td><td>Wrapper div</td><td>Outer frame: border, border-radius, overflow hidden</td></tr>
+              <tr><td><code>.preview-container--stage</code></td><td>Modifier</td><td>Forces Navy background inside <code>.dx-preview</code></td></tr>
+              <tr><td><code>[data-viewport="mobile"]</code></td><td>Attribute</td><td>Constrains preview to 390px (iPhone)</td></tr>
+              <tr><td><code>[data-viewport="tablet"]</code></td><td>Attribute</td><td>Constrains preview to 768px</td></tr>
+              <tr><td><code>.preview-toolbar</code></td><td>Toolbar strip</td><td>Browser chrome bar above preview content</td></tr>
+              <tr><td><code>.preview-toolbar__dots</code></td><td>Dot group</td><td>Decorative traffic-light circles</td></tr>
+              <tr><td><code>.preview-toolbar__dot</code></td><td>Single dot</td><td>Individual decorative circle</td></tr>
+              <tr><td><code>.preview-toolbar__label</code></td><td>Text label</td><td>Uppercase "Preview" label in toolbar</td></tr>
+              <tr><td><code>.preview-toolbar__spacer</code></td><td>Flex spacer</td><td>Pushes actions to the right</td></tr>
+              <tr><td><code>.preview-toolbar__actions</code></td><td>Button group</td><td>Optional size/viewport selector buttons</td></tr>
+              <tr><td><code>.preview-size-btn</code></td><td>Button</td><td>Viewport size selector button (with <code>aria-pressed</code>)</td></tr>
+              <tr><td><code>.dx-preview</code></td><td>Content area</td><td>Brand-faithful token scope; Roboto font</td></tr>
+              <tr><td><code>.dx-preview--padded</code></td><td>Modifier</td><td>Adds <code>space-8</code> padding all sides</td></tr>
+              <tr><td><code>.dx-preview--sm</code></td><td>Modifier</td><td>Adds <code>space-4</code> padding all sides</td></tr>
+              <tr><td><code>.preview-nav</code></td><td>Nav bar</td><td>Navy navigation bar for page mockups</td></tr>
+              <tr><td><code>.preview-nav__brand</code></td><td>Brand link</td><td>Site name / logo area</td></tr>
+              <tr><td><code>.preview-nav__link</code></td><td>Nav link</td><td>White text nav link; yellow bottom border on active/hover</td></tr>
+              <tr><td><code>.preview-gold-bar</code></td><td>Accent bar</td><td>4px Gold bar — UC San Diego brand motif</td></tr>
+              <tr><td><code>.preview-hero</code></td><td>Hero section</td><td>Navy hero area with white text</td></tr>
+            </tbody>
+          </table>
         </section>
 
       </main>
     </div>
   </div>
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="../js/lucide.min.js"></script>
   <script src="../js/theme.js" defer></script>
   <script src="../js/code-copy.js" defer></script>
   <script>
-    // Sortable list drag-and-drop demo
+    // Sortable list — mouse drag-and-drop + keyboard reorder
     (function() {
       var list = document.getElementById('sort-demo');
       if (!list) return;
+
+      // ── Mouse drag (HTML5 DnD API) ──────────────────────────────
       var dragging = null;
 
       list.addEventListener('dragstart', function(e) {
@@ -734,6 +1007,84 @@
         var ind = list.querySelector('.drop-indicator');
         if (ind && dragging) list.insertBefore(dragging, ind);
         list.querySelectorAll('.drop-indicator').forEach(function(el) { el.remove(); });
+      });
+
+      // ── Keyboard reorder ─────────────────────────────────────────
+      var announcer = document.getElementById('sort-announcer');
+      var originalOrder = null;
+
+      function announce(msg) {
+        if (!announcer) return;
+        announcer.textContent = '';
+        setTimeout(function() { announcer.textContent = msg; }, 50);
+      }
+
+      function getItems() {
+        return Array.from(list.querySelectorAll('.sort-list__item'));
+      }
+
+      function getPosition(item) {
+        return getItems().indexOf(item) + 1;
+      }
+
+      list.querySelectorAll('.drag-handle').forEach(function(handle) {
+        handle.addEventListener('keydown', function(e) {
+          var item = handle.closest('.sort-list__item');
+          var grabbed = item.classList.contains('is-grabbed');
+
+          if (e.key === ' ' || e.key === 'Enter') {
+            e.preventDefault();
+            if (!grabbed) {
+              // Snapshot order before grab (for Escape)
+              originalOrder = getItems();
+              item.classList.add('is-grabbed');
+              handle.setAttribute('aria-pressed', 'true');
+              announce('Grabbed ' + handle.getAttribute('aria-label').replace('Reorder: ', '')
+                + '. Position ' + getPosition(item) + ' of ' + getItems().length
+                + '. Use Arrow Up or Down to move, Escape to cancel.');
+            } else {
+              // Confirm drop
+              item.classList.remove('is-grabbed');
+              handle.setAttribute('aria-pressed', 'false');
+              originalOrder = null;
+              announce('Dropped. Final position: ' + getPosition(item) + ' of ' + getItems().length + '.');
+            }
+
+          } else if (e.key === 'ArrowUp' && grabbed) {
+            e.preventDefault();
+            var prev = item.previousElementSibling;
+            if (prev && prev.classList.contains('sort-list__item')) {
+              list.insertBefore(item, prev);
+              handle.focus();
+              announce('Moved up. Now position ' + getPosition(item) + ' of ' + getItems().length + '.');
+            } else {
+              announce('Already at the top.');
+            }
+
+          } else if (e.key === 'ArrowDown' && grabbed) {
+            e.preventDefault();
+            var next = item.nextElementSibling;
+            if (next && next.classList.contains('sort-list__item')) {
+              list.insertBefore(item, next.nextSibling);
+              handle.focus();
+              announce('Moved down. Now position ' + getPosition(item) + ' of ' + getItems().length + '.');
+            } else {
+              announce('Already at the bottom.');
+            }
+
+          } else if (e.key === 'Escape' && grabbed) {
+            e.preventDefault();
+            // Restore order from snapshot
+            if (originalOrder) {
+              originalOrder.forEach(function(el) { list.appendChild(el); });
+              originalOrder = null;
+            }
+            item.classList.remove('is-grabbed');
+            handle.setAttribute('aria-pressed', 'false');
+            handle.focus();
+            announce('Cancelled. Order restored.');
+          }
+        });
       });
     })();
 

@@ -154,7 +154,7 @@
   /* Text — all meet AAA (7:1) against --color-bg */
   --color-text:         #182B49;
   --color-text-muted:   #2d4464;
-  --color-text-subtle:  #4d6683;
+  --color-text-subtle:  #2d4464;   /* = muted — 3 AAA tiers impossible on sand/white */
   --color-text-on-accent:    #FFFFFF;
   --color-text-on-secondary: #182B49;
   --color-text-on-danger:    #FFFFFF;
@@ -244,7 +244,7 @@
 
     --color-text:          #FFFFFF;
     --color-text-muted:    #9DB8D4;
-    --color-text-subtle:   #6E90B8;
+    --color-text-subtle:   #9DB8D4;   /* = muted — 3 AAA tiers impossible on dark bg */
     --color-text-on-accent:     #000000;
     --color-text-on-secondary:  #000000;
     --color-text-on-danger:     #FFFFFF;
@@ -315,7 +315,7 @@
 
   --color-text:          #FFFFFF;
   --color-text-muted:    #9DB8D4;
-  --color-text-subtle:   #6E90B8;
+  --color-text-subtle:   #9DB8D4;   /* = muted — 3 AAA tiers impossible on dark bg */
   --color-text-on-accent:     #000000;
   --color-text-on-secondary:  #000000;
   --color-text-on-danger:     #FFFFFF;
@@ -390,7 +390,7 @@
 
   --color-text:         var(--brand-navy);
   --color-text-muted:   #2d4464;
-  --color-text-subtle:  #4d6683;
+  --color-text-subtle:  #2d4464;   /* = muted — 3 AAA tiers impossible on sand/white */
   --color-text-on-accent:    #FFFFFF;
   --color-text-on-secondary: var(--brand-navy);
 

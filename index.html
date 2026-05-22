@@ -8,9 +8,7 @@
   <!-- FOUC prevention: apply stored theme before first paint -->
   <script>const t=localStorage.getItem('dx-theme');document.documentElement.setAttribute('data-theme',t||'light');</script>
   <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/fonts.css">
   <!-- Design System -->
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/frame.css">
@@ -251,16 +249,11 @@
               <span class="code-block__lang">html</span>
               <button class="code-block__copy" aria-label="Copy code">Copy</button>
             </div>
-            <pre><code>&lt;!-- FOUC prevention (in &lt;head&gt;, before stylesheets) --&gt;
-&lt;script&gt;
-  const t = localStorage.getItem('dx-theme');
-  if (t) document.documentElement.setAttribute('data-theme', t);
-&lt;/script&gt;
+            <pre><code>&lt;!-- FOUC prevention: must be first in &lt;head&gt;, before any stylesheet --&gt;
+&lt;script&gt;const t=localStorage.getItem('dx-theme');document.documentElement.setAttribute('data-theme',t||'light');&lt;/script&gt;
 
-&lt;!-- Fonts --&gt;
-&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;
-&lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;
-&lt;link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&amp;family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&amp;family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&amp;display=swap" rel="stylesheet"&gt;
+&lt;!-- Fonts (self-hosted — no external requests) --&gt;
+&lt;link rel="stylesheet" href="css/fonts.css"&gt;
 
 &lt;!-- Design system --&gt;
 &lt;link rel="stylesheet" href="css/tokens.css"&gt;
@@ -269,7 +262,8 @@
 &lt;link rel="stylesheet" href="css/preview.css"&gt;
 &lt;link rel="stylesheet" href="css/code.css"&gt;
 
-&lt;!-- JS (optional but needed for theme toggle and code copy) --&gt;
+&lt;!-- Icons + theme toggle (self-hosted Lucide) --&gt;
+&lt;script src="js/lucide.min.js"&gt;&lt;/script&gt;
 &lt;script src="js/theme.js" defer&gt;&lt;/script&gt;
 &lt;script src="js/code-copy.js" defer&gt;&lt;/script&gt;</code></pre>
           </div>
@@ -528,7 +522,7 @@
     </div>
   </div>
 
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="js/lucide.min.js"></script>
   <script src="js/theme.js" defer></script>
   <script src="js/code-copy.js" defer></script>
 </body>
