@@ -15,15 +15,15 @@
   --font-code:    'JetBrains Mono', 'Fira Code', 'Consolas', 'Courier New', monospace;
 
   /* Type scale — tool interfaces run large */
-  --text-xs:   0.75rem;    /* 12px — badges, metadata only */
-  --text-sm:   0.875rem;   /* 14px — helper text, captions  */
-  --text-base: 1rem;       /* 16px — body copy, form labels */
-  --text-md:   1.125rem;   /* 18px — emphasized body        */
-  --text-lg:   1.375rem;   /* 22px — section headings       */
-  --text-xl:   1.75rem;    /* 28px — page headings          */
-  --text-2xl:  2.25rem;    /* 36px — display headings       */
-  --text-3xl:  3rem;       /* 48px — hero / hero stats      */
-  --text-code: 0.875rem;   /* 14px — monospace code         */
+  --text-xs:   0.875rem;   /* 14px — badges, metadata; absolute minimum */
+  --text-sm:   1rem;       /* 16px — helper text, captions              */
+  --text-base: 1.125rem;   /* 18px — body copy, form labels             */
+  --text-md:   1.25rem;    /* 20px — emphasized body                    */
+  --text-lg:   1.5rem;     /* 24px — section headings                   */
+  --text-xl:   1.875rem;   /* 30px — page headings                      */
+  --text-2xl:  2.5rem;     /* 40px — display headings                   */
+  --text-3xl:  3.25rem;    /* 52px — hero / hero stats                  */
+  --text-code: 0.875rem;   /* 14px — monospace code                     */
 
   /* Line heights */
   --leading-none:   1;
@@ -128,171 +128,18 @@
 }
 
 /* ================================================================
-   SEMANTIC COLOR TOKENS — DARK MODE  (default)
+   SEMANTIC COLOR TOKENS — LIGHT MODE  (default)
 
-   Color strategy: brand accent colors (Turquoise, Citron) become
-   primary interactive colors. Brand primaries (Navy) provide depth.
+   Color strategy: UC San Diego Blue as primary interactive color.
+   Sand background provides warmth. Navy for text depth.
 
    Contrast ratios verified against WCAG 2.1:
-     --color-text on --color-surface:  ~15:1  ✅ AAA
-     --color-text on --color-bg:       ~22:1  ✅ AAA
-     --color-text-muted on --color-bg: ~7.5:1 ✅ AAA
-     black on --color-accent:          ~10:1  ✅ AAA
-     black on --color-secondary:       ~15:1  ✅ AAA
+     --color-text on --color-surface:  ~14.5:1 ✅ AAA
+     --color-text-muted on sand:       ~9:1    ✅ AAA
+     --color-text-subtle on sand:      ~7.2:1  ✅ AAA
+     white on --color-accent (#00629B): ~7.7:1 ✅ AAA
    ================================================================ */
 :root,
-[data-theme="dark"] {
-  color-scheme: dark;
-
-  /* Surface depth stack (darkest → highest elevation) */
-  --color-bg:              #0d1b2e;
-  --color-surface:         #182B49;   /* brand navy */
-  --color-surface-raised:  #1e3460;
-  --color-surface-overlay: #243d72;
-
-  /* Borders */
-  --color-border:        rgba(255, 255, 255, 0.10);
-  --color-border-strong: rgba(255, 255, 255, 0.20);
-
-  /* Text
-     Primary and muted both meet AAA (7:1) against --color-bg.
-     Subtle is AA-only; use for decorative/non-informational text only. */
-  --color-text:          #FFFFFF;
-  --color-text-muted:    #9DB8D4;
-  --color-text-subtle:   #6E90B8;
-  --color-text-on-accent:     #000000;
-  --color-text-on-secondary:  #000000;
-  --color-text-on-danger:     #FFFFFF;
-  --color-text-on-success:    #000000;
-
-  /* Primary interactive — Turquoise (inverted: brand accent → tool primary) */
-  --color-accent:        #00C6D7;
-  --color-accent-hover:  #00d9ec;
-  --color-accent-active: #00afbe;
-  --color-accent-muted:  rgba(0, 198, 215, 0.14);
-  --color-accent-strong: rgba(0, 198, 215, 0.28);
-
-  /* Secondary interactive — Citron */
-  --color-secondary:        #F3E500;
-  --color-secondary-hover:  #fff600;
-  --color-secondary-active: #d4c800;
-  --color-secondary-muted:  rgba(243, 229, 0, 0.12);
-
-  /* Semantic status */
-  --color-danger:       #ff6b6b;
-  --color-danger-hover: #ff8585;
-  --color-danger-muted: rgba(255, 107, 107, 0.15);
-  --color-danger-text:  #ff6b6b;
-
-  --color-success:       #7ec850;
-  --color-success-hover: #92d864;
-  --color-success-muted: rgba(126, 200, 80, 0.15);
-  --color-success-text:  #7ec850;
-
-  --color-warning:       #FC8900;
-  --color-warning-hover: #ff9a1a;
-  --color-warning-muted: rgba(252, 137, 0, 0.15);
-  --color-warning-text:  #FC8900;
-
-  --color-info:       #00C6D7;
-  --color-info-muted: rgba(0, 198, 215, 0.15);
-  --color-info-text:  #00C6D7;
-
-  /* Focus ring — 3px, high visibility */
-  --color-focus: #00C6D7;
-  --focus-ring:  0 0 0 3px rgba(0, 198, 215, 0.45);
-
-  /* Shadows */
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.5);
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.55), 0 1px 2px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.65), 0 2px 4px rgba(0, 0, 0, 0.45);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.75), 0 4px 8px rgba(0, 0, 0, 0.55);
-
-  /* Tactile button shadow — bottom edge creates physical press feel */
-  --shadow-btn:        0 3px 0 0 rgba(0, 0, 0, 0.45);
-  --shadow-btn-accent: 0 3px 0 0 rgba(0, 80, 90, 0.6);
-  --shadow-btn-active: 0 1px 0 0 rgba(0, 0, 0, 0.4);
-
-  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
-  scrollbar-width: thin;
-}
-
-/* ================================================================
-   SEMANTIC COLOR TOKENS — LIGHT MODE
-
-   Contrast ratios:
-     --color-text on --color-surface:  ~14.5:1 ✅ AAA
-     --color-text-muted on white:      ~9:1    ✅ AAA
-     --color-text-subtle on white:     ~7.2:1  ✅ AAA
-     white on --color-accent:          ~5.9:1  ✅ AA  (large text AAA)
-   ================================================================ */
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) {
-    color-scheme: light;
-
-    --color-bg:              var(--brand-sand);
-    --color-surface:         #FFFFFF;
-    --color-surface-raised:  #FFFFFF;
-    --color-surface-overlay: #ede8de;
-
-    --color-border:        #DDE3EC;
-    --color-border-strong: #B8C4D4;
-
-    --color-text:         #182B49;
-    --color-text-muted:   #2d4464;
-    --color-text-subtle:  #4d6683;
-    --color-text-on-accent:    #FFFFFF;
-    --color-text-on-secondary: #182B49;
-    --color-text-on-danger:    #FFFFFF;
-    --color-text-on-success:   #FFFFFF;
-
-    --color-accent:        var(--brand-blue);
-    --color-accent-hover:  #004e7a;
-    --color-accent-active: #003d60;
-    --color-accent-muted:  rgba(0, 98, 155, 0.08);
-    --color-accent-strong: rgba(0, 98, 155, 0.16);
-
-    --color-secondary:        var(--brand-gold);
-    --color-secondary-hover:  #a87a10;
-    --color-secondary-active: #8e650c;
-    --color-secondary-muted:  rgba(198, 146, 20, 0.10);
-
-    --color-danger:       #b91c1c;
-    --color-danger-hover: #991717;
-    --color-danger-muted: rgba(185, 28, 28, 0.08);
-    --color-danger-text:  #b91c1c;
-
-    --color-success:       #3a6e18;
-    --color-success-hover: #2d5712;
-    --color-success-muted: rgba(58, 110, 24, 0.08);
-    --color-success-text:  #3a6e18;
-
-    --color-warning:       #9a4e00;
-    --color-warning-hover: #7a3d00;
-    --color-warning-muted: rgba(154, 78, 0, 0.08);
-    --color-warning-text:  #9a4e00;
-
-    --color-info:       var(--brand-blue);
-    --color-info-muted: rgba(0, 98, 155, 0.08);
-    --color-info-text:  var(--brand-blue);
-
-    --color-focus: var(--brand-blue);
-    --focus-ring:  0 0 0 3px rgba(0, 98, 155, 0.35);
-
-    --shadow-xs: 0 1px 2px rgba(24, 43, 73, 0.06);
-    --shadow-sm: 0 2px 4px rgba(24, 43, 73, 0.08), 0 1px 2px rgba(24, 43, 73, 0.05);
-    --shadow-md: 0 4px 12px rgba(24, 43, 73, 0.10), 0 2px 4px rgba(24, 43, 73, 0.06);
-    --shadow-lg: 0 8px 24px rgba(24, 43, 73, 0.12), 0 4px 8px rgba(24, 43, 73, 0.08);
-
-    --shadow-btn:        0 3px 0 0 rgba(24, 43, 73, 0.18);
-    --shadow-btn-accent: 0 3px 0 0 rgba(0, 38, 60, 0.28);
-    --shadow-btn-active: 0 1px 0 0 rgba(24, 43, 73, 0.18);
-
-    scrollbar-color: var(--color-border-strong) var(--color-bg);
-    scrollbar-width: thin;
-  }
-}
-
 [data-theme="light"] {
   color-scheme: light;
 
@@ -304,6 +151,7 @@
   --color-border:        #DDE3EC;
   --color-border-strong: #B8C4D4;
 
+  /* Text — all meet AAA (7:1) against --color-bg */
   --color-text:         #182B49;
   --color-text-muted:   #2d4464;
   --color-text-subtle:  #4d6683;
@@ -312,17 +160,20 @@
   --color-text-on-danger:    #FFFFFF;
   --color-text-on-success:   #FFFFFF;
 
+  /* Primary interactive — UC San Diego Blue */
   --color-accent:        var(--brand-blue);
   --color-accent-hover:  #004e7a;
   --color-accent-active: #003d60;
   --color-accent-muted:  rgba(0, 98, 155, 0.08);
   --color-accent-strong: rgba(0, 98, 155, 0.16);
 
+  /* Secondary interactive — Gold */
   --color-secondary:        var(--brand-gold);
   --color-secondary-hover:  #a87a10;
   --color-secondary-active: #8e650c;
   --color-secondary-muted:  rgba(198, 146, 20, 0.10);
 
+  /* Semantic status */
   --color-danger:       #b91c1c;
   --color-danger-hover: #991717;
   --color-danger-muted: rgba(185, 28, 28, 0.08);
@@ -342,25 +193,188 @@
   --color-info-muted: rgba(0, 98, 155, 0.08);
   --color-info-text:  var(--brand-blue);
 
+  /* Focus ring — 3px, high visibility */
   --color-focus: var(--brand-blue);
   --focus-ring:  0 0 0 3px rgba(0, 98, 155, 0.35);
 
+  /* Shadows */
   --shadow-xs: 0 1px 2px rgba(24, 43, 73, 0.06);
   --shadow-sm: 0 2px 4px rgba(24, 43, 73, 0.08), 0 1px 2px rgba(24, 43, 73, 0.05);
   --shadow-md: 0 4px 12px rgba(24, 43, 73, 0.10), 0 2px 4px rgba(24, 43, 73, 0.06);
   --shadow-lg: 0 8px 24px rgba(24, 43, 73, 0.12), 0 4px 8px rgba(24, 43, 73, 0.08);
 
+  /* Tactile button shadow — bottom edge creates physical press feel */
   --shadow-btn:        0 3px 0 0 rgba(24, 43, 73, 0.18);
   --shadow-btn-accent: 0 3px 0 0 rgba(0, 38, 60, 0.28);
   --shadow-btn-active: 0 1px 0 0 rgba(24, 43, 73, 0.18);
+
+  /* Featured panel — accent-color shadow ring replaces stripe */
+  --shadow-featured:           var(--shadow-sm), 0 0 0 1.5px var(--color-accent);
+  --shadow-featured-secondary: var(--shadow-sm), 0 0 0 1.5px var(--color-secondary);
+  --shadow-featured-danger:    var(--shadow-sm), 0 0 0 1.5px var(--color-danger);
+  --shadow-featured-success:   var(--shadow-sm), 0 0 0 1.5px var(--color-success);
 
   scrollbar-color: var(--color-border-strong) var(--color-bg);
   scrollbar-width: thin;
 }
 
 /* ================================================================
+   SEMANTIC COLOR TOKENS — DARK MODE
+
+   Inverted brand: Turquoise becomes the primary interactive color.
+   Brand accent colors (Turquoise, Citron) serve as primary CTAs.
+   Navy depth stack provides the tool-instrument feel.
+
+   Contrast ratios:
+     --color-text on --color-bg:       ~22:1  ✅ AAA
+     --color-text-muted on --color-bg: ~7.5:1 ✅ AAA
+     black on --color-accent:          ~10:1  ✅ AAA
+   ================================================================ */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --color-bg:              #0d1b2e;
+    --color-surface:         #182B49;
+    --color-surface-raised:  #1e3460;
+    --color-surface-overlay: #243d72;
+
+    --color-border:        rgba(255, 255, 255, 0.10);
+    --color-border-strong: rgba(255, 255, 255, 0.20);
+
+    --color-text:          #FFFFFF;
+    --color-text-muted:    #9DB8D4;
+    --color-text-subtle:   #6E90B8;
+    --color-text-on-accent:     #000000;
+    --color-text-on-secondary:  #000000;
+    --color-text-on-danger:     #FFFFFF;
+    --color-text-on-success:    #000000;
+
+    --color-accent:        #00C6D7;
+    --color-accent-hover:  #00d9ec;
+    --color-accent-active: #00afbe;
+    --color-accent-muted:  rgba(0, 198, 215, 0.14);
+    --color-accent-strong: rgba(0, 198, 215, 0.28);
+
+    --color-secondary:        #F3E500;
+    --color-secondary-hover:  #fff600;
+    --color-secondary-active: #d4c800;
+    --color-secondary-muted:  rgba(243, 229, 0, 0.12);
+
+    --color-danger:       #ff6b6b;
+    --color-danger-hover: #ff8585;
+    --color-danger-muted: rgba(255, 107, 107, 0.15);
+    --color-danger-text:  #ff6b6b;
+
+    --color-success:       #7ec850;
+    --color-success-hover: #92d864;
+    --color-success-muted: rgba(126, 200, 80, 0.15);
+    --color-success-text:  #7ec850;
+
+    --color-warning:       #FC8900;
+    --color-warning-hover: #ff9a1a;
+    --color-warning-muted: rgba(252, 137, 0, 0.15);
+    --color-warning-text:  #FC8900;
+
+    --color-info:       #00C6D7;
+    --color-info-muted: rgba(0, 198, 215, 0.15);
+    --color-info-text:  #00C6D7;
+
+    --color-focus: #00C6D7;
+    --focus-ring:  0 0 0 3px rgba(0, 198, 215, 0.45);
+
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.5);
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.55), 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.65), 0 2px 4px rgba(0, 0, 0, 0.45);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.75), 0 4px 8px rgba(0, 0, 0, 0.55);
+
+    --shadow-btn:        0 3px 0 0 rgba(0, 0, 0, 0.45);
+    --shadow-btn-accent: 0 3px 0 0 rgba(0, 80, 90, 0.6);
+    --shadow-btn-active: 0 1px 0 0 rgba(0, 0, 0, 0.4);
+
+    --shadow-featured:           var(--shadow-sm), 0 0 0 1.5px #00C6D7;
+    --shadow-featured-secondary: var(--shadow-sm), 0 0 0 1.5px #F3E500;
+    --shadow-featured-danger:    var(--shadow-sm), 0 0 0 1.5px #ff6b6b;
+    --shadow-featured-success:   var(--shadow-sm), 0 0 0 1.5px #7ec850;
+
+    scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+    scrollbar-width: thin;
+  }
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-bg:              #0d1b2e;
+  --color-surface:         #182B49;
+  --color-surface-raised:  #1e3460;
+  --color-surface-overlay: #243d72;
+
+  --color-border:        rgba(255, 255, 255, 0.10);
+  --color-border-strong: rgba(255, 255, 255, 0.20);
+
+  --color-text:          #FFFFFF;
+  --color-text-muted:    #9DB8D4;
+  --color-text-subtle:   #6E90B8;
+  --color-text-on-accent:     #000000;
+  --color-text-on-secondary:  #000000;
+  --color-text-on-danger:     #FFFFFF;
+  --color-text-on-success:    #000000;
+
+  --color-accent:        #00C6D7;
+  --color-accent-hover:  #00d9ec;
+  --color-accent-active: #00afbe;
+  --color-accent-muted:  rgba(0, 198, 215, 0.14);
+  --color-accent-strong: rgba(0, 198, 215, 0.28);
+
+  --color-secondary:        #F3E500;
+  --color-secondary-hover:  #fff600;
+  --color-secondary-active: #d4c800;
+  --color-secondary-muted:  rgba(243, 229, 0, 0.12);
+
+  --color-danger:       #ff6b6b;
+  --color-danger-hover: #ff8585;
+  --color-danger-muted: rgba(255, 107, 107, 0.15);
+  --color-danger-text:  #ff6b6b;
+
+  --color-success:       #7ec850;
+  --color-success-hover: #92d864;
+  --color-success-muted: rgba(126, 200, 80, 0.15);
+  --color-success-text:  #7ec850;
+
+  --color-warning:       #FC8900;
+  --color-warning-hover: #ff9a1a;
+  --color-warning-muted: rgba(252, 137, 0, 0.15);
+  --color-warning-text:  #FC8900;
+
+  --color-info:       #00C6D7;
+  --color-info-muted: rgba(0, 198, 215, 0.15);
+  --color-info-text:  #00C6D7;
+
+  --color-focus: #00C6D7;
+  --focus-ring:  0 0 0 3px rgba(0, 198, 215, 0.45);
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.55), 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.65), 0 2px 4px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.75), 0 4px 8px rgba(0, 0, 0, 0.55);
+
+  --shadow-btn:        0 3px 0 0 rgba(0, 0, 0, 0.45);
+  --shadow-btn-accent: 0 3px 0 0 rgba(0, 80, 90, 0.6);
+  --shadow-btn-active: 0 1px 0 0 rgba(0, 0, 0, 0.4);
+
+  --shadow-featured:           var(--shadow-sm), 0 0 0 1.5px #00C6D7;
+  --shadow-featured-secondary: var(--shadow-sm), 0 0 0 1.5px #F3E500;
+  --shadow-featured-danger:    var(--shadow-sm), 0 0 0 1.5px #ff6b6b;
+  --shadow-featured-success:   var(--shadow-sm), 0 0 0 1.5px #7ec850;
+
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+  scrollbar-width: thin;
+}
+
+/* ================================================================
    PREVIEW AREA TOKENS
-   Scoped to .dx-preview. Always brand-faithful UCSD light mode,
+   Scoped to .dx-preview. Always brand-faithful UC San Diego light mode,
    regardless of the surrounding frame's color mode.
    ================================================================ */
 .dx-preview {

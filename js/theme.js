@@ -15,7 +15,7 @@
   const root = document.documentElement;
 
   function getTheme() {
-    return root.getAttribute('data-theme') || 'dark';
+    return root.getAttribute('data-theme') || 'light';
   }
 
   function setTheme(theme) {
@@ -40,9 +40,12 @@
   document.addEventListener('DOMContentLoaded', function () {
     /* Restore from storage (stylesheet already applied via inline script in <head>) */
     const stored = localStorage.getItem(STORAGE_KEY);
-    const theme  = stored || 'dark';
+    const theme  = stored || 'light';
     if (!stored) root.setAttribute('data-theme', theme);
     updateAllToggles(theme);
+
+    /* Initialize Lucide icons if the library is loaded */
+    if (typeof lucide !== 'undefined') lucide.createIcons();
 
     /* Wire up all toggle buttons */
     document.querySelectorAll('[data-theme-toggle]').forEach(function (btn) {

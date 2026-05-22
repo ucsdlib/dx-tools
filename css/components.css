@@ -218,21 +218,50 @@
   padding: var(--space-8);
 }
 
-/* Featured panel — top accent stripe (NOT left border) */
+/* Featured panel — accent shadow ring. Distinguishes from raised panels
+   without stripe patterns. Pair with a .panel__icon Lucide icon for context. */
 .panel--featured {
-  border-top: 3px solid var(--color-accent);
+  box-shadow: var(--shadow-featured);
 }
 
 .panel--featured-secondary {
-  border-top: 3px solid var(--color-secondary);
+  box-shadow: var(--shadow-featured-secondary);
 }
 
 .panel--featured-danger {
-  border-top: 3px solid var(--color-danger);
+  box-shadow: var(--shadow-featured-danger);
 }
 
 .panel--featured-success {
-  border-top: 3px solid var(--color-success);
+  box-shadow: var(--shadow-featured-success);
+}
+
+/* Optional icon in panel header — use with Lucide */
+.panel__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background-color: var(--color-accent-muted);
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.panel--featured-secondary .panel__icon {
+  background-color: var(--color-secondary-muted);
+  color: var(--color-secondary);
+}
+
+.panel--featured-danger .panel__icon {
+  background-color: var(--color-danger-muted);
+  color: var(--color-danger-text);
+}
+
+.panel--featured-success .panel__icon {
+  background-color: var(--color-success-muted);
+  color: var(--color-success-text);
 }
 
 .panel__header {
@@ -1241,3 +1270,138 @@ dialog.dx-dialog::backdrop {
 
 .mt-auto { margin-top: auto; }
 .ml-auto { margin-left: auto; }
+
+/* ================================================================
+   DRAG AND DROP / REORDER SYSTEM
+   Use with the HTML5 Drag and Drop API or a JS sorting library.
+   All states use shape + color cues — never color alone.
+   ================================================================ */
+
+/* Drag handle — the grip affordance */
+.drag-handle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--target-sm);
+  height: var(--target-md);
+  color: var(--color-text-subtle);
+  cursor: grab;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+  transition: color var(--t-fast), background-color var(--t-fast);
+}
+
+.drag-handle:hover {
+  color: var(--color-text-muted);
+  background-color: var(--color-accent-muted);
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+  color: var(--color-accent);
+}
+
+/* Draggable item */
+.draggable {
+  position: relative;
+  transition: opacity var(--t-fast), box-shadow var(--t-fast), transform var(--t-fast);
+  touch-action: none;
+}
+
+/* Item being dragged — ghost placeholder */
+.draggable.is-dragging {
+  opacity: 0.4;
+  box-shadow: none;
+}
+
+/* Item being lifted (clone following the cursor) */
+.draggable.is-lifted {
+  opacity: 1;
+  box-shadow: var(--shadow-lg);
+  transform: rotate(1deg) scale(1.02);
+  z-index: var(--z-overlay);
+  cursor: grabbing;
+}
+
+/* Drop zone — valid target area */
+.drop-zone {
+  min-height: 56px;
+  border: 2px dashed var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  color: var(--color-text-subtle);
+  font-size: var(--text-sm);
+  transition: border-color var(--t-fast), background-color var(--t-fast), color var(--t-fast);
+  gap: var(--space-2);
+}
+
+/* Drop zone — item hovering over it */
+.drop-zone.is-dragover {
+  border-color: var(--color-accent);
+  border-style: solid;
+  background-color: var(--color-accent-muted);
+  color: var(--color-accent);
+}
+
+/* Drop zone — drop not allowed here */
+.drop-zone.is-drop-forbidden {
+  border-color: var(--color-danger);
+  background-color: var(--color-danger-muted);
+  color: var(--color-danger-text);
+  cursor: not-allowed;
+}
+
+/* Sortable list — items that can be reordered */
+.sort-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.sort-list__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  transition: box-shadow var(--t-fast), background-color var(--t-fast);
+}
+
+.sort-list__item:hover {
+  box-shadow: var(--shadow-sm);
+}
+
+/* Insertion indicator — shows where item will land */
+.drop-indicator {
+  height: 2px;
+  background-color: var(--color-accent);
+  border-radius: var(--radius-full);
+  margin: 0 var(--space-2);
+  position: relative;
+  transition: opacity var(--t-fast);
+}
+
+.drop-indicator::before {
+  content: "";
+  position: absolute;
+  left: -6px;
+  top: -4px;
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .draggable,
+  .drop-zone,
+  .sort-list__item {
+    transition: none;
+  }
+}

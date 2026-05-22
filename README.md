@@ -4,7 +4,7 @@ A design system for UC San Diego DX team internal tools. Built on campus brand g
 
 ## Design principles
 
-- **Inverted brand** — UCSD accent colors (Turquoise, Citron) as primary interactive colors; Navy as structural surface
+- **Inverted brand** — UC San Diego accent colors (Turquoise, Citron) as primary interactive colors; Navy as structural surface
 - **Tool-first typography** — Atkinson Hyperlegible in tool chrome, Roboto in preview/brand areas, JetBrains Mono for code
 - **Dark-first** — Navy-based dark mode by default; system `prefers-color-scheme` + `data-theme` manual toggle
 - **WCAG 2.1 AAA** — 7:1 minimum contrast for primary text, 44px+ touch targets, full keyboard/screen reader support
@@ -16,7 +16,7 @@ A design system for UC San Diego DX team internal tools. Built on campus brand g
 css/tokens.css     ← all design tokens (import first)
 css/frame.css      ← tool chrome: layout, header, sidebar, status bar
 css/components.css ← component library: buttons, forms, cards, tables, etc.
-css/preview.css    ← preview area: brand-faithful UCSD palette, scoped
+css/preview.css    ← preview area: brand-faithful UC San Diego palette, scoped
 css/code.css       ← code blocks, inline code, diff, terminal
 ```
 
@@ -43,7 +43,7 @@ View the full design system documentation site at the GitHub Pages URL once depl
 | Context | Background | Primary CTA | Text |
 |---|---|---|---|
 | Frame (dark) | Navy `#182B49` | Turquoise `#00C6D7` | White |
-| Frame (light) | Sand `#F5F0E6` | UCSD Blue `#00629B` | Navy |
-| Preview | White | UCSD Blue `#00629B` | Navy |
+| Frame (light) | Sand `#F5F0E6` | UC San Diego Blue `#00629B` | Navy |
+| Preview | White | UC San Diego Blue `#00629B` | Navy |
 
 All primary text meets WCAG AAA (7:1 minimum contrast ratio).

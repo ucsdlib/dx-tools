@@ -6,7 +6,7 @@
   <title>DX Tools Design System</title>
   <meta name="description" content="UC San Diego campus brand applied for DX team internal tools. Dark-first, WCAG AAA, tactile controls.">
   <!-- FOUC prevention: apply stored theme before first paint -->
-  <script>const t=localStorage.getItem('dx-theme');if(t)document.documentElement.setAttribute('data-theme',t);</script>
+  <script>const t=localStorage.getItem('dx-theme');document.documentElement.setAttribute('data-theme',t||'light');</script>
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -229,7 +229,7 @@
             Built for the<br><span>tools we build.</span>
           </h1>
           <p class="hero-desc">
-            UCSD campus brand, applied with tool-first precision. Accent colors
+            UC San Diego campus brand, applied with tool-first precision. Accent colors
             serve as primaries. Navy provides structural depth. Every control is
             sized for serious work. WCAG 2.1 AAA throughout.
           </p>
@@ -350,7 +350,7 @@
             <div class="swatch" role="listitem">
               <div class="swatch__color" style="background:#00629B;"></div>
               <div class="swatch__info">
-                <div class="swatch__name">Accent (UCSD Blue)</div>
+                <div class="swatch__name">Accent (UC San Diego Blue)</div>
                 <div class="swatch__hex">#00629B</div>
               </div>
             </div>
@@ -495,7 +495,7 @@
         <section class="dx-section" aria-labelledby="preview-title">
           <div class="dx-section-header">
             <h2 id="preview-title">Frame vs. Preview</h2>
-            <p>Two distinct layers: the tool frame (dark, Atkinson Hyperlegible, Turquoise CTA) and preview areas (brand-faithful UCSD, Roboto, standard palette). Scoped via <code>.dx-preview</code>.</p>
+            <p>Two distinct layers: the tool frame (dark, Atkinson Hyperlegible, Turquoise CTA) and preview areas (brand-faithful UC San Diego, Roboto, standard palette). Scoped via <code>.dx-preview</code>.</p>
           </div>
 
           <div class="preview-container" role="region" aria-label="Preview area">
@@ -508,7 +508,7 @@
               <span class="preview-toolbar__label">Preview — brand-faithful</span>
             </div>
             <div class="dx-preview dx-preview--padded">
-              <nav class="preview-nav" aria-label="Example UCSD navigation">
+              <nav class="preview-nav" aria-label="Example UC San Diego navigation">
                 <a href="#" class="preview-nav__brand" tabindex="-1" aria-hidden="true">UC San Diego</a>
                 <a href="#" class="preview-nav__link active" tabindex="-1" aria-hidden="true">Home</a>
                 <a href="#" class="preview-nav__link" tabindex="-1" aria-hidden="true">About</a>
@@ -528,6 +528,7 @@
     </div>
   </div>
 
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <script src="js/theme.js" defer></script>
   <script src="js/code-copy.js" defer></script>
 </body>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Typography — DX Tools Design System</title>
-  <script>const t=localStorage.getItem('dx-theme');if(t)document.documentElement.setAttribute('data-theme',t);</script>
+  <script>const t=localStorage.getItem('dx-theme');document.documentElement.setAttribute('data-theme',t||'light');</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
@@ -143,7 +143,7 @@
       <main id="main" class="dx-main">
         <span class="eyebrow">Design system</span>
         <h1 class="page-title">Typography</h1>
-        <p class="lead">Three typefaces, three distinct jobs. Tool chrome uses Atkinson Hyperlegible — purpose-built for low-vision legibility. Preview areas use Roboto, UCSD's free web substitute. Code uses JetBrains Mono.</p>
+        <p class="lead">Three typefaces, three distinct jobs. Tool chrome uses Atkinson Hyperlegible — purpose-built for low-vision legibility. Preview areas use Roboto, UC San Diego's free web substitute. Code uses JetBrains Mono.</p>
 
         <!-- Overview -->
         <section class="dx-section" id="overview" aria-labelledby="ov-title">
@@ -163,7 +163,7 @@
                 <tr>
                   <td><code>--font-preview</code></td>
                   <td>Roboto</td>
-                  <td>Preview areas (.dx-preview) — brand-faithful UCSD web substitute</td>
+                  <td>Preview areas (.dx-preview) — brand-faithful UC San Diego web substitute</td>
                   <td>Helvetica Neue, Arial, sans-serif</td>
                 </tr>
                 <tr>
@@ -215,7 +215,7 @@
               The quick brown fox jumps over the lazy dog
             </div>
             <div class="font-card__sample" style="font-family: 'Roboto', sans-serif; margin-top: var(--space-3); font-size: var(--text-base); color: var(--color-text-muted);">
-              UCSD's free web substitute for Brix Sans. Use inside preview areas to simulate brand-faithful campus typography.
+              UC San Diego's free web substitute for Brix Sans. Use inside preview areas to simulate brand-faithful campus typography.
             </div>
             <div class="font-card__alpha" style="font-family: 'Roboto', sans-serif;">
               ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>
@@ -336,6 +336,7 @@
       </main>
     </div>
   </div>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <script src="../js/theme.js" defer></script>
 </body>
 </html>

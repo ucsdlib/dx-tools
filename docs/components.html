@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Components — DX Tools Design System</title>
-  <script>const t=localStorage.getItem('dx-theme');if(t)document.documentElement.setAttribute('data-theme',t);</script>
+  <script>const t=localStorage.getItem('dx-theme');document.documentElement.setAttribute('data-theme',t||'light');</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
@@ -55,6 +55,8 @@
             <li><a href="#images">Images</a></li>
             <li><a href="#dialogs">Dialogs</a></li>
             <li><a href="#code-display">Code display</a></li>
+            <li><a href="#icons">Icons</a></li>
+            <li><a href="#drag-drop">Drag &amp; drop</a></li>
           </ul>
         </div>
       </nav>
@@ -194,7 +196,7 @@
         <!-- Panels -->
         <section class="dx-section" id="panels" aria-labelledby="panels-title">
           <h2 id="panels-title">Panels</h2>
-          <p>Featured panels use a top accent stripe — not a left border. This is a deliberate design decision: left-border cards are an AI design tell. A top stripe conveys importance without sacrificing the panel's visual integrity.</p>
+          <p>Featured panels use an <strong>accent-color shadow ring</strong> rather than a stripe. The ring is distinctive without repeating the overused stripe pattern. Pair with a <code>.panel__icon</code> Lucide icon to reinforce the context visually.</p>
 
           <div class="dx-demo dx-demo--stack">
             <div class="panel">
@@ -206,20 +208,30 @@
               <div class="panel__body">Slightly elevated above the standard panel. Use for interactive cards or when visual hierarchy needs reinforcement.</div>
             </div>
             <div class="panel panel--featured">
-              <div class="panel__header"><h3 class="panel__title">Featured — accent stripe (top)</h3><span class="badge">Primary</span></div>
-              <div class="panel__body">The accent stripe runs along the top edge — never just the left side. Signals importance or a highlighted state.</div>
+              <div class="panel__header">
+                <div class="panel__icon" aria-hidden="true"><i data-lucide="zap" width="18" height="18"></i></div>
+                <h3 class="panel__title">Featured — primary</h3>
+                <span class="badge">Primary</span>
+              </div>
+              <div class="panel__body">Accent-color shadow ring distinguishes from the raised panel. Optional Lucide icon in <code>.panel__icon</code> reinforces context.</div>
               <div class="panel__footer">
                 <button class="btn btn--primary btn--sm">Take action</button>
                 <button class="btn btn--ghost btn--sm">Dismiss</button>
               </div>
             </div>
             <div class="panel panel--featured-success">
-              <div class="panel__header"><h3 class="panel__title">Featured — success</h3></div>
-              <div class="panel__body">Use success stripe for completed steps, confirmed states, or positive outcomes.</div>
+              <div class="panel__header">
+                <div class="panel__icon" aria-hidden="true"><i data-lucide="check-circle" width="18" height="18"></i></div>
+                <h3 class="panel__title">Featured — success</h3>
+              </div>
+              <div class="panel__body">Use for completed steps, confirmed states, or positive outcomes.</div>
             </div>
             <div class="panel panel--featured-danger">
-              <div class="panel__header"><h3 class="panel__title">Featured — danger</h3></div>
-              <div class="panel__body">Use danger stripe for errors, blocked states, or items requiring immediate attention.</div>
+              <div class="panel__header">
+                <div class="panel__icon" aria-hidden="true"><i data-lucide="alert-circle" width="18" height="18"></i></div>
+                <h3 class="panel__title">Featured — danger</h3>
+              </div>
+              <div class="panel__body">Use for errors, blocked states, or items requiring immediate attention.</div>
             </div>
           </div>
         </section>
@@ -359,11 +371,11 @@
           <div class="dx-demo">
             <div style="width: 100%;">
               <img
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80"
-                alt="UC San Diego campus aerial view showing the iconic Geisel Library surrounded by eucalyptus trees"
+                src="../images/sio-aerial-view-UCSanDiego-ErikJepsen_1200.jpg"
+                alt="Aerial view of UC San Diego's Scripps Institution of Oceanography pier extending into the Pacific Ocean, surrounded by coastal cliffs"
                 class="img-responsive"
-                width="800"
-                height="400"
+                width="1200"
+                height="600"
                 loading="lazy"
               >
             </div>
@@ -386,15 +398,15 @@
             <div style="max-width: 480px;">
               <figure class="img-figure">
                 <img
-                  src="https://images.unsplash.com/photo-1541178735493-479c1a27ed24?w=600&q=80"
-                  alt="Abstract architectural detail of a modern building with geometric patterns"
+                  src="../images/Geisel-Library-UCSanDiego-ErikJepsen_1200.jpg"
+                  alt="Geisel Library at UC San Diego, a distinctive brutalist concrete structure rising above the canyon"
                   width="600"
                   height="300"
                   loading="lazy"
                   style="border-radius: var(--radius-lg) var(--radius-lg) 0 0;"
                 >
                 <figcaption>
-                  Caption using <code>&lt;figcaption&gt;</code>. Provides context that's part of the page content — not an alt text substitute.
+                  Geisel Library, UC San Diego. Photo: Erik Jepsen. Caption using <code>&lt;figcaption&gt;</code> — page content, not an alt text substitute.
                 </figcaption>
               </figure>
             </div>
@@ -403,10 +415,10 @@
           <h3>Image card</h3>
           <div class="dx-demo">
             <div class="img-card" style="max-width: 320px;">
-              <img class="img-card__image" src="https://images.unsplash.com/photo-1605792657660-596af9009e82?w=640&q=80" alt="Research lab with scientific equipment and blue ambient lighting" loading="lazy">
+              <img class="img-card__image" src="../images/geisel-library-1-UCSanDiego_1200.jpg" alt="Geisel Library at UC San Diego viewed from below, showing its cantilevered concrete geometry" loading="lazy">
               <div class="img-card__body">
-                <h4 class="img-card__title">Lab equipment study</h4>
-                <p class="img-card__desc">Image card with a 16:9 ratio image, title, and description. Border radius matches the card.</p>
+                <h4 class="img-card__title">Geisel Library</h4>
+                <p class="img-card__desc">Image card with 16:9 image, title, and description. Border radius matches the card corners.</p>
               </div>
             </div>
           </div>
@@ -511,12 +523,220 @@
           </div>
         </section>
 
+        <!-- Icons -->
+        <section class="dx-section" id="icons" aria-labelledby="icons-title">
+          <h2 id="icons-title">Icons</h2>
+          <p>DX Tools uses <strong>Lucide</strong> as its icon toolkit — MIT licensed, 1,400+ icons, actively maintained. Load via CDN and activate with <code>lucide.createIcons()</code>. Icons are decorative by default; add <code>aria-label</code> when the icon is the only label.</p>
+
+          <h3>Common system icons</h3>
+          <div class="dx-demo">
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: var(--space-4); text-align: center;">
+              <div><i data-lucide="home" width="24" height="24" aria-hidden="true"></i><div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2);">home</div></div>
+              <div><i data-lucide="settings" width="24" height="24" aria-hidden="true"></i><div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2);">settings</div></div>
+              <div><i data-lucide="search" width="24" height="24" aria-hidden="true"></i><div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2);">search</div></div>
+              <div><i data-lucide="bell" width="24" height="24" aria-hidden="true"></i><div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2);">bell</div></div>
+              <div><i data-lucide="user" width="24" height="24" aria-hidden="true"></i><div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2);">user</div></div>
+              <div><i data-lucide="users" width="24" height="24" aria-hidden="true"></i><div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2);">users</div></div>
+              <div><i data-lucide="file-text" width="24" height="24" aria-hidden="true"></i><div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2);">file-text</div></div>
+              <div><i data-lucide="folder" width="24" height="24" aria-hidden="true"></i><div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2);">folder</div></div>
+              <div><i data-lucide="upload" width="24" height="24" aria-hidden="true"></i><div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2);">upload</div></div>
+              <div><i data-lucide="download" width="24" height="24" aria-hidden="true"></i><div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2);">download</div></div>
+              <div><i data-lucide="edit-2" width="24" height="24" aria-hidden="true"></i><div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2);">edit-2</div></div>
+              <div><i data-lucide="trash-2" width="24" height="24" aria-hidden="true"></i><div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2);">trash-2</div></div>
+              <div><i data-lucide="check" width="24" height="24" aria-hidden="true"></i><div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2);">check</div></div>
+              <div><i data-lucide="x" width="24" height="24" aria-hidden="true"></i><div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2);">x</div></div>
+              <div><i data-lucide="plus" width="24" height="24" aria-hidden="true"></i><div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2);">plus</div></div>
+              <div><i data-lucide="chevron-right" width="24" height="24" aria-hidden="true"></i><div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2);">chevron-right</div></div>
+              <div><i data-lucide="external-link" width="24" height="24" aria-hidden="true"></i><div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2);">external-link</div></div>
+              <div><i data-lucide="grip-vertical" width="24" height="24" aria-hidden="true"></i><div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2);">grip-vertical</div></div>
+              <div><i data-lucide="alert-circle" width="24" height="24" aria-hidden="true"></i><div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2);">alert-circle</div></div>
+              <div><i data-lucide="check-circle" width="24" height="24" aria-hidden="true"></i><div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2);">check-circle</div></div>
+              <div><i data-lucide="info" width="24" height="24" aria-hidden="true"></i><div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2);">info</div></div>
+              <div><i data-lucide="zap" width="24" height="24" aria-hidden="true"></i><div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2);">zap</div></div>
+              <div><i data-lucide="map" width="24" height="24" aria-hidden="true"></i><div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2);">map</div></div>
+              <div><i data-lucide="bar-chart-2" width="24" height="24" aria-hidden="true"></i><div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2);">bar-chart-2</div></div>
+            </div>
+          </div>
+
+          <h3>Icon sizes with buttons</h3>
+          <div class="dx-demo">
+            <div class="flex items-center gap-3" style="flex-wrap: wrap;">
+              <button class="btn btn--primary" aria-label="Upload file"><i data-lucide="upload" width="18" height="18" aria-hidden="true"></i> Upload</button>
+              <button class="btn btn--secondary"><i data-lucide="download" width="18" height="18" aria-hidden="true"></i> Export</button>
+              <button class="btn btn--ghost"><i data-lucide="settings" width="18" height="18" aria-hidden="true"></i> Settings</button>
+              <button class="btn btn--icon btn--ghost" aria-label="Edit"><i data-lucide="edit-2" width="18" height="18" aria-hidden="true"></i></button>
+              <button class="btn btn--icon btn--ghost" aria-label="Delete"><i data-lucide="trash-2" width="18" height="18" aria-hidden="true"></i></button>
+            </div>
+          </div>
+
+          <div class="code-block">
+            <div class="code-block__toolbar"><span class="code-block__lang">html</span><button class="code-block__copy" aria-label="Copy code">Copy</button></div>
+            <pre><code>&lt;!-- CDN (add before theme.js) --&gt;
+&lt;script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"&gt;&lt;/script&gt;
+
+&lt;!-- Usage: data-lucide attribute, initialized by theme.js --&gt;
+&lt;i data-lucide="check-circle" width="18" height="18" aria-hidden="true"&gt;&lt;/i&gt;
+
+&lt;!-- Icon-only button: label on the button, icon is decorative --&gt;
+&lt;button class="btn btn--icon btn--ghost" aria-label="Delete item"&gt;
+  &lt;i data-lucide="trash-2" width="18" height="18" aria-hidden="true"&gt;&lt;/i&gt;
+&lt;/button&gt;
+
+&lt;!-- Icon + label button --&gt;
+&lt;button class="btn btn--primary"&gt;
+  &lt;i data-lucide="upload" width="18" height="18" aria-hidden="true"&gt;&lt;/i&gt;
+  Upload file
+&lt;/button&gt;</code></pre>
+          </div>
+        </section>
+
+        <!-- Drag and Drop -->
+        <section class="dx-section" id="drag-drop" aria-labelledby="drag-drop-title">
+          <h2 id="drag-drop-title">Drag &amp; drop</h2>
+          <p>CSS classes for drag-and-drop and reorder interfaces. Use with the HTML5 Drag and Drop API or a library like SortableJS. All states use shape + color cues — never color alone.</p>
+
+          <h3>Sortable list</h3>
+          <p>The <code>.drag-handle</code> uses <code>grip-vertical</code> from Lucide. The dragging item becomes a ghost; the lifted clone follows the cursor.</p>
+          <div class="dx-demo">
+            <ul class="sort-list" id="sort-demo" aria-label="Reorderable list — drag items to reorder">
+              <li class="sort-list__item draggable" draggable="true" data-id="1">
+                <span class="drag-handle" aria-hidden="true"><i data-lucide="grip-vertical" width="16" height="16"></i></span>
+                <i data-lucide="file-text" width="18" height="18" aria-hidden="true" style="color: var(--color-accent); flex-shrink:0;"></i>
+                <span style="flex:1;">Information Architecture Map</span>
+                <span class="badge">Active</span>
+              </li>
+              <li class="sort-list__item draggable" draggable="true" data-id="2">
+                <span class="drag-handle" aria-hidden="true"><i data-lucide="grip-vertical" width="16" height="16"></i></span>
+                <i data-lucide="users" width="18" height="18" aria-hidden="true" style="color: var(--color-text-muted); flex-shrink:0;"></i>
+                <span style="flex:1;">Staff Directory Tool</span>
+                <span class="badge badge--neutral">Draft</span>
+              </li>
+              <li class="sort-list__item draggable" draggable="true" data-id="3">
+                <span class="drag-handle" aria-hidden="true"><i data-lucide="grip-vertical" width="16" height="16"></i></span>
+                <i data-lucide="bar-chart-2" width="18" height="18" aria-hidden="true" style="color: var(--color-text-muted); flex-shrink:0;"></i>
+                <span style="flex:1;">Analytics Dashboard</span>
+                <span class="badge badge--neutral">Draft</span>
+              </li>
+              <li class="sort-list__item draggable" draggable="true" data-id="4">
+                <span class="drag-handle" aria-hidden="true"><i data-lucide="grip-vertical" width="16" height="16"></i></span>
+                <i data-lucide="map" width="18" height="18" aria-hidden="true" style="color: var(--color-text-muted); flex-shrink:0;"></i>
+                <span style="flex:1;">Campus Map Editor</span>
+                <span class="badge badge--success">Published</span>
+              </li>
+            </ul>
+          </div>
+
+          <h3>Drop zones</h3>
+          <div class="dx-demo">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4);">
+              <div>
+                <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-2);">Default state</p>
+                <div class="drop-zone" aria-label="Drop files here" role="region">
+                  <i data-lucide="upload-cloud" width="20" height="20" aria-hidden="true"></i>
+                  Drop files here
+                </div>
+              </div>
+              <div>
+                <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-2);">Active — item hovering</p>
+                <div class="drop-zone is-dragover" aria-label="Drop to add" role="region">
+                  <i data-lucide="upload-cloud" width="20" height="20" aria-hidden="true"></i>
+                  Release to drop
+                </div>
+              </div>
+              <div>
+                <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-2);">Forbidden — cannot drop here</p>
+                <div class="drop-zone is-drop-forbidden" aria-label="Cannot drop here" aria-disabled="true" role="region">
+                  <i data-lucide="x-circle" width="20" height="20" aria-hidden="true"></i>
+                  Not allowed here
+                </div>
+              </div>
+              <div>
+                <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-2);">Dragging item — ghost</p>
+                <div class="sort-list__item draggable is-dragging">
+                  <span class="drag-handle" aria-hidden="true"><i data-lucide="grip-vertical" width="16" height="16"></i></span>
+                  <i data-lucide="file-text" width="18" height="18" aria-hidden="true" style="color: var(--color-accent); flex-shrink:0;"></i>
+                  <span>Item being dragged</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="code-block">
+            <div class="code-block__toolbar"><span class="code-block__lang">html</span><button class="code-block__copy" aria-label="Copy code">Copy</button></div>
+            <pre><code>&lt;!-- Sortable list item --&gt;
+&lt;ul class="sort-list"&gt;
+  &lt;li class="sort-list__item draggable" draggable="true"&gt;
+    &lt;span class="drag-handle" aria-hidden="true"&gt;
+      &lt;i data-lucide="grip-vertical" width="16" height="16"&gt;&lt;/i&gt;
+    &lt;/span&gt;
+    Item content
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;!-- Drop zone --&gt;
+&lt;div class="drop-zone" aria-label="Drop files here" role="region"&gt;
+  &lt;i data-lucide="upload-cloud" width="20" height="20" aria-hidden="true"&gt;&lt;/i&gt;
+  Drop files here
+&lt;/div&gt;
+
+&lt;!-- JS: add .is-dragover on dragenter, remove on dragleave/drop --&gt;
+&lt;!-- JS: add .is-dragging to the original item while dragging --&gt;</code></pre>
+          </div>
+        </section>
+
       </main>
     </div>
   </div>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <script src="../js/theme.js" defer></script>
   <script src="../js/code-copy.js" defer></script>
   <script>
+    // Sortable list drag-and-drop demo
+    (function() {
+      var list = document.getElementById('sort-demo');
+      if (!list) return;
+      var dragging = null;
+
+      list.addEventListener('dragstart', function(e) {
+        dragging = e.target.closest('[draggable]');
+        if (dragging) {
+          dragging.classList.add('is-dragging');
+          e.dataTransfer.effectAllowed = 'move';
+        }
+      });
+
+      list.addEventListener('dragend', function() {
+        if (dragging) dragging.classList.remove('is-dragging');
+        list.querySelectorAll('.drop-indicator').forEach(function(el) { el.remove(); });
+        dragging = null;
+      });
+
+      list.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        var over = e.target.closest('[draggable]');
+        if (!over || over === dragging) return;
+        var rect = over.getBoundingClientRect();
+        var mid = rect.top + rect.height / 2;
+        list.querySelectorAll('.drop-indicator').forEach(function(el) { el.remove(); });
+        var ind = document.createElement('li');
+        ind.className = 'drop-indicator';
+        ind.setAttribute('aria-hidden', 'true');
+        if (e.clientY < mid) {
+          over.parentNode.insertBefore(ind, over);
+        } else {
+          over.parentNode.insertBefore(ind, over.nextSibling);
+        }
+      });
+
+      list.addEventListener('drop', function(e) {
+        e.preventDefault();
+        var ind = list.querySelector('.drop-indicator');
+        if (ind && dragging) list.insertBefore(dragging, ind);
+        list.querySelectorAll('.drop-indicator').forEach(function(el) { el.remove(); });
+      });
+    })();
+
     // Basic tab interaction for demo
     document.querySelectorAll('.tabs__trigger').forEach(function(btn) {
       btn.addEventListener('click', function() {

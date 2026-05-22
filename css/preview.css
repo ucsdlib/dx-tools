@@ -1,7 +1,7 @@
 /* ================================================================
    DX TOOLS DESIGN SYSTEM — PREVIEW LAYER
 
-   Scoped to .dx-preview. Always brand-faithful UCSD light mode,
+   Scoped to .dx-preview. Always brand-faithful UC San Diego light mode,
    regardless of the surrounding frame's color mode. Tokens are
    overridden at the .dx-preview boundary in tokens.css.
    ================================================================ */
@@ -129,7 +129,7 @@
 
 /* ================================================================
    BRAND-FAITHFUL COMPONENT OVERRIDES WITHIN .dx-preview
-   These mirror UCSD website patterns — suitable for showing nav
+   These mirror UC San Diego website patterns — suitable for showing nav
    mockups, page templates, etc.
    ================================================================ */
 
@@ -218,7 +218,7 @@
   border-bottom-color: var(--brand-yellow);
 }
 
-/* Gold accent bar — a key UCSD brand motif */
+/* Gold accent bar — a key UC San Diego brand motif */
 .preview-gold-bar {
   height: 4px;
   background-color: var(--brand-gold);
