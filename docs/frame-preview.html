@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frame &amp; Preview — DX Tools Design System</title>
+  <script>const t=localStorage.getItem('dx-theme');document.documentElement.setAttribute('data-theme',t||'light');</script>
+  <link rel="stylesheet" href="../css/fonts.css">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/frame.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/preview.css">
+  <link rel="stylesheet" href="../css/code.css">
+  <style>
+    /* ── Architecture diagram ──────────────────────────────────── */
+    .arch-diagram {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+      margin: var(--space-6) 0;
+    }
+    @media (max-width: 680px) { .arch-diagram { grid-template-columns: 1fr; } }
+
+    .arch-box {
+      border: 2px solid var(--color-border-strong);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .arch-box__header {
+      padding: var(--space-3) var(--space-4);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-bold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .arch-box--frame .arch-box__header {
+      background-color: var(--color-surface-raised);
+      border-bottom: 2px solid var(--color-border-strong);
+      color: var(--color-accent);
+    }
+    .arch-box--preview .arch-box__header {
+      background-color: #182B49;
+      border-bottom: 2px solid #2d4464;
+      color: rgba(255,255,255,0.7);
+    }
+    .arch-box__body {
+      padding: var(--space-4);
+    }
+    .arch-box--preview .arch-box__body {
+      background-color: #FFFFFF;
+    }
+    .arch-token {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) 0;
+      border-bottom: 1px solid var(--color-border);
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+    }
+    .arch-token:last-child { border-bottom: none; }
+    .arch-token__swatch {
+      width: 20px;
+      height: 20px;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(0,0,0,0.1);
+      flex-shrink: 0;
+    }
+    .arch-token__name { font-family: var(--font-code); font-size: var(--text-xs); }
+
+    /* ── Control panel demo ────────────────────────────────────── */
+    .cp-shell {
+      border: 2px solid var(--color-border-strong);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      margin: var(--space-6) 0;
+    }
+    .cp-toolbar {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: 0 var(--space-4);
+      height: 44px;
+      background-color: var(--color-surface-raised);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .cp-toolbar__label {
+      font-size: var(--text-xs);
+      font-weight: var(--weight-bold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-text-subtle);
+    }
+    .cp-toolbar__spacer { flex: 1; }
+    .cp-body {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 480px;
+    }
+    @media (max-width: 760px) {
+      .cp-body { grid-template-columns: 1fr; }
+    }
+    .cp-controls {
+      background-color: var(--color-surface);
+      border-right: 1px solid var(--color-border);
+      padding: var(--space-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-5);
+    }
+    .cp-controls__section-label {
+      font-size: var(--text-xs);
+      font-weight: var(--weight-bold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-text-subtle);
+      margin-bottom: var(--space-2);
+    }
+    .cp-preview-pane {
+      background-color: var(--color-bg);
+      padding: var(--space-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+    /* Viewport size selector */
+    .vp-btns { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+    .vp-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      height: var(--target-sm);
+      padding: 0 var(--space-3);
+      border: 1px solid var(--color-border-strong);
+      background: transparent;
+      color: var(--color-text-subtle);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      transition: color var(--t-fast), border-color var(--t-fast), background-color var(--t-fast);
+    }
+    .vp-btn:hover,
+    .vp-btn[aria-pressed="true"] {
+      color: var(--color-accent);
+      border-color: var(--color-accent);
+      background-color: var(--color-accent-muted);
+    }
+    /* Preview wrapper with width transition */
+    .cp-preview-wrap {
+      transition: max-width 0.3s ease;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .cp-preview-wrap[data-vp="mobile"]  { max-width: 390px; }
+    .cp-preview-wrap[data-vp="tablet"]  { max-width: 768px; }
+    .cp-preview-wrap[data-vp="desktop"] { max-width: 100%;  }
+    /* Content type selector */
+    .cp-content-panel { display: none; }
+    .cp-content-panel.is-active { display: block; }
+    /* Specificity indicator */
+    .spec-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-2) 0;
+      border-bottom: 1px solid var(--color-border);
+      font-size: var(--text-xs);
+    }
+    .spec-row:last-child { border-bottom: none; }
+    .spec-badge {
+      font-family: var(--font-code);
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+      background-color: var(--color-surface-raised);
+      color: var(--color-text-muted);
+      border: 1px solid var(--color-border);
+      flex-shrink: 0;
+    }
+    .spec-badge--wins { background-color: var(--color-success-muted); color: var(--color-success-text); border-color: var(--color-success-muted); }
+    .spec-badge--loses { background-color: var(--color-danger-muted); color: var(--color-danger-text); border-color: var(--color-danger-muted); }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <div class="dx-doc-layout">
+    <header class="dx-header" role="banner">
+      <a href="../index.html" class="dx-header__brand" aria-label="DX Tools home">
+        <span class="dx-header__mark" aria-hidden="true">DX</span>
+        <span class="dx-header__wordmark">DX Tools</span>
+        <span class="dx-header__divider" aria-hidden="true"></span>
+        <span class="dx-header__subtitle">Design System</span>
+      </a>
+      <nav class="dx-header__nav" aria-label="Design system sections">
+        <a href="colors.html"        class="dx-header__nav-link">Colors</a>
+        <a href="typography.html"    class="dx-header__nav-link">Typography</a>
+        <a href="components.html"    class="dx-header__nav-link">Components</a>
+        <a href="forms.html"         class="dx-header__nav-link">Forms</a>
+        <a href="dashboard.html"     class="dx-header__nav-link">Dashboard</a>
+        <a href="frame-preview.html" class="dx-header__nav-link" aria-current="page">Frame &amp; Preview</a>
+        <a href="accessibility.html" class="dx-header__nav-link">Accessibility</a>
+      </nav>
+      <div class="dx-header__actions">
+        <button class="btn btn--ghost btn--icon" data-theme-toggle aria-label="Switch to light mode" aria-pressed="false">
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun"  width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="dx-doc-body">
+      <nav class="dx-sidebar" aria-label="Page sections">
+        <div class="dx-sidebar-section">
+          <span class="dx-sidebar-label">On this page</span>
+          <ul class="dx-sidebar-nav">
+            <li><a href="#architecture">Architecture</a></li>
+            <li><a href="#tokens">Token boundary</a></li>
+            <li><a href="#cascade">Cascade rules</a></li>
+            <li><a href="#control-panel">Control panel demo</a></li>
+            <li><a href="#content-types">Preview content types</a></li>
+            <li><a href="#usage">Usage guide</a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <main id="main" class="dx-main">
+        <span class="eyebrow">Design system</span>
+        <h1 class="page-title">Frame &amp; Preview</h1>
+        <p class="lead">Two distinct CSS scopes, one page. The frame is the tool chrome — navigation, controls, panels, status bars. The preview is brand-faithful UC San Diego content rendered inside a browser-chrome container. They share a token foundation but override each other deliberately.</p>
+
+        <!-- Architecture ================================================ -->
+        <section class="dx-section" id="architecture" aria-labelledby="arch-title">
+          <h2 id="arch-title">Architecture</h2>
+          <p>Every DX tool page has two layers. The <strong>frame layer</strong> provides the tool chrome: dark navy shell, Atkinson Hyperlegible, Turquoise/Blue accents. The <strong>preview layer</strong> is a scoped content canvas: white background, Roboto, brand-faithful UC San Diego palette.</p>
+
+          <div class="arch-diagram" role="img" aria-label="Architecture diagram: Frame layer versus Preview layer token values">
+            <div class="arch-box arch-box--frame">
+              <div class="arch-box__header">Frame layer — <code>.dx-frame</code></div>
+              <div class="arch-box__body">
+                <div class="arch-token">
+                  <div class="arch-token__swatch" style="background:#0d1b2e;"></div>
+                  <span class="arch-token__name">--color-bg</span>
+                  <span style="color:var(--color-text-subtle);">#0d1b2e (dark)</span>
+                </div>
+                <div class="arch-token">
+                  <div class="arch-token__swatch" style="background:#182B49;"></div>
+                  <span class="arch-token__name">--color-surface</span>
+                  <span style="color:var(--color-text-subtle);">Navy</span>
+                </div>
+                <div class="arch-token">
+                  <div class="arch-token__swatch" style="background:#00C6D7;"></div>
+                  <span class="arch-token__name">--color-accent</span>
+                  <span style="color:var(--color-text-subtle);">Turquoise</span>
+                </div>
+                <div class="arch-token">
+                  <div class="arch-token__swatch" style="background:var(--font-preview, #eee);border:none;"></div>
+                  <span class="arch-token__name">--font-frame</span>
+                  <span style="color:var(--color-text-subtle);">Atkinson Hyperlegible</span>
+                </div>
+              </div>
+            </div>
+            <div class="arch-box arch-box--preview">
+              <div class="arch-box__header">Preview layer — <code>.dx-preview</code></div>
+              <div class="arch-box__body">
+                <div class="arch-token" style="border-color:#DDE3EC;">
+                  <div class="arch-token__swatch" style="background:#FFFFFF;border:1px solid #DDE3EC;"></div>
+                  <span class="arch-token__name" style="color:#182B49;">--brand-bg</span>
+                  <span style="color:#6b7d96;">#FFFFFF (always)</span>
+                </div>
+                <div class="arch-token" style="border-color:#DDE3EC;">
+                  <div class="arch-token__swatch" style="background:#182B49;"></div>
+                  <span class="arch-token__name" style="color:#182B49;">--brand-navy</span>
+                  <span style="color:#6b7d96;">UC San Diego Navy</span>
+                </div>
+                <div class="arch-token" style="border-color:#DDE3EC;">
+                  <div class="arch-token__swatch" style="background:#00629B;"></div>
+                  <span class="arch-token__name" style="color:#182B49;">--brand-blue</span>
+                  <span style="color:#6b7d96;">UC San Diego Blue</span>
+                </div>
+                <div class="arch-token" style="border-color:#DDE3EC;">
+                  <div class="arch-token__swatch" style="background:#eee;border:none;"></div>
+                  <span class="arch-token__name" style="color:#182B49;">--font-preview</span>
+                  <span style="color:#6b7d96;">Roboto</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p>The frame layer adapts to dark/light mode. The preview layer is always light — it represents the UC San Diego website as it actually appears to end users, and should never be inverted or recolored by the tool frame's mode.</p>
+        </section>
+
+        <!-- Token boundary ============================================== -->
+        <section class="dx-section" id="tokens" aria-labelledby="tokens-title">
+          <h2 id="tokens-title">Token boundary</h2>
+          <p>Tokens are defined in <code>tokens.css</code> at the <code>:root</code> level. The <code>.dx-preview</code> class creates a <strong>token override scope</strong> — it re-declares the same token names with brand-faithful values. Content inside the preview inherits these overrides, not the frame values.</p>
+
+          <div class="code-block">
+            <div class="code-block__toolbar"><span class="code-block__lang">css</span><button class="code-block__copy" aria-label="Copy code">Copy</button></div>
+            <pre><code>/* tokens.css — root defines frame values */
+:root, [data-theme="light"] {
+  --color-surface:    #FFFFFF;
+  --color-accent:     #00629B;  /* UC San Diego Blue in light mode */
+  --font-frame:       'Atkinson Hyperlegible', sans-serif;
+}
+
+/* tokens.css — .dx-preview overrides to brand-faithful values */
+.dx-preview {
+  --color-surface:    #FFFFFF;   /* same, but explicit */
+  --color-text:       #182B49;   /* always Navy, never frame text */
+  --color-accent:     #00629B;   /* same in light, but isolated from dark mode */
+  font-family:        var(--font-preview); /* Roboto, not Atkinson */
+  background-color:   #FFFFFF;
+}
+
+/* Dark mode frame does NOT affect preview — token override holds */
+[data-theme="dark"] .dx-preview,
+@media (prefers-color-scheme: dark) { .dx-preview } {
+  /* tokens.css re-declares all --color-* inside .dx-preview to stay light */
+}</code></pre>
+          </div>
+
+          <div class="alert alert--info" role="note" style="margin-top: var(--space-4);">
+            <svg class="alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <div class="alert__body">
+              <strong class="alert__title">Toggle dark mode on this page</strong>
+              <div class="alert__desc">Use the moon/sun button in the header to switch the frame between dark and light. Notice the preview area below stays brand-faithful white regardless.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Cascade rules =============================================== -->
+        <section class="dx-section" id="cascade" aria-labelledby="cascade-title">
+          <h2 id="cascade-title">Cascade rules</h2>
+          <p>Because <code>.dx-preview</code> lives inside <code>.dx-main</code>, frame CSS rules can leak in if their specificity is too high. This system uses two techniques to prevent that:</p>
+
+          <h3>1. <code>:where()</code> in frame.css</h3>
+          <p>Frame link rules are wrapped in <code>:where()</code>, which contributes zero specificity to the selector. This means any preview rule with even one class wins.</p>
+
+          <div class="code-block">
+            <div class="code-block__toolbar"><span class="code-block__lang">css</span><button class="code-block__copy" aria-label="Copy code">Copy</button></div>
+            <pre><code>/* frame.css — :where() zeroes out .dx-main's contribution */
+:where(.dx-main) a:not(.btn) {
+  color: var(--color-accent);  /* specificity: 0,1,1 */
+}
+
+/* preview.css — (0,2,0) safely wins */
+.dx-preview .preview-nav__link {
+  color: rgba(255, 255, 255, 0.9);  /* ✅ always wins */
+}
+
+/* Without :where() — frame rule would be 0,2,1 and WIN over preview nav */</code></pre>
+          </div>
+
+          <h3>2. Scoped selectors in preview.css</h3>
+          <p>Every structural element in the preview that is also an <code>&lt;a&gt;</code> tag (nav links, brand link) uses a double-class selector to reach specificity 0,2,0+, safely above the frame rule.</p>
+
+          <div class="panel" style="margin-top: var(--space-4);">
+            <div class="panel__header"><h4 class="panel__title">Specificity reference</h4></div>
+            <div class="panel__body" style="padding:0;">
+              <div class="spec-row" style="padding: var(--space-3) var(--space-4);">
+                <span class="spec-badge">0,2,1</span>
+                <span style="flex:1; font-size:var(--text-sm);">frame.css — <code>.dx-main a:not(.btn)</code> (without <code>:where()</code>)</span>
+                <span class="spec-badge spec-badge--loses">used to WIN</span>
+              </div>
+              <div class="spec-row" style="padding: var(--space-3) var(--space-4);">
+                <span class="spec-badge">0,1,1</span>
+                <span style="flex:1; font-size:var(--text-sm);">frame.css — <code>:where(.dx-main) a:not(.btn)</code> (current)</span>
+                <span class="spec-badge">neutral</span>
+              </div>
+              <div class="spec-row" style="padding: var(--space-3) var(--space-4);">
+                <span class="spec-badge">0,1,1</span>
+                <span style="flex:1; font-size:var(--text-sm);">preview.css — <code>.dx-preview a</code> (body content links)</span>
+                <span class="spec-badge spec-badge--wins">wins (later source)</span>
+              </div>
+              <div class="spec-row" style="padding: var(--space-3) var(--space-4);">
+                <span class="spec-badge">0,2,0</span>
+                <span style="flex:1; font-size:var(--text-sm);">preview.css — <code>.dx-preview .preview-nav__link</code></span>
+                <span class="spec-badge spec-badge--wins">wins</span>
+              </div>
+              <div class="spec-row" style="padding: var(--space-3) var(--space-4); border-bottom: none;">
+                <span class="spec-badge">0,2,0</span>
+                <span style="flex:1; font-size:var(--text-sm);">preview.css — <code>.dx-preview .preview-nav__brand</code></span>
+                <span class="spec-badge spec-badge--wins">wins</span>
+              </div>
+            </div>
+          </div>
+
+          <h3>Rule for adding new preview elements</h3>
+          <p>When adding a new structural element inside <code>.dx-preview</code> that contains an <code>&lt;a&gt;</code> tag (e.g. a footer link, a card link):</p>
+          <ul style="font-size: var(--text-base); line-height: 1.7; padding-left: 1.5em; color: var(--color-text);">
+            <li><strong>Use a scoped class selector</strong>: <code>.dx-preview .your-component__link</code> (0,2,0) — never just <code>.your-component__link</code> (0,1,0)</li>
+            <li><strong>Always set <code>text-decoration: none</code></strong> explicitly if the element should not have an underline</li>
+            <li><strong>Never rely on specificity tricks alone</strong> — add a comment noting why the double-class is needed</li>
+          </ul>
+        </section>
+
+        <!-- Control panel demo ========================================== -->
+        <section class="dx-section" id="control-panel" aria-labelledby="cp-title">
+          <h2 id="cp-title">Control panel demo</h2>
+          <p>This simulates a real DX tool: a frame-layer control panel on the left, a preview canvas on the right. The controls are frame UI (Atkinson Hyperlegible, frame tokens); the canvas is brand-faithful UC San Diego content (Roboto, preview tokens).</p>
+          <p>Try toggling the frame's dark/light mode with the header button — notice the controls panel reflects the theme change while the preview stays white.</p>
+
+          <div class="cp-shell" role="region" aria-label="Interactive frame and preview demo">
+            <div class="cp-toolbar">
+              <div style="display:flex; gap:6px; align-items:center; margin-right:var(--space-2);" aria-hidden="true">
+                <span style="width:10px;height:10px;border-radius:50%;background:var(--color-border-strong);display:block;"></span>
+                <span style="width:10px;height:10px;border-radius:50%;background:var(--color-border-strong);display:block;"></span>
+                <span style="width:10px;height:10px;border-radius:50%;background:var(--color-border-strong);display:block;"></span>
+              </div>
+              <span class="cp-toolbar__label">DX Tool Frame</span>
+              <span class="cp-toolbar__spacer"></span>
+              <span style="font-size:var(--text-xs);color:var(--color-text-subtle);">IA Mapper v2.0</span>
+            </div>
+
+            <div class="cp-body">
+              <!-- Controls panel (frame layer) -->
+              <aside class="cp-controls" aria-label="Control panel">
+                <div>
+                  <div class="cp-controls__section-label">Preview viewport</div>
+                  <div class="vp-btns" role="group" aria-label="Viewport size">
+                    <button class="vp-btn" type="button" aria-pressed="true"  data-vp="desktop" id="vp-desktop">
+                      <i data-lucide="monitor" width="14" height="14" aria-hidden="true"></i> Desktop
+                    </button>
+                    <button class="vp-btn" type="button" aria-pressed="false" data-vp="tablet" id="vp-tablet">
+                      <i data-lucide="tablet" width="14" height="14" aria-hidden="true"></i> Tablet
+                    </button>
+                    <button class="vp-btn" type="button" aria-pressed="false" data-vp="mobile" id="vp-mobile">
+                      <i data-lucide="smartphone" width="14" height="14" aria-hidden="true"></i> Mobile
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="cp-controls__section-label">Content type</div>
+                  <div class="vp-btns" role="group" aria-label="Preview content type">
+                    <button class="vp-btn" type="button" aria-pressed="true"  data-content="page" id="ct-page">
+                      <i data-lucide="file-text" width="14" height="14" aria-hidden="true"></i> Page
+                    </button>
+                    <button class="vp-btn" type="button" aria-pressed="false" data-content="nav" id="ct-nav">
+                      <i data-lucide="menu" width="14" height="14" aria-hidden="true"></i> Nav
+                    </button>
+                    <button class="vp-btn" type="button" aria-pressed="false" data-content="hero" id="ct-hero">
+                      <i data-lucide="image" width="14" height="14" aria-hidden="true"></i> Hero
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="cp-controls__section-label">Frame status</div>
+                  <div style="display:flex; flex-direction:column; gap:var(--space-2);">
+                    <div style="display:flex; align-items:center; gap:var(--space-2);">
+                      <span class="badge badge--success" style="width:8px;height:8px;padding:0;border-radius:50%;"></span>
+                      <span style="font-size:var(--text-sm); color:var(--color-text-muted);">Preview connected</span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:var(--space-2);">
+                      <span class="badge badge--info" style="width:8px;height:8px;padding:0;border-radius:50%;"></span>
+                      <span style="font-size:var(--text-sm); color:var(--color-text-muted);">Tokens loaded</span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:var(--space-2);">
+                      <span class="badge badge--neutral" style="width:8px;height:8px;padding:0;border-radius:50%;"></span>
+                      <span style="font-size:var(--text-sm); color:var(--color-text-muted);">No unsaved changes</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div style="margin-top:auto;">
+                  <div class="cp-controls__section-label">Actions</div>
+                  <div style="display:flex; flex-direction:column; gap:var(--space-2);">
+                    <button class="btn btn--primary btn--sm" style="justify-content:flex-start;" tabindex="0">
+                      <i data-lucide="save" width="14" height="14" aria-hidden="true"></i> Save draft
+                    </button>
+                    <button class="btn btn--ghost btn--sm" style="justify-content:flex-start;" tabindex="0">
+                      <i data-lucide="refresh-cw" width="14" height="14" aria-hidden="true"></i> Refresh preview
+                    </button>
+                    <button class="btn btn--ghost btn--sm" style="justify-content:flex-start;" tabindex="0">
+                      <i data-lucide="external-link" width="14" height="14" aria-hidden="true"></i> Open in new tab
+                    </button>
+                  </div>
+                </div>
+              </aside>
+
+              <!-- Preview pane (preview layer) -->
+              <div class="cp-preview-pane" aria-label="Preview canvas">
+                <div class="preview-container" style="border:none;border-radius:0;">
+                  <div class="preview-toolbar">
+                    <div class="preview-toolbar__dots" aria-hidden="true">
+                      <span class="preview-toolbar__dot"></span>
+                      <span class="preview-toolbar__dot"></span>
+                      <span class="preview-toolbar__dot"></span>
+                    </div>
+                    <span class="preview-toolbar__label" id="preview-label">Preview — desktop</span>
+                    <span class="preview-toolbar__spacer"></span>
+                    <div class="preview-toolbar__actions" aria-label="Viewport size" role="group">
+                      <button class="preview-size-btn" type="button" aria-pressed="true"  data-vp-tb="desktop" aria-label="Desktop viewport" title="Desktop">
+                        <i data-lucide="monitor" width="14" height="14" aria-hidden="true"></i>
+                      </button>
+                      <button class="preview-size-btn" type="button" aria-pressed="false" data-vp-tb="tablet" aria-label="Tablet viewport" title="Tablet">
+                        <i data-lucide="tablet" width="14" height="14" aria-hidden="true"></i>
+                      </button>
+                      <button class="preview-size-btn" type="button" aria-pressed="false" data-vp-tb="mobile" aria-label="Mobile viewport" title="Mobile">
+                        <i data-lucide="smartphone" width="14" height="14" aria-hidden="true"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="cp-preview-wrap" id="preview-wrap" data-vp="desktop">
+                    <div class="dx-preview" id="preview-content-area">
+
+                      <!-- Content panel: Page (default) -->
+                      <div class="cp-content-panel is-active" id="cp-content-page">
+                        <nav class="preview-nav" aria-label="Example UC San Diego navigation">
+                          <a href="#" class="preview-nav__brand" tabindex="-1" aria-hidden="true">UC San Diego</a>
+                          <a href="#" class="preview-nav__link active" tabindex="-1" aria-hidden="true">Home</a>
+                          <a href="#" class="preview-nav__link" tabindex="-1" aria-hidden="true">About</a>
+                          <a href="#" class="preview-nav__link" tabindex="-1" aria-hidden="true">Research</a>
+                          <a href="#" class="preview-nav__link" tabindex="-1" aria-hidden="true">News</a>
+                        </nav>
+                        <div class="preview-gold-bar" aria-hidden="true"></div>
+                        <div style="padding: 2rem;">
+                          <h2 style="color:#182B49; font-size:1.5rem; margin-bottom:0.5rem;">Curiosity must.</h2>
+                          <p>Inside the preview, fonts switch to Roboto and colors follow the campus brand exactly — Navy text, Blue links, Yellow accents. <a href="#" tabindex="-1" aria-hidden="true">Learn more about the project</a>.</p>
+                          <p>The frame chrome around this area is DX tool UI. This canvas is what the end user actually sees on the UC San Diego website.</p>
+                          <button class="btn btn--primary" style="margin-top:1rem;" tabindex="-1" aria-hidden="true">Learn more</button>
+                        </div>
+                      </div>
+
+                      <!-- Content panel: Nav only -->
+                      <div class="cp-content-panel" id="cp-content-nav">
+                        <nav class="preview-nav" aria-label="Example UC San Diego navigation">
+                          <a href="#" class="preview-nav__brand" tabindex="-1" aria-hidden="true">UC San Diego</a>
+                          <a href="#" class="preview-nav__link active" tabindex="-1" aria-hidden="true">Home</a>
+                          <a href="#" class="preview-nav__link" tabindex="-1" aria-hidden="true">About</a>
+                          <a href="#" class="preview-nav__link" tabindex="-1" aria-hidden="true">Research</a>
+                          <a href="#" class="preview-nav__link" tabindex="-1" aria-hidden="true">News</a>
+                          <a href="#" class="preview-nav__link" tabindex="-1" aria-hidden="true">Health</a>
+                          <a href="#" class="preview-nav__link" tabindex="-1" aria-hidden="true">Arts</a>
+                        </nav>
+                        <div class="preview-gold-bar" aria-hidden="true"></div>
+                        <div style="padding: 2rem; color: #2d4464; font-family: 'Roboto', sans-serif;">
+                          <p style="color:#6b7d96; font-size:0.875rem;">Navigation mockup — white links on Navy, yellow active indicator. Specificity is managed via <code style="font-size:0.8em;">.dx-preview .preview-nav__link</code>.</p>
+                        </div>
+                      </div>
+
+                      <!-- Content panel: Hero -->
+                      <div class="cp-content-panel" id="cp-content-hero">
+                        <div class="preview-hero">
+                          <h1>UC San Diego</h1>
+                          <p>A public research university committed to the public good.</p>
+                          <button class="btn btn--primary" tabindex="-1" aria-hidden="true" style="background:#00629B; border-color:#00629B; color:#fff; margin-top:1rem;">Explore research</button>
+                        </div>
+                        <div class="preview-gold-bar" aria-hidden="true"></div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Content types =============================================== -->
+        <section class="dx-section" id="content-types" aria-labelledby="ct-title">
+          <h2 id="ct-title">Preview content types</h2>
+          <p>The preview layer ships with several ready-made structural patterns for common UC San Diego page elements. Each is a CSS class that lives inside <code>.dx-preview</code>.</p>
+
+          <table class="table table--bordered">
+            <thead>
+              <tr><th>Class</th><th>Purpose</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>.preview-nav</code></td>
+                <td>Top navigation bar</td>
+                <td>Navy background, white links, yellow active indicator</td>
+              </tr>
+              <tr>
+                <td><code>.preview-nav__brand</code></td>
+                <td>Site name / logo link</td>
+                <td>Bold white, no underline. Uses double-class selector for cascade safety.</td>
+              </tr>
+              <tr>
+                <td><code>.preview-nav__link</code></td>
+                <td>Nav link item</td>
+                <td>90% white text (~15:1 on Navy ✅ AAA). <code>.active</code> adds yellow border.</td>
+              </tr>
+              <tr>
+                <td><code>.preview-gold-bar</code></td>
+                <td>4px Gold accent bar</td>
+                <td>Key UC San Diego brand motif. Always renders below the nav.</td>
+              </tr>
+              <tr>
+                <td><code>.preview-hero</code></td>
+                <td>Navy hero section</td>
+                <td>Full-width Navy block with white heading and body text.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Adding custom preview content</h3>
+          <p>Write any HTML inside <code>.dx-preview</code>. Headings, paragraphs, and links will automatically use brand-faithful styles. For nav or structural links, always use a scoped selector (at minimum <code>.dx-preview .your-class</code>) so it reaches specificity 0,2,0.</p>
+
+          <div class="code-block">
+            <div class="code-block__toolbar"><span class="code-block__lang">html</span><button class="code-block__copy" aria-label="Copy code">Copy</button></div>
+            <pre><code>&lt;!-- Minimal preview container --&gt;
+&lt;div class="preview-container"&gt;
+  &lt;div class="preview-toolbar"&gt;
+    &lt;div class="preview-toolbar__dots" aria-hidden="true"&gt;
+      &lt;span class="preview-toolbar__dot"&gt;&lt;/span&gt;
+      &lt;span class="preview-toolbar__dot"&gt;&lt;/span&gt;
+      &lt;span class="preview-toolbar__dot"&gt;&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;span class="preview-toolbar__label"&gt;Preview&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="dx-preview dx-preview--padded"&gt;
+
+    &lt;!-- Nav (always use .preview-nav__link for cascade safety) --&gt;
+    &lt;nav class="preview-nav"&gt;
+      &lt;a href="#" class="preview-nav__brand"&gt;UC San Diego&lt;/a&gt;
+      &lt;a href="#" class="preview-nav__link active"&gt;Home&lt;/a&gt;
+      &lt;a href="#" class="preview-nav__link"&gt;About&lt;/a&gt;
+    &lt;/nav&gt;
+    &lt;div class="preview-gold-bar"&gt;&lt;/div&gt;
+
+    &lt;!-- Body content — headings, paragraphs, links use brand styles automatically --&gt;
+    &lt;h1&gt;Page title&lt;/h1&gt;
+    &lt;p&gt;Body text with a &lt;a href="#"&gt;content link&lt;/a&gt;.&lt;/p&gt;
+
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        </section>
+
+        <!-- Usage guide ================================================= -->
+        <section class="dx-section" id="usage" aria-labelledby="usage-title">
+          <h2 id="usage-title">Usage guide</h2>
+
+          <h3>When to use <code>.dx-frame</code> vs <code>.dx-preview</code></h3>
+          <table class="table table--bordered">
+            <thead>
+              <tr><th>Element</th><th>Scope</th><th>Reasoning</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Header, sidebar, status bar</td><td><code>.dx-frame</code></td><td>Tool chrome — part of the tool UI itself</td></tr>
+              <tr><td>Control panels, settings</td><td><code>.dx-frame</code></td><td>Tool controls — Atkinson for readability</td></tr>
+              <tr><td>Alerts, badges, tables</td><td><code>.dx-frame</code></td><td>Data display is part of the tool, not the preview</td></tr>
+              <tr><td>UC San Diego page content</td><td><code>.dx-preview</code></td><td>Brand-faithful representation of the actual site</td></tr>
+              <tr><td>Navigation mockups</td><td><code>.dx-preview</code></td><td>Must match UC San Diego brand exactly</td></tr>
+              <tr><td>Page templates, hero sections</td><td><code>.dx-preview</code></td><td>Content the end user will see on ucsd.edu</td></tr>
+            </tbody>
+          </table>
+
+          <h3>CSS file responsibilities</h3>
+          <table class="table table--bordered" style="margin-top: var(--space-4);">
+            <thead>
+              <tr><th>File</th><th>Scope</th><th>Responsibility</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>tokens.css</code></td><td>Global</td><td>All design tokens. Defines both frame and preview token values. Single source of truth.</td></tr>
+              <tr><td><code>frame.css</code></td><td><code>.dx-frame</code>, <code>.dx-main</code></td><td>Tool chrome layout — header, sidebar, status bar, body typography. Uses <code>:where()</code> on context selectors to keep specificity low.</td></tr>
+              <tr><td><code>preview.css</code></td><td><code>.dx-preview</code></td><td>Brand-faithful content styles. All structural link selectors use double-class (0,2,0+) to win the cascade over frame rules.</td></tr>
+              <tr><td><code>components.css</code></td><td>Shared</td><td>Components that work in both layers (buttons, panels, badges). Inherits the active token scope.</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="../js/lucide.min.js"></script>
+  <script src="../js/theme.js" defer></script>
+  <script src="../js/code-copy.js" defer></script>
+  <script>
+    // Viewport / content switcher for the control panel demo
+    (function() {
+      var wrap = document.getElementById('preview-wrap');
+      var label = document.getElementById('preview-label');
+
+      // Sync viewport buttons (sidebar panel + toolbar)
+      function setViewport(vp) {
+        wrap.setAttribute('data-vp', vp);
+        label.textContent = 'Preview — ' + vp;
+        // Update sidebar buttons
+        document.querySelectorAll('[data-vp]').forEach(function(btn) {
+          btn.setAttribute('aria-pressed', btn.getAttribute('data-vp') === vp ? 'true' : 'false');
+        });
+        // Update toolbar buttons
+        document.querySelectorAll('[data-vp-tb]').forEach(function(btn) {
+          btn.setAttribute('aria-pressed', btn.getAttribute('data-vp-tb') === vp ? 'true' : 'false');
+        });
+      }
+
+      document.querySelectorAll('[data-vp]').forEach(function(btn) {
+        btn.addEventListener('click', function() { setViewport(btn.getAttribute('data-vp')); });
+      });
+      document.querySelectorAll('[data-vp-tb]').forEach(function(btn) {
+        btn.addEventListener('click', function() { setViewport(btn.getAttribute('data-vp-tb')); });
+      });
+
+      // Content type switcher
+      function setContent(type) {
+        document.querySelectorAll('[data-content]').forEach(function(btn) {
+          btn.setAttribute('aria-pressed', btn.getAttribute('data-content') === type ? 'true' : 'false');
+        });
+        document.querySelectorAll('.cp-content-panel').forEach(function(panel) {
+          panel.classList.toggle('is-active', panel.id === 'cp-content-' + type);
+        });
+      }
+
+      document.querySelectorAll('[data-content]').forEach(function(btn) {
+        btn.addEventListener('click', function() { setContent(btn.getAttribute('data-content')); });
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -58,34 +58,6 @@
       gap: var(--space-3);
       flex-wrap: wrap;
     }
-    /* Color swatch grid */
-    .swatch-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-      gap: var(--space-3);
-    }
-    .swatch {
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      border: 1px solid var(--color-border);
-    }
-    .swatch__color {
-      height: 64px;
-    }
-    .swatch__info {
-      padding: var(--space-2) var(--space-3);
-      background-color: var(--color-surface);
-    }
-    .swatch__name {
-      font-size: var(--text-xs);
-      font-weight: var(--weight-bold);
-      color: var(--color-text);
-    }
-    .swatch__hex {
-      font-size: var(--text-xs);
-      font-family: var(--font-code);
-      color: var(--color-text-muted);
-    }
     /* Nav card grid */
     .nav-grid {
       display: grid;
@@ -130,33 +102,6 @@
       color: var(--color-text-muted);
       line-height: var(--leading-snug);
     }
-    /* Type specimen */
-    .type-row {
-      display: flex;
-      align-items: baseline;
-      gap: var(--space-6);
-      padding: var(--space-4) 0;
-      border-bottom: 1px solid var(--color-border);
-    }
-    .type-row:last-child { border-bottom: none; }
-    .type-meta {
-      width: 160px;
-      flex-shrink: 0;
-    }
-    .type-meta code {
-      font-size: var(--text-xs);
-    }
-    .type-meta .size {
-      font-size: var(--text-xs);
-      color: var(--color-text-subtle);
-    }
-    /* Component preview section */
-    .component-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-3);
-      align-items: center;
-    }
   </style>
 </head>
 <body>
@@ -177,6 +122,7 @@
         <a href="docs/components.html"    class="dx-header__nav-link">Components</a>
         <a href="docs/forms.html"         class="dx-header__nav-link">Forms</a>
         <a href="docs/dashboard.html"     class="dx-header__nav-link">Dashboard</a>
+        <a href="docs/frame-preview.html" class="dx-header__nav-link">Frame &amp; Preview</a>
         <a href="docs/accessibility.html" class="dx-header__nav-link">Accessibility</a>
       </nav>
       <div class="dx-header__actions">
@@ -286,203 +232,49 @@
           </div>
         </section>
 
-        <!-- Colors overview -->
-        <section class="dx-section" id="colors" aria-labelledby="colors-title">
+        <!-- Documentation nav -->
+        <section class="dx-section" id="docs" aria-labelledby="docs-title">
           <div class="dx-section-header">
-            <h2 id="colors-title">Color strategy</h2>
-            <p>Brand accent colors (Turquoise, Citron) serve as primary interactive colors in the tool frame. Brand primaries (Navy, Blue) provide structural depth. All primary text meets WCAG AAA (7:1).</p>
+            <h2 id="docs-title">Documentation</h2>
+            <p>Each section is a standalone reference page. Start with Colors and Typography to understand the token system, then work through Components for implementation patterns.</p>
           </div>
-
-          <h3>Frame — dark mode (default)</h3>
-          <div class="swatch-grid" role="list">
-            <div class="swatch" role="listitem">
-              <div class="swatch__color" style="background:#0d1b2e;"></div>
-              <div class="swatch__info">
-                <div class="swatch__name">Background</div>
-                <div class="swatch__hex">#0d1b2e</div>
-              </div>
-            </div>
-            <div class="swatch" role="listitem">
-              <div class="swatch__color" style="background:#182B49;"></div>
-              <div class="swatch__info">
-                <div class="swatch__name">Surface (Navy)</div>
-                <div class="swatch__hex">#182B49</div>
-              </div>
-            </div>
-            <div class="swatch" role="listitem">
-              <div class="swatch__color" style="background:#00C6D7;"></div>
-              <div class="swatch__info">
-                <div class="swatch__name">Accent (Turquoise)</div>
-                <div class="swatch__hex">#00C6D7</div>
-              </div>
-            </div>
-            <div class="swatch" role="listitem">
-              <div class="swatch__color" style="background:#F3E500;"></div>
-              <div class="swatch__info">
-                <div class="swatch__name">Secondary (Citron)</div>
-                <div class="swatch__hex">#F3E500</div>
-              </div>
-            </div>
+          <div class="nav-grid" role="list">
+            <a href="docs/colors.html" class="nav-card" role="listitem">
+              <div class="nav-card__icon" aria-hidden="true"><i data-lucide="palette" width="20" height="20"></i></div>
+              <div class="nav-card__title">Colors</div>
+              <div class="nav-card__desc">Brand palette, semantic tokens, contrast tables. Inverted-brand strategy for tool vs. preview.</div>
+            </a>
+            <a href="docs/typography.html" class="nav-card" role="listitem">
+              <div class="nav-card__icon" aria-hidden="true"><i data-lucide="type" width="20" height="20"></i></div>
+              <div class="nav-card__title">Typography</div>
+              <div class="nav-card__desc">Type scale specimens for Atkinson Hyperlegible, Roboto, and JetBrains Mono.</div>
+            </a>
+            <a href="docs/components.html" class="nav-card" role="listitem">
+              <div class="nav-card__icon" aria-hidden="true"><i data-lucide="layout-panel-left" width="20" height="20"></i></div>
+              <div class="nav-card__title">Components</div>
+              <div class="nav-card__desc">Buttons, badges, panels, tables, icons, drag-and-drop, and the preview container pattern.</div>
+            </a>
+            <a href="docs/forms.html" class="nav-card" role="listitem">
+              <div class="nav-card__icon" aria-hidden="true"><i data-lucide="text-cursor-input" width="20" height="20"></i></div>
+              <div class="nav-card__title">Forms</div>
+              <div class="nav-card__desc">Inputs, selects, checkboxes, inline validation, and accessible error handling.</div>
+            </a>
+            <a href="docs/dashboard.html" class="nav-card" role="listitem">
+              <div class="nav-card__icon" aria-hidden="true"><i data-lucide="bar-chart-2" width="20" height="20"></i></div>
+              <div class="nav-card__title">Dashboard</div>
+              <div class="nav-card__desc">Stat cards, data tables, progress bars, and chart container patterns.</div>
+            </a>
+            <a href="docs/frame-preview.html" class="nav-card" role="listitem">
+              <div class="nav-card__icon" aria-hidden="true"><i data-lucide="layers" width="20" height="20"></i></div>
+              <div class="nav-card__title">Frame &amp; Preview</div>
+              <div class="nav-card__desc">The two-layer architecture — tool chrome vs. brand-faithful preview. Live control panel demo.</div>
+            </a>
+            <a href="docs/accessibility.html" class="nav-card" role="listitem">
+              <div class="nav-card__icon" aria-hidden="true"><i data-lucide="accessibility" width="20" height="20"></i></div>
+              <div class="nav-card__title">Accessibility</div>
+              <div class="nav-card__desc">WCAG AAA checklist, ARIA patterns, focus management, and contrast verification.</div>
+            </a>
           </div>
-
-          <h3 style="margin-top: var(--space-8)">Frame — light mode</h3>
-          <div class="swatch-grid" role="list">
-            <div class="swatch" role="listitem">
-              <div class="swatch__color" style="background:#F5F0E6;border-bottom:1px solid #DDE3EC;"></div>
-              <div class="swatch__info">
-                <div class="swatch__name">Background (Sand)</div>
-                <div class="swatch__hex">#F5F0E6</div>
-              </div>
-            </div>
-            <div class="swatch" role="listitem">
-              <div class="swatch__color" style="background:#FFFFFF;border-bottom:1px solid #DDE3EC;"></div>
-              <div class="swatch__info">
-                <div class="swatch__name">Surface</div>
-                <div class="swatch__hex">#FFFFFF</div>
-              </div>
-            </div>
-            <div class="swatch" role="listitem">
-              <div class="swatch__color" style="background:#00629B;"></div>
-              <div class="swatch__info">
-                <div class="swatch__name">Accent (UC San Diego Blue)</div>
-                <div class="swatch__hex">#00629B</div>
-              </div>
-            </div>
-            <div class="swatch" role="listitem">
-              <div class="swatch__color" style="background:#C69214;"></div>
-              <div class="swatch__info">
-                <div class="swatch__name">Secondary (Gold)</div>
-                <div class="swatch__hex">#C69214</div>
-              </div>
-            </div>
-          </div>
-
-          <p style="margin-top: var(--space-4)"><a href="docs/colors.html">View full color documentation →</a></p>
-        </section>
-
-        <!-- Typography overview -->
-        <section class="dx-section" id="type" aria-labelledby="type-title">
-          <div class="dx-section-header">
-            <h2 id="type-title">Typography</h2>
-            <p>Three typefaces, three contexts. Atkinson Hyperlegible for tool chrome — designed for maximum legibility. Roboto for brand-faithful preview areas. JetBrains Mono for code.</p>
-          </div>
-
-          <div class="type-row">
-            <div class="type-meta">
-              <code>--text-2xl</code>
-              <div class="size">36px / Bold</div>
-            </div>
-            <span style="font-size: var(--text-2xl); font-weight: var(--weight-bold); color: var(--color-text); line-height: 1.2;">Display heading</span>
-          </div>
-          <div class="type-row">
-            <div class="type-meta">
-              <code>--text-xl</code>
-              <div class="size">28px / Bold</div>
-            </div>
-            <span style="font-size: var(--text-xl); font-weight: var(--weight-bold); color: var(--color-text);">Page heading</span>
-          </div>
-          <div class="type-row">
-            <div class="type-meta">
-              <code>--text-lg</code>
-              <div class="size">22px / Semibold</div>
-            </div>
-            <span style="font-size: var(--text-lg); font-weight: var(--weight-semibold); color: var(--color-text);">Section heading</span>
-          </div>
-          <div class="type-row">
-            <div class="type-meta">
-              <code>--text-base</code>
-              <div class="size">16px / Regular</div>
-            </div>
-            <span style="font-size: var(--text-base); color: var(--color-text-muted);">Body copy — Atkinson Hyperlegible. Designed for low-vision users, with clear letterform distinction.</span>
-          </div>
-          <div class="type-row">
-            <div class="type-meta">
-              <code>--text-sm</code>
-              <div class="size">14px / Regular</div>
-            </div>
-            <span style="font-size: var(--text-sm); color: var(--color-text-muted);">Helper text, captions, UI labels. 14 px is the minimum.</span>
-          </div>
-          <div class="type-row">
-            <div class="type-meta">
-              <code>--font-code</code>
-              <div class="size">14px Mono</div>
-            </div>
-            <span style="font-family: var(--font-code); font-size: var(--text-code); color: var(--color-accent);">const value = state.tokens['--color-accent'];</span>
-          </div>
-
-          <p style="margin-top: var(--space-4)"><a href="docs/typography.html">View full typography documentation →</a></p>
-        </section>
-
-        <!-- Components preview -->
-        <section class="dx-section" id="components-preview" aria-labelledby="comp-title">
-          <div class="dx-section-header">
-            <h2 id="comp-title">Components</h2>
-            <p>Tactile controls sized for serious work. Every interactive element meets the 44 px touch target minimum. No AI design tells — solid, physical surfaces with honest shadows.</p>
-          </div>
-
-          <h3>Buttons</h3>
-          <div class="dx-demo">
-            <button class="btn btn--primary">Primary</button>
-            <button class="btn btn--secondary">Secondary</button>
-            <button class="btn btn--ghost">Ghost</button>
-            <button class="btn btn--danger">Danger</button>
-            <button class="btn btn--subtle">Subtle</button>
-          </div>
-          <div class="dx-demo" style="margin-top: var(--space-2)">
-            <button class="btn btn--primary btn--sm">Small</button>
-            <button class="btn btn--primary">Default</button>
-            <button class="btn btn--primary btn--lg">Large</button>
-            <button class="btn btn--primary" disabled>Disabled</button>
-          </div>
-
-          <h3>Badges &amp; tags</h3>
-          <div class="dx-demo">
-            <span class="badge">Default</span>
-            <span class="badge badge--success">Success</span>
-            <span class="badge badge--warning">Warning</span>
-            <span class="badge badge--danger">Danger</span>
-            <span class="badge badge--info">Info</span>
-            <span class="badge badge--neutral">Neutral</span>
-          </div>
-
-          <h3>Alerts</h3>
-          <div class="dx-demo dx-demo--stack">
-            <div class="alert alert--info" role="status">
-              <svg class="alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              <div class="alert__body"><strong class="alert__title">New component available</strong><div class="alert__desc">The stat card component has been updated with trend indicator support.</div></div>
-            </div>
-            <div class="alert alert--success" role="status">
-              <svg class="alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-              <div class="alert__body"><strong class="alert__title">Deploy succeeded</strong><div class="alert__desc">Documentation site published to GitHub Pages.</div></div>
-            </div>
-            <div class="alert alert--warning" role="alert">
-              <svg class="alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-              <div class="alert__body"><strong class="alert__title">Contrast check needed</strong><div class="alert__desc">One component uses a custom color — verify it meets AAA.</div></div>
-            </div>
-          </div>
-
-          <h3>Panels</h3>
-          <div class="dx-demo" style="gap: var(--space-4); flex-direction: column;">
-            <div class="panel">
-              <div class="panel__header">
-                <h4 class="panel__title">Standard panel</h4>
-              </div>
-              <div class="panel__body">A neutral panel with standard border. Good for grouping related controls or settings.</div>
-            </div>
-            <div class="panel panel--featured">
-              <div class="panel__header">
-                <h4 class="panel__title">Featured panel</h4>
-                <span class="badge badge--info">New</span>
-              </div>
-              <div class="panel__body">Accent stripe on top — not a left border. The stripe signals importance without the AI design tell.</div>
-              <div class="panel__footer">
-                <button class="btn btn--primary btn--sm">Take action</button>
-                <button class="btn btn--ghost btn--sm">Dismiss</button>
-              </div>
-            </div>
-          </div>
-
-          <p style="margin-top: var(--space-4)"><a href="docs/components.html">View all components →</a></p>
         </section>
 
         <!-- Preview demo -->

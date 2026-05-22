@@ -504,14 +504,18 @@ input, button, textarea, select {
   max-width: 72ch;
 }
 
-.dx-main a:not(.btn) {
+/* :where() zeroes out .dx-main's specificity contribution (0,0,0), so the
+   combined rule is only 0,1,1 — preview.css rules (0,2,0+) always win.
+   Without this, :not(.btn) adds an extra class weight → 0,2,1 which
+   silently beats preview nav selectors and bleeds frame colors in. */
+:where(.dx-main) a:not(.btn) {
   color: var(--color-accent);
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
   transition: color var(--t-fast);
 }
 
-.dx-main a:not(.btn):hover {
+:where(.dx-main) a:not(.btn):hover {
   color: var(--color-accent-hover);
 }
 

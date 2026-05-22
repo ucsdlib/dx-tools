@@ -133,7 +133,14 @@
    mockups, page templates, etc.
    ================================================================ */
 
-/* Links */
+/* ── Cascade boundary ──────────────────────────────────────────────────────
+   frame.css uses :where(.dx-main) on its link rule, reducing its specificity
+   to 0,1,1. All .dx-preview rules at 0,2,0+ safely override it.
+   Never add bare `.dx-preview a` selectors that re-introduce 0,1,1 conflicts —
+   always scope nav/structural links with an extra class for 0,2,0.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* Content links — body text, paragraphs, lists */
 .dx-preview a {
   color: var(--brand-blue);
   text-decoration: underline;
@@ -187,17 +194,24 @@
   gap: var(--space-2);
 }
 
+/* Brand link — .dx-preview .preview-nav__brand (0,2,0) beats frame 0,1,1 */
+.dx-preview .preview-nav__brand,
 .preview-nav__brand {
   font-weight: var(--weight-bold);
   font-size: var(--text-md);
-  color: #FFFFFF;
+  color: #FFFFFF;                /* ~16:1 on Navy ✅ AAA */
   text-decoration: none;
   margin-right: var(--space-6);
   flex-shrink: 0;
 }
 
-/* Specificity: .dx-preview a (0,1,1) overrides .preview-nav__link (0,1,0).
-   Use .dx-preview .preview-nav__link (0,2,0) to win the cascade. */
+.dx-preview .preview-nav__brand:hover,
+.preview-nav__brand:hover {
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+/* Nav links — (0,2,0) beats frame 0,1,1 */
 .dx-preview .preview-nav__link,
 .preview-nav__link {
   display: inline-flex;
