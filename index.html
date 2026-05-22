@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DX Tools Design System</title>
+  <meta name="description" content="UC San Diego campus brand applied for DX team internal tools. Dark-first, WCAG AAA, tactile controls.">
+  <!-- FOUC prevention: apply stored theme before first paint -->
+  <script>const t=localStorage.getItem('dx-theme');if(t)document.documentElement.setAttribute('data-theme',t);</script>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <!-- Design System -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/frame.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/preview.css">
+  <link rel="stylesheet" href="css/code.css">
+  <style>
+    /* Landing page extras */
+    .hero {
+      padding: var(--space-16) var(--space-10) var(--space-12);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      height: 26px;
+      padding: 0 var(--space-3);
+      background-color: var(--color-accent-muted);
+      border: 1px solid var(--color-accent-strong);
+      border-radius: var(--radius-full);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-bold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: var(--space-5);
+    }
+    .hero-title {
+      font-size: var(--text-3xl);
+      font-weight: var(--weight-bold);
+      line-height: var(--leading-tight);
+      color: var(--color-text);
+      margin-bottom: var(--space-4);
+      letter-spacing: -0.02em;
+    }
+    .hero-title span { color: var(--color-accent); }
+    .hero-desc {
+      font-size: var(--text-lg);
+      color: var(--color-text-muted);
+      max-width: 55ch;
+      line-height: var(--leading-normal);
+      margin-bottom: var(--space-8);
+    }
+    .hero-actions {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+    /* Color swatch grid */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: var(--space-3);
+    }
+    .swatch {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--color-border);
+    }
+    .swatch__color {
+      height: 64px;
+    }
+    .swatch__info {
+      padding: var(--space-2) var(--space-3);
+      background-color: var(--color-surface);
+    }
+    .swatch__name {
+      font-size: var(--text-xs);
+      font-weight: var(--weight-bold);
+      color: var(--color-text);
+    }
+    .swatch__hex {
+      font-size: var(--text-xs);
+      font-family: var(--font-code);
+      color: var(--color-text-muted);
+    }
+    /* Nav card grid */
+    .nav-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: var(--space-4);
+    }
+    .nav-card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      padding: var(--space-5) var(--space-6);
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      text-decoration: none;
+      color: inherit;
+      transition: border-color var(--t-fast), box-shadow var(--t-fast), transform var(--t-fast);
+    }
+    .nav-card:hover {
+      border-color: var(--color-accent);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    .nav-card__icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      background-color: var(--color-accent-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-accent);
+      flex-shrink: 0;
+    }
+    .nav-card__title {
+      font-size: var(--text-md);
+      font-weight: var(--weight-semibold);
+      color: var(--color-text);
+    }
+    .nav-card__desc {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      line-height: var(--leading-snug);
+    }
+    /* Type specimen */
+    .type-row {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-6);
+      padding: var(--space-4) 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .type-row:last-child { border-bottom: none; }
+    .type-meta {
+      width: 160px;
+      flex-shrink: 0;
+    }
+    .type-meta code {
+      font-size: var(--text-xs);
+    }
+    .type-meta .size {
+      font-size: var(--text-xs);
+      color: var(--color-text-subtle);
+    }
+    /* Component preview section */
+    .component-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <div class="dx-doc-layout">
+    <!-- Header -->
+    <header class="dx-header" role="banner">
+      <a href="index.html" class="dx-header__brand" aria-label="DX Tools Design System home">
+        <span class="dx-header__mark" aria-hidden="true">DX</span>
+        <span class="dx-header__wordmark">DX Tools</span>
+        <span class="dx-header__divider" aria-hidden="true"></span>
+        <span class="dx-header__subtitle">Design System</span>
+      </a>
+      <nav class="dx-header__nav" aria-label="Design system sections">
+        <a href="docs/colors.html"        class="dx-header__nav-link">Colors</a>
+        <a href="docs/typography.html"    class="dx-header__nav-link">Typography</a>
+        <a href="docs/components.html"    class="dx-header__nav-link">Components</a>
+        <a href="docs/forms.html"         class="dx-header__nav-link">Forms</a>
+        <a href="docs/dashboard.html"     class="dx-header__nav-link">Dashboard</a>
+        <a href="docs/accessibility.html" class="dx-header__nav-link">Accessibility</a>
+      </nav>
+      <div class="dx-header__actions">
+        <button class="btn btn--ghost btn--icon" data-theme-toggle aria-label="Switch to light mode" aria-pressed="false">
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Body -->
+    <div class="dx-doc-body">
+      <!-- Sidebar -->
+      <nav class="dx-sidebar" aria-label="Page navigation">
+        <div class="dx-sidebar-section">
+          <span class="dx-sidebar-label">Overview</span>
+          <ul class="dx-sidebar-nav">
+            <li><a href="#intro" aria-current="page">Introduction</a></li>
+            <li><a href="#quickstart">Quick start</a></li>
+            <li><a href="#colors">Colors</a></li>
+            <li><a href="#type">Typography</a></li>
+            <li><a href="#components-preview">Components</a></li>
+          </ul>
+        </div>
+        <div class="dx-sidebar-section">
+          <span class="dx-sidebar-label">Documentation</span>
+          <ul class="dx-sidebar-nav">
+            <li><a href="docs/colors.html">Color system</a></li>
+            <li><a href="docs/typography.html">Typography</a></li>
+            <li><a href="docs/components.html">Components</a></li>
+            <li><a href="docs/forms.html">Forms</a></li>
+            <li><a href="docs/dashboard.html">Dashboard</a></li>
+            <li><a href="docs/accessibility.html">Accessibility</a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Main content -->
+      <main id="main" class="dx-main">
+
+        <!-- Hero -->
+        <section class="hero" id="intro" aria-labelledby="hero-title">
+          <div class="hero-badge" aria-label="Version">
+            <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><circle cx="5" cy="5" r="5" fill="currentColor"/></svg>
+            UC San Diego · DX Team
+          </div>
+          <h1 class="hero-title" id="hero-title">
+            Built for the<br><span>tools we build.</span>
+          </h1>
+          <p class="hero-desc">
+            UCSD campus brand, applied with tool-first precision. Accent colors
+            serve as primaries. Navy provides structural depth. Every control is
+            sized for serious work. WCAG 2.1 AAA throughout.
+          </p>
+          <div class="hero-actions">
+            <a href="#quickstart" class="btn btn--primary btn--lg">Quick start</a>
+            <a href="docs/components.html" class="btn btn--ghost btn--lg">View components</a>
+          </div>
+        </section>
+
+        <!-- Quick start -->
+        <section class="dx-section" id="quickstart" aria-labelledby="qs-title">
+          <div class="dx-section-header">
+            <h2 id="qs-title">Quick start</h2>
+            <p>Include Google Fonts and all five CSS files. The FOUC prevention snippet must go in <code>&lt;head&gt;</code> before the stylesheets.</p>
+          </div>
+
+          <div class="code-block">
+            <div class="code-block__toolbar">
+              <span class="code-block__lang">html</span>
+              <button class="code-block__copy" aria-label="Copy code">Copy</button>
+            </div>
+            <pre><code>&lt;!-- FOUC prevention (in &lt;head&gt;, before stylesheets) --&gt;
+&lt;script&gt;
+  const t = localStorage.getItem('dx-theme');
+  if (t) document.documentElement.setAttribute('data-theme', t);
+&lt;/script&gt;
+
+&lt;!-- Fonts --&gt;
+&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;
+&lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;
+&lt;link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&amp;family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&amp;family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&amp;display=swap" rel="stylesheet"&gt;
+
+&lt;!-- Design system --&gt;
+&lt;link rel="stylesheet" href="css/tokens.css"&gt;
+&lt;link rel="stylesheet" href="css/frame.css"&gt;
+&lt;link rel="stylesheet" href="css/components.css"&gt;
+&lt;link rel="stylesheet" href="css/preview.css"&gt;
+&lt;link rel="stylesheet" href="css/code.css"&gt;
+
+&lt;!-- JS (optional but needed for theme toggle and code copy) --&gt;
+&lt;script src="js/theme.js" defer&gt;&lt;/script&gt;
+&lt;script src="js/code-copy.js" defer&gt;&lt;/script&gt;</code></pre>
+          </div>
+
+          <div class="code-block" style="margin-top: var(--space-4)">
+            <div class="code-block__toolbar">
+              <span class="code-block__lang">html — doc site shell</span>
+              <button class="code-block__copy" aria-label="Copy code">Copy</button>
+            </div>
+            <pre><code>&lt;body&gt;
+  &lt;a href="#main" class="skip-link"&gt;Skip to main content&lt;/a&gt;
+  &lt;div class="dx-doc-layout"&gt;
+    &lt;header class="dx-header"&gt;...&lt;/header&gt;
+    &lt;div class="dx-doc-body"&gt;
+      &lt;nav class="dx-sidebar"&gt;...&lt;/nav&gt;
+      &lt;main id="main" class="dx-main"&gt;...&lt;/main&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/body&gt;</code></pre>
+          </div>
+        </section>
+
+        <!-- Colors overview -->
+        <section class="dx-section" id="colors" aria-labelledby="colors-title">
+          <div class="dx-section-header">
+            <h2 id="colors-title">Color strategy</h2>
+            <p>Brand accent colors (Turquoise, Citron) serve as primary interactive colors in the tool frame. Brand primaries (Navy, Blue) provide structural depth. All primary text meets WCAG AAA (7:1).</p>
+          </div>
+
+          <h3>Frame — dark mode (default)</h3>
+          <div class="swatch-grid" role="list">
+            <div class="swatch" role="listitem">
+              <div class="swatch__color" style="background:#0d1b2e;"></div>
+              <div class="swatch__info">
+                <div class="swatch__name">Background</div>
+                <div class="swatch__hex">#0d1b2e</div>
+              </div>
+            </div>
+            <div class="swatch" role="listitem">
+              <div class="swatch__color" style="background:#182B49;"></div>
+              <div class="swatch__info">
+                <div class="swatch__name">Surface (Navy)</div>
+                <div class="swatch__hex">#182B49</div>
+              </div>
+            </div>
+            <div class="swatch" role="listitem">
+              <div class="swatch__color" style="background:#00C6D7;"></div>
+              <div class="swatch__info">
+                <div class="swatch__name">Accent (Turquoise)</div>
+                <div class="swatch__hex">#00C6D7</div>
+              </div>
+            </div>
+            <div class="swatch" role="listitem">
+              <div class="swatch__color" style="background:#F3E500;"></div>
+              <div class="swatch__info">
+                <div class="swatch__name">Secondary (Citron)</div>
+                <div class="swatch__hex">#F3E500</div>
+              </div>
+            </div>
+          </div>
+
+          <h3 style="margin-top: var(--space-8)">Frame — light mode</h3>
+          <div class="swatch-grid" role="list">
+            <div class="swatch" role="listitem">
+              <div class="swatch__color" style="background:#F5F0E6;border-bottom:1px solid #DDE3EC;"></div>
+              <div class="swatch__info">
+                <div class="swatch__name">Background (Sand)</div>
+                <div class="swatch__hex">#F5F0E6</div>
+              </div>
+            </div>
+            <div class="swatch" role="listitem">
+              <div class="swatch__color" style="background:#FFFFFF;border-bottom:1px solid #DDE3EC;"></div>
+              <div class="swatch__info">
+                <div class="swatch__name">Surface</div>
+                <div class="swatch__hex">#FFFFFF</div>
+              </div>
+            </div>
+            <div class="swatch" role="listitem">
+              <div class="swatch__color" style="background:#00629B;"></div>
+              <div class="swatch__info">
+                <div class="swatch__name">Accent (UCSD Blue)</div>
+                <div class="swatch__hex">#00629B</div>
+              </div>
+            </div>
+            <div class="swatch" role="listitem">
+              <div class="swatch__color" style="background:#C69214;"></div>
+              <div class="swatch__info">
+                <div class="swatch__name">Secondary (Gold)</div>
+                <div class="swatch__hex">#C69214</div>
+              </div>
+            </div>
+          </div>
+
+          <p style="margin-top: var(--space-4)"><a href="docs/colors.html">View full color documentation →</a></p>
+        </section>
+
+        <!-- Typography overview -->
+        <section class="dx-section" id="type" aria-labelledby="type-title">
+          <div class="dx-section-header">
+            <h2 id="type-title">Typography</h2>
+            <p>Three typefaces, three contexts. Atkinson Hyperlegible for tool chrome — designed for maximum legibility. Roboto for brand-faithful preview areas. JetBrains Mono for code.</p>
+          </div>
+
+          <div class="type-row">
+            <div class="type-meta">
+              <code>--text-2xl</code>
+              <div class="size">36px / Bold</div>
+            </div>
+            <span style="font-size: var(--text-2xl); font-weight: var(--weight-bold); color: var(--color-text); line-height: 1.2;">Display heading</span>
+          </div>
+          <div class="type-row">
+            <div class="type-meta">
+              <code>--text-xl</code>
+              <div class="size">28px / Bold</div>
+            </div>
+            <span style="font-size: var(--text-xl); font-weight: var(--weight-bold); color: var(--color-text);">Page heading</span>
+          </div>
+          <div class="type-row">
+            <div class="type-meta">
+              <code>--text-lg</code>
+              <div class="size">22px / Semibold</div>
+            </div>
+            <span style="font-size: var(--text-lg); font-weight: var(--weight-semibold); color: var(--color-text);">Section heading</span>
+          </div>
+          <div class="type-row">
+            <div class="type-meta">
+              <code>--text-base</code>
+              <div class="size">16px / Regular</div>
+            </div>
+            <span style="font-size: var(--text-base); color: var(--color-text-muted);">Body copy — Atkinson Hyperlegible. Designed for low-vision users, with clear letterform distinction.</span>
+          </div>
+          <div class="type-row">
+            <div class="type-meta">
+              <code>--text-sm</code>
+              <div class="size">14px / Regular</div>
+            </div>
+            <span style="font-size: var(--text-sm); color: var(--color-text-muted);">Helper text, captions, UI labels. 14 px is the minimum.</span>
+          </div>
+          <div class="type-row">
+            <div class="type-meta">
+              <code>--font-code</code>
+              <div class="size">14px Mono</div>
+            </div>
+            <span style="font-family: var(--font-code); font-size: var(--text-code); color: var(--color-accent);">const value = state.tokens['--color-accent'];</span>
+          </div>
+
+          <p style="margin-top: var(--space-4)"><a href="docs/typography.html">View full typography documentation →</a></p>
+        </section>
+
+        <!-- Components preview -->
+        <section class="dx-section" id="components-preview" aria-labelledby="comp-title">
+          <div class="dx-section-header">
+            <h2 id="comp-title">Components</h2>
+            <p>Tactile controls sized for serious work. Every interactive element meets the 44 px touch target minimum. No AI design tells — solid, physical surfaces with honest shadows.</p>
+          </div>
+
+          <h3>Buttons</h3>
+          <div class="dx-demo">
+            <button class="btn btn--primary">Primary</button>
+            <button class="btn btn--secondary">Secondary</button>
+            <button class="btn btn--ghost">Ghost</button>
+            <button class="btn btn--danger">Danger</button>
+            <button class="btn btn--subtle">Subtle</button>
+          </div>
+          <div class="dx-demo" style="margin-top: var(--space-2)">
+            <button class="btn btn--primary btn--sm">Small</button>
+            <button class="btn btn--primary">Default</button>
+            <button class="btn btn--primary btn--lg">Large</button>
+            <button class="btn btn--primary" disabled>Disabled</button>
+          </div>
+
+          <h3>Badges &amp; tags</h3>
+          <div class="dx-demo">
+            <span class="badge">Default</span>
+            <span class="badge badge--success">Success</span>
+            <span class="badge badge--warning">Warning</span>
+            <span class="badge badge--danger">Danger</span>
+            <span class="badge badge--info">Info</span>
+            <span class="badge badge--neutral">Neutral</span>
+          </div>
+
+          <h3>Alerts</h3>
+          <div class="dx-demo dx-demo--stack">
+            <div class="alert alert--info" role="status">
+              <svg class="alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <div class="alert__body"><strong class="alert__title">New component available</strong><div class="alert__desc">The stat card component has been updated with trend indicator support.</div></div>
+            </div>
+            <div class="alert alert--success" role="status">
+              <svg class="alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              <div class="alert__body"><strong class="alert__title">Deploy succeeded</strong><div class="alert__desc">Documentation site published to GitHub Pages.</div></div>
+            </div>
+            <div class="alert alert--warning" role="alert">
+              <svg class="alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              <div class="alert__body"><strong class="alert__title">Contrast check needed</strong><div class="alert__desc">One component uses a custom color — verify it meets AAA.</div></div>
+            </div>
+          </div>
+
+          <h3>Panels</h3>
+          <div class="dx-demo" style="gap: var(--space-4); flex-direction: column;">
+            <div class="panel">
+              <div class="panel__header">
+                <h4 class="panel__title">Standard panel</h4>
+              </div>
+              <div class="panel__body">A neutral panel with standard border. Good for grouping related controls or settings.</div>
+            </div>
+            <div class="panel panel--featured">
+              <div class="panel__header">
+                <h4 class="panel__title">Featured panel</h4>
+                <span class="badge badge--info">New</span>
+              </div>
+              <div class="panel__body">Accent stripe on top — not a left border. The stripe signals importance without the AI design tell.</div>
+              <div class="panel__footer">
+                <button class="btn btn--primary btn--sm">Take action</button>
+                <button class="btn btn--ghost btn--sm">Dismiss</button>
+              </div>
+            </div>
+          </div>
+
+          <p style="margin-top: var(--space-4)"><a href="docs/components.html">View all components →</a></p>
+        </section>
+
+        <!-- Preview demo -->
+        <section class="dx-section" aria-labelledby="preview-title">
+          <div class="dx-section-header">
+            <h2 id="preview-title">Frame vs. Preview</h2>
+            <p>Two distinct layers: the tool frame (dark, Atkinson Hyperlegible, Turquoise CTA) and preview areas (brand-faithful UCSD, Roboto, standard palette). Scoped via <code>.dx-preview</code>.</p>
+          </div>
+
+          <div class="preview-container" role="region" aria-label="Preview area">
+            <div class="preview-toolbar">
+              <div class="preview-toolbar__dots" aria-hidden="true">
+                <span class="preview-toolbar__dot"></span>
+                <span class="preview-toolbar__dot"></span>
+                <span class="preview-toolbar__dot"></span>
+              </div>
+              <span class="preview-toolbar__label">Preview — brand-faithful</span>
+            </div>
+            <div class="dx-preview dx-preview--padded">
+              <nav class="preview-nav" aria-label="Example UCSD navigation">
+                <a href="#" class="preview-nav__brand" tabindex="-1" aria-hidden="true">UC San Diego</a>
+                <a href="#" class="preview-nav__link active" tabindex="-1" aria-hidden="true">Home</a>
+                <a href="#" class="preview-nav__link" tabindex="-1" aria-hidden="true">About</a>
+                <a href="#" class="preview-nav__link" tabindex="-1" aria-hidden="true">Research</a>
+              </nav>
+              <div class="preview-gold-bar" aria-hidden="true"></div>
+              <div style="padding: 2rem;">
+                <h2 style="font-size:1.5rem;margin-bottom:0.5rem;">Curiosity must.</h2>
+                <p style="color:#2d4464;max-width:45ch;">Inside the preview, fonts switch to Roboto and colors follow the campus brand exactly — Navy text, Blue links, Yellow accents.</p>
+                <button class="btn btn--primary" style="margin-top:1rem;" tabindex="-1" aria-hidden="true">Learn more</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="js/theme.js" defer></script>
+  <script src="js/code-copy.js" defer></script>
+</body>
+</html>

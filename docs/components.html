@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Components — DX Tools Design System</title>
+  <script>const t=localStorage.getItem('dx-theme');if(t)document.documentElement.setAttribute('data-theme',t);</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/frame.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/preview.css">
+  <link rel="stylesheet" href="../css/code.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+  <div class="dx-doc-layout">
+    <header class="dx-header" role="banner">
+      <a href="../index.html" class="dx-header__brand" aria-label="DX Tools home">
+        <span class="dx-header__mark" aria-hidden="true">DX</span>
+        <span class="dx-header__wordmark">DX Tools</span>
+        <span class="dx-header__divider" aria-hidden="true"></span>
+        <span class="dx-header__subtitle">Design System</span>
+      </a>
+      <nav class="dx-header__nav" aria-label="Design system sections">
+        <a href="colors.html"        class="dx-header__nav-link">Colors</a>
+        <a href="typography.html"    class="dx-header__nav-link">Typography</a>
+        <a href="components.html"    class="dx-header__nav-link" aria-current="page">Components</a>
+        <a href="forms.html"         class="dx-header__nav-link">Forms</a>
+        <a href="dashboard.html"     class="dx-header__nav-link">Dashboard</a>
+        <a href="accessibility.html" class="dx-header__nav-link">Accessibility</a>
+      </nav>
+      <div class="dx-header__actions">
+        <button class="btn btn--ghost btn--icon" data-theme-toggle aria-label="Switch to light mode" aria-pressed="false">
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun"  width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="dx-doc-body">
+      <nav class="dx-sidebar" aria-label="Components sections">
+        <div class="dx-sidebar-section">
+          <span class="dx-sidebar-label">On this page</span>
+          <ul class="dx-sidebar-nav">
+            <li><a href="#buttons">Buttons</a></li>
+            <li><a href="#badges">Badges &amp; tags</a></li>
+            <li><a href="#alerts">Alerts</a></li>
+            <li><a href="#panels">Panels</a></li>
+            <li><a href="#tables">Tables</a></li>
+            <li><a href="#tabs">Tabs</a></li>
+            <li><a href="#progress">Progress</a></li>
+            <li><a href="#images">Images</a></li>
+            <li><a href="#dialogs">Dialogs</a></li>
+            <li><a href="#code-display">Code display</a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <main id="main" class="dx-main">
+        <span class="eyebrow">Design system</span>
+        <h1 class="page-title">Components</h1>
+        <p class="lead">Every component meets the 44 px touch target minimum. Tactile button press is implemented via <code>translateY + box-shadow</code>. No AI design tells — full borders, no left-only accent stripes.</p>
+
+        <!-- Buttons -->
+        <section class="dx-section" id="buttons" aria-labelledby="btn-title">
+          <h2 id="btn-title">Buttons</h2>
+          <p>Four variants, three sizes. The press feel comes from a bottom-edge shadow that collapses on <code>:active</code> with a 2px downward translate. Disabled state uses opacity — never a grey color swap.</p>
+
+          <h3>Variants</h3>
+          <div class="dx-demo">
+            <button class="btn btn--primary">Primary</button>
+            <button class="btn btn--secondary">Secondary</button>
+            <button class="btn btn--ghost">Ghost</button>
+            <button class="btn btn--danger">Danger</button>
+            <button class="btn btn--subtle">Subtle</button>
+          </div>
+
+          <h3>Sizes</h3>
+          <div class="dx-demo">
+            <button class="btn btn--primary btn--sm">Small (36px)</button>
+            <button class="btn btn--primary">Default (44px)</button>
+            <button class="btn btn--primary btn--lg">Large (52px)</button>
+          </div>
+
+          <h3>States</h3>
+          <div class="dx-demo">
+            <button class="btn btn--primary">Default</button>
+            <button class="btn btn--primary" disabled>Disabled</button>
+            <button class="btn btn--ghost">Ghost</button>
+            <button class="btn btn--ghost" disabled>Ghost disabled</button>
+          </div>
+
+          <h3>Icon buttons</h3>
+          <div class="dx-demo">
+            <button class="btn btn--primary btn--icon" aria-label="Add item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            <button class="btn btn--ghost btn--icon" aria-label="Edit">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </button>
+            <button class="btn btn--ghost btn--icon" aria-label="Delete">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+            </button>
+            <button class="btn btn--ghost btn--icon btn--sm" aria-label="Close">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+
+          <h3>Button with icon + label</h3>
+          <div class="dx-demo">
+            <button class="btn btn--primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              New item
+            </button>
+            <button class="btn btn--ghost">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export
+            </button>
+          </div>
+
+          <div class="code-block">
+            <div class="code-block__toolbar"><span class="code-block__lang">html</span><button class="code-block__copy" aria-label="Copy code">Copy</button></div>
+            <pre><code>&lt;button class="btn btn--primary"&gt;Primary&lt;/button&gt;
+&lt;button class="btn btn--secondary"&gt;Secondary&lt;/button&gt;
+&lt;button class="btn btn--ghost"&gt;Ghost&lt;/button&gt;
+&lt;button class="btn btn--danger"&gt;Danger&lt;/button&gt;
+
+&lt;!-- Sizes --&gt;
+&lt;button class="btn btn--primary btn--sm"&gt;Small&lt;/button&gt;
+&lt;button class="btn btn--primary btn--lg"&gt;Large&lt;/button&gt;
+
+&lt;!-- Icon only — always include aria-label --&gt;
+&lt;button class="btn btn--ghost btn--icon" aria-label="Edit"&gt;
+  &lt;svg ...&gt;&lt;/svg&gt;
+&lt;/button&gt;</code></pre>
+          </div>
+        </section>
+
+        <!-- Badges -->
+        <section class="dx-section" id="badges" aria-labelledby="badges-title">
+          <h2 id="badges-title">Badges &amp; tags</h2>
+
+          <h3>Badges</h3>
+          <div class="dx-demo">
+            <span class="badge">Default</span>
+            <span class="badge badge--success">Success</span>
+            <span class="badge badge--warning">Warning</span>
+            <span class="badge badge--danger">Danger</span>
+            <span class="badge badge--info">Info</span>
+            <span class="badge badge--neutral">Neutral</span>
+          </div>
+          <div class="dx-demo">
+            <span class="badge badge--outlined">Outlined</span>
+            <span class="badge badge--success badge--outlined">Outlined success</span>
+            <span class="badge badge--danger badge--outlined">Outlined danger</span>
+          </div>
+
+          <h3>Tags</h3>
+          <div class="dx-demo">
+            <span class="tag">ux-research</span>
+            <span class="tag">accessibility</span>
+            <span class="tag">design-system</span>
+          </div>
+        </section>
+
+        <!-- Alerts -->
+        <section class="dx-section" id="alerts" aria-labelledby="alerts-title">
+          <h2 id="alerts-title">Alerts</h2>
+          <p>All alerts use icon + color + text. Never color alone. Use <code>role="alert"</code> for urgent messages; <code>role="status"</code> for informational notices.</p>
+
+          <div class="dx-demo dx-demo--stack">
+            <div class="alert alert--info" role="status">
+              <svg class="alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <div class="alert__body"><strong class="alert__title">Information</strong><div class="alert__desc">This is an informational message. Use <code>role="status"</code> for non-urgent notices.</div></div>
+            </div>
+            <div class="alert alert--success" role="status">
+              <svg class="alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              <div class="alert__body"><strong class="alert__title">Success</strong><div class="alert__desc">Action completed successfully. The change has been saved.</div></div>
+            </div>
+            <div class="alert alert--warning" role="alert">
+              <svg class="alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              <div class="alert__body"><strong class="alert__title">Warning</strong><div class="alert__desc">This action may have unintended effects. Review carefully before proceeding.</div></div>
+            </div>
+            <div class="alert alert--danger" role="alert">
+              <svg class="alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+              <div class="alert__body"><strong class="alert__title">Error</strong><div class="alert__desc">Something went wrong. Please try again or contact support.</div></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Panels -->
+        <section class="dx-section" id="panels" aria-labelledby="panels-title">
+          <h2 id="panels-title">Panels</h2>
+          <p>Featured panels use a top accent stripe — not a left border. This is a deliberate design decision: left-border cards are an AI design tell. A top stripe conveys importance without sacrificing the panel's visual integrity.</p>
+
+          <div class="dx-demo dx-demo--stack">
+            <div class="panel">
+              <div class="panel__header"><h3 class="panel__title">Standard panel</h3></div>
+              <div class="panel__body">A neutral container for grouped content. Use for settings, configuration blocks, and content groups.</div>
+            </div>
+            <div class="panel panel--raised">
+              <div class="panel__header"><h3 class="panel__title">Raised panel</h3><span class="badge badge--neutral">Elevated</span></div>
+              <div class="panel__body">Slightly elevated above the standard panel. Use for interactive cards or when visual hierarchy needs reinforcement.</div>
+            </div>
+            <div class="panel panel--featured">
+              <div class="panel__header"><h3 class="panel__title">Featured — accent stripe (top)</h3><span class="badge">Primary</span></div>
+              <div class="panel__body">The accent stripe runs along the top edge — never just the left side. Signals importance or a highlighted state.</div>
+              <div class="panel__footer">
+                <button class="btn btn--primary btn--sm">Take action</button>
+                <button class="btn btn--ghost btn--sm">Dismiss</button>
+              </div>
+            </div>
+            <div class="panel panel--featured-success">
+              <div class="panel__header"><h3 class="panel__title">Featured — success</h3></div>
+              <div class="panel__body">Use success stripe for completed steps, confirmed states, or positive outcomes.</div>
+            </div>
+            <div class="panel panel--featured-danger">
+              <div class="panel__header"><h3 class="panel__title">Featured — danger</h3></div>
+              <div class="panel__body">Use danger stripe for errors, blocked states, or items requiring immediate attention.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tables -->
+        <section class="dx-section" id="tables" aria-labelledby="tables-title">
+          <h2 id="tables-title">Tables</h2>
+          <p>Wrap in <code>.table-wrap</code> for overflow and border. Use <code>.table--striped</code> for zebra rows on dense data.</p>
+
+          <div class="dx-demo dx-demo--wide">
+            <div class="table-wrap" style="border-radius: 0; border: none;">
+              <table class="table table--striped" aria-label="Sample data table">
+                <thead>
+                  <tr>
+                    <th scope="col">Component</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">WCAG level</th>
+                    <th scope="col">Touch target</th>
+                    <th scope="col">Version</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="col-sticky">Button</td>
+                    <td><span class="badge badge--success">Stable</span></td>
+                    <td>AAA</td>
+                    <td>44–52 px</td>
+                    <td>1.0</td>
+                  </tr>
+                  <tr>
+                    <td class="col-sticky">Form input</td>
+                    <td><span class="badge badge--success">Stable</span></td>
+                    <td>AAA</td>
+                    <td>44 px</td>
+                    <td>1.0</td>
+                  </tr>
+                  <tr>
+                    <td class="col-sticky">Alert</td>
+                    <td><span class="badge badge--success">Stable</span></td>
+                    <td>AAA</td>
+                    <td>—</td>
+                    <td>1.0</td>
+                  </tr>
+                  <tr>
+                    <td class="col-sticky">Dialog</td>
+                    <td><span class="badge badge--warning">Beta</span></td>
+                    <td>AA</td>
+                    <td>44 px</td>
+                    <td>0.9</td>
+                  </tr>
+                  <tr>
+                    <td class="col-sticky">Toast</td>
+                    <td><span class="badge badge--warning">Beta</span></td>
+                    <td>AA</td>
+                    <td>36 px</td>
+                    <td>0.9</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tabs -->
+        <section class="dx-section" id="tabs" aria-labelledby="tabs-title">
+          <h2 id="tabs-title">Tabs</h2>
+          <p>Use <code>role="tablist"</code>, <code>role="tab"</code>, <code>role="tabpanel"</code>, and <code>aria-selected</code>. Keyboard: arrow keys move between tabs, Enter/Space activates.</p>
+
+          <div class="dx-demo">
+            <div class="tabs" style="width: 100%;">
+              <ul class="tabs__list" role="tablist" aria-label="Example tabs">
+                <li role="presentation">
+                  <button class="tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-panel-1" id="tab-1">Overview</button>
+                </li>
+                <li role="presentation">
+                  <button class="tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-panel-2" id="tab-2" tabindex="-1">Usage</button>
+                </li>
+                <li role="presentation">
+                  <button class="tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-panel-3" id="tab-3" tabindex="-1">Code</button>
+                </li>
+              </ul>
+              <div class="tabs__panel" role="tabpanel" id="tab-panel-1" aria-labelledby="tab-1">
+                <p style="color:var(--color-text-muted);">The Overview tab is active. Tabs use an underline indicator on the active tab — not a filled background.</p>
+              </div>
+              <div class="tabs__panel" role="tabpanel" id="tab-panel-2" aria-labelledby="tab-2" hidden>
+                <p style="color:var(--color-text-muted);">Usage guidelines go here.</p>
+              </div>
+              <div class="tabs__panel" role="tabpanel" id="tab-panel-3" aria-labelledby="tab-3" hidden>
+                <p style="color:var(--color-text-muted);">Code examples go here.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Progress -->
+        <section class="dx-section" id="progress" aria-labelledby="progress-title">
+          <h2 id="progress-title">Progress bars</h2>
+          <p>Always include a numeric or text label — never rely on bar width alone to convey value.</p>
+
+          <div class="dx-demo dx-demo--stack">
+            <div class="progress-group" style="width: 100%;">
+              <div class="progress-header">
+                <span class="progress-label">Accessibility audit</span>
+                <span class="progress-value">78%</span>
+              </div>
+              <div class="progress-track" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" aria-label="Accessibility audit progress">
+                <div class="progress-bar" style="width:78%"></div>
+              </div>
+            </div>
+            <div class="progress-group" style="width: 100%;">
+              <div class="progress-header">
+                <span class="progress-label">Build completed</span>
+                <span class="progress-value" style="color:var(--color-success-text);">100%</span>
+              </div>
+              <div class="progress-track" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" aria-label="Build progress">
+                <div class="progress-bar progress-bar--success" style="width:100%"></div>
+              </div>
+            </div>
+            <div class="progress-group" style="width: 100%;">
+              <div class="progress-header">
+                <span class="progress-label">Disk usage</span>
+                <span class="progress-value" style="color:var(--color-danger-text);">94%</span>
+              </div>
+              <div class="progress-track" role="progressbar" aria-valuenow="94" aria-valuemin="0" aria-valuemax="100" aria-label="Disk usage">
+                <div class="progress-bar progress-bar--danger" style="width:94%"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Images -->
+        <section class="dx-section" id="images" aria-labelledby="images-title">
+          <h2 id="images-title">Images</h2>
+          <p>All images must have meaningful <code>alt</code> text. Decorative images use <code>alt=""</code>. Use <code>&lt;figure&gt;</code> + <code>&lt;figcaption&gt;</code> when the image requires a visible caption.</p>
+
+          <h3>Responsive image</h3>
+          <div class="dx-demo">
+            <div style="width: 100%;">
+              <img
+                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80"
+                alt="UC San Diego campus aerial view showing the iconic Geisel Library surrounded by eucalyptus trees"
+                class="img-responsive"
+                width="800"
+                height="400"
+                loading="lazy"
+              >
+            </div>
+          </div>
+
+          <div class="code-block">
+            <div class="code-block__toolbar"><span class="code-block__lang">html</span><button class="code-block__copy" aria-label="Copy code">Copy</button></div>
+            <pre><code>&lt;img
+  src="photo.jpg"
+  alt="Descriptive alt text — who, what, where"
+  class="img-responsive"
+  width="800"
+  height="400"
+  loading="lazy"
+&gt;</code></pre>
+          </div>
+
+          <h3>Figure with caption</h3>
+          <div class="dx-demo">
+            <div style="max-width: 480px;">
+              <figure class="img-figure">
+                <img
+                  src="https://images.unsplash.com/photo-1541178735493-479c1a27ed24?w=600&q=80"
+                  alt="Abstract architectural detail of a modern building with geometric patterns"
+                  width="600"
+                  height="300"
+                  loading="lazy"
+                  style="border-radius: var(--radius-lg) var(--radius-lg) 0 0;"
+                >
+                <figcaption>
+                  Caption using <code>&lt;figcaption&gt;</code>. Provides context that's part of the page content — not an alt text substitute.
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+
+          <h3>Image card</h3>
+          <div class="dx-demo">
+            <div class="img-card" style="max-width: 320px;">
+              <img class="img-card__image" src="https://images.unsplash.com/photo-1605792657660-596af9009e82?w=640&q=80" alt="Research lab with scientific equipment and blue ambient lighting" loading="lazy">
+              <div class="img-card__body">
+                <h4 class="img-card__title">Lab equipment study</h4>
+                <p class="img-card__desc">Image card with a 16:9 ratio image, title, and description. Border radius matches the card.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="code-block">
+            <div class="code-block__toolbar"><span class="code-block__lang">html</span><button class="code-block__copy" aria-label="Copy code">Copy</button></div>
+            <pre><code>&lt;!-- Figure + caption --&gt;
+&lt;figure class="img-figure"&gt;
+  &lt;img src="photo.jpg" alt="..." width="600" height="300" loading="lazy"&gt;
+  &lt;figcaption&gt;Caption text here&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;!-- Image card --&gt;
+&lt;div class="img-card"&gt;
+  &lt;img class="img-card__image" src="photo.jpg" alt="..."&gt;
+  &lt;div class="img-card__body"&gt;
+    &lt;h3 class="img-card__title"&gt;Title&lt;/h3&gt;
+    &lt;p class="img-card__desc"&gt;Description&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        </section>
+
+        <!-- Dialogs -->
+        <section class="dx-section" id="dialogs" aria-labelledby="dialogs-title">
+          <h2 id="dialogs-title">Dialogs</h2>
+          <p>Use the native <code>&lt;dialog&gt;</code> element. Focus must be trapped inside the dialog while open. Pressing <kbd>Escape</kbd> closes it. The first focusable element inside receives focus on open.</p>
+
+          <div class="dx-demo">
+            <button class="btn btn--primary" onclick="document.getElementById('demo-dialog').showModal()">Open dialog</button>
+          </div>
+
+          <dialog class="dx-dialog" id="demo-dialog" aria-labelledby="dialog-title-demo">
+            <div class="dialog__header">
+              <h2 class="dialog__title" id="dialog-title-demo">Confirm action</h2>
+              <button class="btn btn--ghost btn--icon btn--sm" onclick="document.getElementById('demo-dialog').close()" aria-label="Close dialog">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>
+            <div class="dialog__body">
+              <p>Are you sure you want to proceed? This will save the current state and cannot be undone.</p>
+            </div>
+            <div class="dialog__footer">
+              <button class="btn btn--ghost" onclick="document.getElementById('demo-dialog').close()">Cancel</button>
+              <button class="btn btn--primary" onclick="document.getElementById('demo-dialog').close()">Confirm</button>
+            </div>
+          </dialog>
+        </section>
+
+        <!-- Code display -->
+        <section class="dx-section" id="code-display" aria-labelledby="code-title">
+          <h2 id="code-title">Code display</h2>
+
+          <h3>Inline code</h3>
+          <div class="dx-demo">
+            <p style="color:var(--color-text-muted);">Use <code>--color-accent</code> for interactive elements and <code>--color-focus</code> for the focus ring. The <kbd>Tab</kbd> key moves focus; <kbd>Enter</kbd> activates buttons.</p>
+          </div>
+
+          <h3>Code block with copy button</h3>
+          <div class="code-block">
+            <div class="code-block__toolbar">
+              <span class="code-block__lang">css</span>
+              <button class="code-block__copy" aria-label="Copy code">Copy</button>
+            </div>
+            <pre><code>.btn--primary {
+  background-color: var(--color-accent);
+  border-color:     var(--color-accent);
+  color:            var(--color-text-on-accent);
+  box-shadow:       var(--shadow-btn-accent);
+}
+
+.btn--primary:active:not(:disabled) {
+  transform:  translateY(2px);
+  box-shadow: var(--shadow-btn-active);
+}</code></pre>
+          </div>
+
+          <h3>Diff display</h3>
+          <div class="diff-block" role="region" aria-label="Code diff">
+            <span class="diff-line diff-line--meta">@@ -12,7 +12,8 @@ .btn {</span>
+            <span class="diff-line diff-line--context">  padding: 0 var(--space-5);</span>
+            <span class="diff-line diff-line--context">  border-radius: var(--radius-md);</span>
+            <span class="diff-line diff-line--removed">  box-shadow: none;</span>
+            <span class="diff-line diff-line--added">  box-shadow: var(--shadow-btn);</span>
+            <span class="diff-line diff-line--added">  transition: transform var(--t-fast), box-shadow var(--t-fast);</span>
+            <span class="diff-line diff-line--context">  cursor: pointer;</span>
+          </div>
+
+          <h3>Terminal</h3>
+          <div class="terminal">
+            <div class="terminal__bar">
+              <span class="terminal__bar-dot"></span>
+              <span class="terminal__bar-dot"></span>
+              <span class="terminal__bar-dot"></span>
+              <span class="terminal__bar-title">zsh</span>
+            </div>
+            <div class="terminal__body">
+              <div class="terminal__prompt">python3 -m http.server 8765</div>
+              <div class="terminal__output">Serving HTTP on :: port 8765 (http://[::]:8765/) ...</div>
+              <div class="terminal__output">127.0.0.1 - - [22/May/2026 09:14:02] "GET / HTTP/1.1" 200 -</div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+  <script src="../js/theme.js" defer></script>
+  <script src="../js/code-copy.js" defer></script>
+  <script>
+    // Basic tab interaction for demo
+    document.querySelectorAll('.tabs__trigger').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        const list = btn.closest('.tabs__list');
+        list.querySelectorAll('.tabs__trigger').forEach(function(t) {
+          t.setAttribute('aria-selected', 'false');
+          t.setAttribute('tabindex', '-1');
+        });
+        btn.setAttribute('aria-selected', 'true');
+        btn.removeAttribute('tabindex');
+
+        const panelId = btn.getAttribute('aria-controls');
+        btn.closest('.tabs').querySelectorAll('.tabs__panel').forEach(function(p) {
+          p.hidden = (p.id !== panelId);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

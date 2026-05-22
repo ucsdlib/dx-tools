@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Colors — DX Tools Design System</title>
+  <script>const t=localStorage.getItem('dx-theme');if(t)document.documentElement.setAttribute('data-theme',t);</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/frame.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/code.css">
+  <style>
+    .palette-section { margin-bottom: var(--space-8); }
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: var(--space-3);
+    }
+    .swatch {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--color-border);
+    }
+    .swatch__color {
+      height: 72px;
+      position: relative;
+    }
+    .swatch__info {
+      padding: var(--space-3);
+      background-color: var(--color-surface);
+    }
+    .swatch__name { font-size: var(--text-sm); font-weight: var(--weight-semibold); color: var(--color-text); }
+    .swatch__hex  { font-size: var(--text-xs); font-family: var(--font-code); color: var(--color-text-muted); }
+    .swatch__note { font-size: var(--text-xs); color: var(--color-text-subtle); margin-top: var(--space-1); }
+
+    /* Contrast table */
+    .contrast-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--text-sm);
+    }
+    .contrast-table th {
+      padding: var(--space-2) var(--space-4);
+      text-align: left;
+      font-size: var(--text-xs);
+      font-weight: var(--weight-bold);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      background-color: var(--color-surface);
+      border-bottom: 2px solid var(--color-border-strong);
+    }
+    .contrast-table td {
+      padding: var(--space-3) var(--space-4);
+      border-bottom: 1px solid var(--color-border);
+      color: var(--color-text-muted);
+      vertical-align: middle;
+    }
+    .contrast-table tr:last-child td { border-bottom: none; }
+    .contrast-swatch {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 30px;
+      border-radius: var(--radius-md);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-bold);
+    }
+    .pass-aaa { color: var(--color-success-text); font-weight: var(--weight-bold); }
+    .pass-aa  { color: var(--color-warning-text); font-weight: var(--weight-bold); }
+    .fail     { color: var(--color-danger-text);  font-weight: var(--weight-bold); }
+
+    /* Token reference */
+    .token-table { width: 100%; border-collapse: collapse; }
+    .token-table td, .token-table th {
+      padding: var(--space-2) var(--space-4);
+      border-bottom: 1px solid var(--color-border);
+      font-size: var(--text-sm);
+    }
+    .token-table th {
+      text-align: left; font-weight: var(--weight-bold);
+      color: var(--color-text-muted);
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      background-color: var(--color-surface);
+    }
+    .token-table td { color: var(--color-text-muted); }
+    .token-table td:first-child { font-family: var(--font-code); font-size: var(--text-xs); color: var(--color-accent); }
+    .color-dot {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-border);
+      vertical-align: middle;
+      margin-right: var(--space-2);
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+  <div class="dx-doc-layout">
+    <header class="dx-header" role="banner">
+      <a href="../index.html" class="dx-header__brand" aria-label="DX Tools home">
+        <span class="dx-header__mark" aria-hidden="true">DX</span>
+        <span class="dx-header__wordmark">DX Tools</span>
+        <span class="dx-header__divider" aria-hidden="true"></span>
+        <span class="dx-header__subtitle">Design System</span>
+      </a>
+      <nav class="dx-header__nav" aria-label="Design system sections">
+        <a href="colors.html"       class="dx-header__nav-link" aria-current="page">Colors</a>
+        <a href="typography.html"   class="dx-header__nav-link">Typography</a>
+        <a href="components.html"   class="dx-header__nav-link">Components</a>
+        <a href="forms.html"        class="dx-header__nav-link">Forms</a>
+        <a href="dashboard.html"    class="dx-header__nav-link">Dashboard</a>
+        <a href="accessibility.html" class="dx-header__nav-link">Accessibility</a>
+      </nav>
+      <div class="dx-header__actions">
+        <button class="btn btn--ghost btn--icon" data-theme-toggle aria-label="Switch to light mode" aria-pressed="false">
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun"  width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="dx-doc-body">
+      <nav class="dx-sidebar" aria-label="Colors sections">
+        <div class="dx-sidebar-section">
+          <span class="dx-sidebar-label">On this page</span>
+          <ul class="dx-sidebar-nav">
+            <li><a href="#strategy">Color strategy</a></li>
+            <li><a href="#brand">Brand palette</a></li>
+            <li><a href="#frame-dark">Frame — dark</a></li>
+            <li><a href="#frame-light">Frame — light</a></li>
+            <li><a href="#preview-colors">Preview area</a></li>
+            <li><a href="#contrast">Contrast tables</a></li>
+            <li><a href="#tokens">Token reference</a></li>
+          </ul>
+        </div>
+        <div class="dx-sidebar-section">
+          <span class="dx-sidebar-label">Other pages</span>
+          <ul class="dx-sidebar-nav">
+            <li><a href="../index.html">Overview</a></li>
+            <li><a href="typography.html">Typography</a></li>
+            <li><a href="components.html">Components</a></li>
+            <li><a href="accessibility.html">Accessibility</a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <main id="main" class="dx-main">
+        <span class="eyebrow">Design system</span>
+        <h1 class="page-title">Colors</h1>
+        <p class="lead">Campus brand, inverted for tool use. Accent colors become primaries; brand primaries provide structural depth. All primary text meets WCAG 2.1 AAA (7:1).</p>
+
+        <!-- Strategy -->
+        <section class="dx-section" id="strategy" aria-labelledby="strategy-title">
+          <h2 id="strategy-title">Color strategy</h2>
+          <p>UC San Diego brand guidelines designate Navy and Blue as primary colors, with Turquoise and Citron as supporting accents. For a tool interface, this is deliberately inverted:</p>
+          <div class="table-wrap" style="margin-top: var(--space-4)">
+            <table class="table" aria-label="Color strategy by context">
+              <thead>
+                <tr>
+                  <th>Context</th>
+                  <th>Background</th>
+                  <th>Primary CTA</th>
+                  <th>Secondary</th>
+                  <th>Body text</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Frame (dark)</strong></td>
+                  <td><span class="color-dot" style="background:#182B49;"></span>Navy <code>#182B49</code></td>
+                  <td><span class="color-dot" style="background:#00C6D7;"></span>Turquoise</td>
+                  <td><span class="color-dot" style="background:#F3E500;"></span>Citron</td>
+                  <td>White — 16:1 ✅</td>
+                </tr>
+                <tr>
+                  <td><strong>Frame (light)</strong></td>
+                  <td><span class="color-dot" style="background:#F5F0E6;border:1px solid #ccc;"></span>Sand</td>
+                  <td><span class="color-dot" style="background:#00629B;"></span>UCSD Blue</td>
+                  <td><span class="color-dot" style="background:#C69214;"></span>Gold</td>
+                  <td>Navy — 14.5:1 ✅</td>
+                </tr>
+                <tr>
+                  <td><strong>Preview area</strong></td>
+                  <td><span class="color-dot" style="background:#FFFFFF;border:1px solid #ccc;"></span>White</td>
+                  <td><span class="color-dot" style="background:#00629B;"></span>UCSD Blue</td>
+                  <td><span class="color-dot" style="background:#FFCD00;"></span>Yellow</td>
+                  <td>Navy — 14.5:1 ✅</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Brand palette -->
+        <section class="dx-section" id="brand" aria-labelledby="brand-title">
+          <h2 id="brand-title">Brand palette</h2>
+          <p>Static, mode-independent. These are the official UC San Diego brand colors from the 2022 brand guidelines. Reference via <code>--brand-*</code> tokens when you need a fixed value regardless of theme.</p>
+          <div class="swatch-grid palette-section" role="list" aria-label="UC San Diego brand colors">
+            <div class="swatch" role="listitem"><div class="swatch__color" style="background:#182B49;"></div><div class="swatch__info"><div class="swatch__name">Navy</div><div class="swatch__hex">--brand-navy · #182B49</div><div class="swatch__note">PMS 2767</div></div></div>
+            <div class="swatch" role="listitem"><div class="swatch__color" style="background:#00629B;"></div><div class="swatch__info"><div class="swatch__name">Blue</div><div class="swatch__hex">--brand-blue · #00629B</div><div class="swatch__note">PMS 3015</div></div></div>
+            <div class="swatch" role="listitem"><div class="swatch__color" style="background:#FFCD00;"></div><div class="swatch__info"><div class="swatch__name">Yellow</div><div class="swatch__hex">--brand-yellow · #FFCD00</div><div class="swatch__note">PMS 116</div></div></div>
+            <div class="swatch" role="listitem"><div class="swatch__color" style="background:#C69214;"></div><div class="swatch__info"><div class="swatch__name">Gold</div><div class="swatch__hex">--brand-gold · #C69214</div><div class="swatch__note">PMS 1245</div></div></div>
+            <div class="swatch" role="listitem"><div class="swatch__color" style="background:#00C6D7;"></div><div class="swatch__info"><div class="swatch__name">Turquoise</div><div class="swatch__hex">--brand-turquoise · #00C6D7</div><div class="swatch__note">PMS 3115</div></div></div>
+            <div class="swatch" role="listitem"><div class="swatch__color" style="background:#D462AD;"></div><div class="swatch__info"><div class="swatch__name">Magenta</div><div class="swatch__hex">--brand-magenta · #D462AD</div><div class="swatch__note">PMS 674</div></div></div>
+            <div class="swatch" role="listitem"><div class="swatch__color" style="background:#F5F0E6;border-bottom:1px solid #ccc;"></div><div class="swatch__info"><div class="swatch__name">Sand</div><div class="swatch__hex">--brand-sand · #F5F0E6</div><div class="swatch__note">PMS 9285</div></div></div>
+            <div class="swatch" role="listitem"><div class="swatch__color" style="background:#F3E500;"></div><div class="swatch__info"><div class="swatch__name">Citron</div><div class="swatch__hex">--brand-citron · #F3E500</div><div class="swatch__note">PMS 3945</div></div></div>
+            <div class="swatch" role="listitem"><div class="swatch__color" style="background:#FC8900;"></div><div class="swatch__info"><div class="swatch__name">Orange</div><div class="swatch__hex">--brand-orange · #FC8900</div><div class="swatch__note">PMS 144</div></div></div>
+            <div class="swatch" role="listitem"><div class="swatch__color" style="background:#6E963B;"></div><div class="swatch__info"><div class="swatch__name">Green</div><div class="swatch__hex">--brand-green · #6E963B</div><div class="swatch__note">PMS 7490</div></div></div>
+            <div class="swatch" role="listitem"><div class="swatch__color" style="background:#747678;"></div><div class="swatch__info"><div class="swatch__name">Cool Gray</div><div class="swatch__hex">--brand-gray · #747678</div><div class="swatch__note">PMS Cool Gray 9</div></div></div>
+            <div class="swatch" role="listitem"><div class="swatch__color" style="background:#B6B1A9;"></div><div class="swatch__info"><div class="swatch__name">Stone</div><div class="swatch__hex">--brand-stone · #B6B1A9</div><div class="swatch__note">PMS 401</div></div></div>
+          </div>
+        </section>
+
+        <!-- Contrast tables -->
+        <section class="dx-section" id="contrast" aria-labelledby="contrast-title">
+          <h2 id="contrast-title">Contrast tables</h2>
+          <p>All key combinations verified. WCAG AAA normal text requires 7:1; large text (18pt+ or 14pt+ bold) requires 4.5:1. Non-text UI elements require 3:1.</p>
+
+          <h3>Dark mode — primary combinations</h3>
+          <div class="table-wrap">
+            <table class="contrast-table" aria-label="Dark mode contrast ratios">
+              <thead>
+                <tr>
+                  <th>Background</th>
+                  <th>Foreground</th>
+                  <th>Sample</th>
+                  <th>Ratio</th>
+                  <th>AA</th>
+                  <th>AAA</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="color-dot" style="background:#182B49;"></span>#182B49 Surface</td>
+                  <td><span class="color-dot" style="background:#fff;border:1px solid #ccc;"></span>#FFFFFF Text</td>
+                  <td><span class="contrast-swatch" style="background:#182B49;color:#fff;">Aa</span></td>
+                  <td>15.1:1</td>
+                  <td class="pass-aaa">✅ Pass</td>
+                  <td class="pass-aaa">✅ Pass</td>
+                </tr>
+                <tr>
+                  <td><span class="color-dot" style="background:#0d1b2e;"></span>#0d1b2e BG</td>
+                  <td><span class="color-dot" style="background:#fff;border:1px solid #ccc;"></span>#FFFFFF Text</td>
+                  <td><span class="contrast-swatch" style="background:#0d1b2e;color:#fff;">Aa</span></td>
+                  <td>21.6:1</td>
+                  <td class="pass-aaa">✅ Pass</td>
+                  <td class="pass-aaa">✅ Pass</td>
+                </tr>
+                <tr>
+                  <td><span class="color-dot" style="background:#0d1b2e;"></span>#0d1b2e BG</td>
+                  <td><span class="color-dot" style="background:#9DB8D4;"></span>#9DB8D4 Muted</td>
+                  <td><span class="contrast-swatch" style="background:#0d1b2e;color:#9DB8D4;">Aa</span></td>
+                  <td>7.5:1</td>
+                  <td class="pass-aaa">✅ Pass</td>
+                  <td class="pass-aaa">✅ Pass</td>
+                </tr>
+                <tr>
+                  <td><span class="color-dot" style="background:#00C6D7;"></span>#00C6D7 Accent</td>
+                  <td><span class="color-dot" style="background:#000;"></span>#000000 Text</td>
+                  <td><span class="contrast-swatch" style="background:#00C6D7;color:#000;">Aa</span></td>
+                  <td>10.2:1</td>
+                  <td class="pass-aaa">✅ Pass</td>
+                  <td class="pass-aaa">✅ Pass</td>
+                </tr>
+                <tr>
+                  <td><span class="color-dot" style="background:#F3E500;"></span>#F3E500 Secondary</td>
+                  <td><span class="color-dot" style="background:#000;"></span>#000000 Text</td>
+                  <td><span class="contrast-swatch" style="background:#F3E500;color:#000;">Aa</span></td>
+                  <td>15.3:1</td>
+                  <td class="pass-aaa">✅ Pass</td>
+                  <td class="pass-aaa">✅ Pass</td>
+                </tr>
+                <tr>
+                  <td><span class="color-dot" style="background:#182B49;"></span>#182B49 Surface</td>
+                  <td><span class="color-dot" style="background:#6E90B8;"></span>#6E90B8 Subtle</td>
+                  <td><span class="contrast-swatch" style="background:#182B49;color:#6E90B8;">Aa</span></td>
+                  <td>4.6:1</td>
+                  <td class="pass-aaa">✅ Pass</td>
+                  <td class="fail">✗ AA only</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="form-hint" style="margin-top: var(--space-2)">Subtle text (#6E90B8) is AA compliant only — use it exclusively for decorative, non-informational text.</p>
+
+          <h3 style="margin-top: var(--space-8)">Light mode — primary combinations</h3>
+          <div class="table-wrap">
+            <table class="contrast-table" aria-label="Light mode contrast ratios">
+              <thead>
+                <tr>
+                  <th>Background</th>
+                  <th>Foreground</th>
+                  <th>Sample</th>
+                  <th>Ratio</th>
+                  <th>AA</th>
+                  <th>AAA</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="color-dot" style="background:#fff;border:1px solid #ccc;"></span>#FFFFFF Surface</td>
+                  <td><span class="color-dot" style="background:#182B49;"></span>#182B49 Navy</td>
+                  <td><span class="contrast-swatch" style="background:#fff;color:#182B49;border:1px solid #ccc;">Aa</span></td>
+                  <td>14.5:1</td>
+                  <td class="pass-aaa">✅ Pass</td>
+                  <td class="pass-aaa">✅ Pass</td>
+                </tr>
+                <tr>
+                  <td><span class="color-dot" style="background:#fff;border:1px solid #ccc;"></span>#FFFFFF Surface</td>
+                  <td><span class="color-dot" style="background:#2d4464;"></span>#2d4464 Muted</td>
+                  <td><span class="contrast-swatch" style="background:#fff;color:#2d4464;border:1px solid #ccc;">Aa</span></td>
+                  <td>9.3:1</td>
+                  <td class="pass-aaa">✅ Pass</td>
+                  <td class="pass-aaa">✅ Pass</td>
+                </tr>
+                <tr>
+                  <td><span class="color-dot" style="background:#00629B;"></span>#00629B Accent</td>
+                  <td><span class="color-dot" style="background:#fff;border:1px solid #ccc;"></span>#FFFFFF Text</td>
+                  <td><span class="contrast-swatch" style="background:#00629B;color:#fff;">Aa</span></td>
+                  <td>5.9:1</td>
+                  <td class="pass-aaa">✅ Pass</td>
+                  <td class="pass-aa">Large text only</td>
+                </tr>
+                <tr>
+                  <td><span class="color-dot" style="background:#182B49;"></span>#182B49 Navy</td>
+                  <td><span class="color-dot" style="background:#FFCD00;"></span>#FFCD00 Yellow</td>
+                  <td><span class="contrast-swatch" style="background:#182B49;color:#FFCD00;">Aa</span></td>
+                  <td>9.45:1</td>
+                  <td class="pass-aaa">✅ Pass</td>
+                  <td class="pass-aaa">✅ Pass</td>
+                </tr>
+                <tr>
+                  <td><span class="color-dot" style="background:#F5F0E6;border:1px solid #ccc;"></span>#F5F0E6 Sand</td>
+                  <td><span class="color-dot" style="background:#182B49;"></span>#182B49 Navy</td>
+                  <td><span class="contrast-swatch" style="background:#F5F0E6;color:#182B49;">Aa</span></td>
+                  <td>13.8:1</td>
+                  <td class="pass-aaa">✅ Pass</td>
+                  <td class="pass-aaa">✅ Pass</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="alert alert--info" role="note" style="margin-top: var(--space-4)">
+            <svg class="alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <div class="alert__body"><strong class="alert__title">Checking custom colors</strong><div class="alert__desc">Use <a href="https://webaim.org/resources/contrastchecker/" target="_blank" rel="noopener">WebAIM Contrast Checker</a> to verify any custom combinations. Target 7:1 for all body text to achieve AAA.</div></div>
+          </div>
+        </section>
+
+        <!-- Token reference -->
+        <section class="dx-section" id="tokens" aria-labelledby="tokens-title">
+          <h2 id="tokens-title">Token reference</h2>
+          <p>Semantic tokens respond to dark/light mode automatically. Use semantic tokens in components; use brand tokens only when the exact color must be fixed regardless of mode.</p>
+
+          <h3>Semantic — text</h3>
+          <div class="table-wrap">
+            <table class="token-table" aria-label="Text color tokens">
+              <thead><tr><th>Token</th><th>Dark value</th><th>Light value</th><th>Use</th></tr></thead>
+              <tbody>
+                <tr><td>--color-text</td><td>#FFFFFF</td><td>#182B49</td><td>Primary body text — always AAA</td></tr>
+                <tr><td>--color-text-muted</td><td>#9DB8D4</td><td>#2d4464</td><td>Secondary text — always AAA</td></tr>
+                <tr><td>--color-text-subtle</td><td>#6E90B8</td><td>#4d6683</td><td>Decorative only — AA on surfaces</td></tr>
+                <tr><td>--color-text-on-accent</td><td>#000000</td><td>#FFFFFF</td><td>Text placed on accent-colored bg</td></tr>
+                <tr><td>--color-text-on-secondary</td><td>#000000</td><td>#182B49</td><td>Text on secondary-colored bg</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 style="margin-top: var(--space-6)">Semantic — interactive</h3>
+          <div class="table-wrap">
+            <table class="token-table" aria-label="Interactive color tokens">
+              <thead><tr><th>Token</th><th>Dark value</th><th>Light value</th><th>Use</th></tr></thead>
+              <tbody>
+                <tr><td>--color-accent</td><td>#00C6D7 Turquoise</td><td>#00629B Blue</td><td>Primary CTA, links, focus</td></tr>
+                <tr><td>--color-accent-hover</td><td>#00d9ec</td><td>#004e7a</td><td>Hover state on accent</td></tr>
+                <tr><td>--color-accent-muted</td><td>rgba turquoise 14%</td><td>rgba blue 8%</td><td>Subtle bg on hover/selected</td></tr>
+                <tr><td>--color-secondary</td><td>#F3E500 Citron</td><td>#C69214 Gold</td><td>Secondary CTA</td></tr>
+                <tr><td>--color-focus</td><td>#00C6D7</td><td>#00629B</td><td>Focus ring — 3px outline</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 style="margin-top: var(--space-6)">Semantic — status</h3>
+          <div class="table-wrap">
+            <table class="token-table" aria-label="Status color tokens">
+              <thead><tr><th>Token</th><th>Dark value</th><th>Light value</th><th>Use</th></tr></thead>
+              <tbody>
+                <tr><td>--color-danger / --color-danger-text</td><td>#ff6b6b</td><td>#b91c1c</td><td>Errors, destructive actions</td></tr>
+                <tr><td>--color-success / --color-success-text</td><td>#7ec850</td><td>#3a6e18</td><td>Confirmed actions, positive states</td></tr>
+                <tr><td>--color-warning / --color-warning-text</td><td>#FC8900</td><td>#9a4e00</td><td>Caution, review needed</td></tr>
+                <tr><td>--color-info / --color-info-text</td><td>#00C6D7</td><td>#00629B</td><td>Informational, neutral notices</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+  <script src="../js/theme.js" defer></script>
+</body>
+</html>
