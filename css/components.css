@@ -1452,3 +1452,169 @@ button.drag-handle {
     transition: none;
   }
 }
+
+/* ================================================================
+   STATION PANEL  (.station)
+   Numbered multi-step tabpanel for guided, sequential content —
+   e.g. tutorials, onboarding flows, interactive lessons.
+   Follows ARIA APG tablist pattern:
+     - role="tablist" on .station__nav
+     - role="tab" + aria-selected + aria-controls on .station__tab
+     - role="tabpanel" + aria-labelledby on .station__panel
+     - Roving tabindex: selected tab has tabindex="0", others "-1"
+     - Arrow Left/Right wrap-around, Home, End on keyboard
+   ================================================================ */
+
+/* Outer wrapper */
+.station {
+  display: flex;
+  flex-direction: column;
+  width: 100%;  /* fill the parent container regardless of content width */
+}
+
+/* ── Tab strip ─────────────────────────────────────────────────── */
+.station__nav {
+  display: flex;
+  border-bottom: 1px solid var(--color-border);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  /* Negative horizontal margin lets the strip span past the panel padding */
+  /* Omit or set to 0 when used in a tightly-bounded container */
+}
+
+.station__nav::-webkit-scrollbar {
+  display: none;
+}
+
+.station__tab {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-1);
+  flex: 1 0 148px;  /* grow equally to fill the nav; min 148px before overflow scroll kicks in */
+  min-height: var(--target-lg);    /* 52px — tall enough to comfortably hold 3 lines */
+  padding: var(--space-3) var(--space-5);
+  text-align: left;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  border-right: 1px solid var(--color-border);
+  cursor: pointer;
+  transition: background-color var(--t-fast), border-color var(--t-fast);
+}
+
+.station__tab:last-child {
+  border-right: none;
+}
+
+.station__tab:hover {
+  background-color: var(--color-accent-muted);
+}
+
+.station__tab[aria-selected="true"] {
+  background-color: var(--color-surface);
+  border-bottom-color: var(--color-accent);
+}
+
+/* Station number label — e.g. "01" */
+.station__tab-num {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  color: var(--color-text-subtle);
+  letter-spacing: 0.1em;
+  line-height: 1;
+}
+
+.station__tab[aria-selected="true"] .station__tab-num {
+  color: var(--color-accent);
+}
+
+/* Main tab label */
+.station__tab-title {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-muted);
+  line-height: var(--leading-snug);
+}
+
+.station__tab[aria-selected="true"] .station__tab-title {
+  color: var(--color-text);
+}
+
+/* Optional subtitle / descriptor below the title */
+.station__tab-sub {
+  font-size: var(--text-xs);
+  color: var(--color-text-subtle);
+  line-height: var(--leading-snug);
+}
+
+/* ── Content panels ────────────────────────────────────────────── */
+.station__panels {
+  /* Wraps all role="tabpanel" elements. Sizing is up to the consumer. */
+}
+
+.station__panel {
+  padding: var(--space-8) 0;
+}
+
+.station__panel[hidden] {
+  display: none;
+}
+
+/* Eyebrow above panel heading — e.g. "Station 01" */
+.station__panel-eyebrow {
+  display: block;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: var(--space-2);
+}
+
+.station__panel-heading {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-snug);
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+
+.station__panel-sub {
+  font-size: var(--text-md);
+  color: var(--color-text-muted);
+  line-height: var(--leading-normal);
+  max-width: 65ch;
+  margin-bottom: var(--space-6);
+}
+
+/* ── Prev / Next footer ────────────────────────────────────────── */
+.station__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+  margin-top: var(--space-6);
+  gap: var(--space-3);
+}
+
+.station__footer-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* ── Focus management ──────────────────────────────────────────── */
+/* Panel headings receive programmatic focus on tab change.
+   Remove the default :focus ring since the heading is not interactive. */
+.station__panel-heading[tabindex="-1"]:focus {
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .station__tab {
+    transition: none;
+  }
+}

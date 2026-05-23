@@ -241,6 +241,61 @@ It reads the stored theme and applies it before CSS loads. Without it, dark-mode
 <!-- Always wire aria-describedby to hint/error message id -->
 ```
 
+### Station panel (multi-step tablist)
+```html
+<!-- Outer wrapper -->
+<div class="station" id="my-station">
+
+  <!-- Tab strip — role="tablist" on the nav -->
+  <nav class="station__nav" role="tablist" aria-label="Stations">
+    <button class="station__tab" role="tab" id="tab-0"
+            aria-selected="true" aria-controls="panel-0" tabindex="0">
+      <span class="station__tab-num">01</span>
+      <span class="station__tab-title">Step one</span>
+      <span class="station__tab-sub">Short description</span>
+    </button>
+    <!-- More tabs with tabindex="-1" and aria-selected="false" -->
+  </nav>
+
+  <!-- Content panels -->
+  <div class="station__panels">
+    <div class="station__panel" role="tabpanel" id="panel-0" aria-labelledby="tab-0">
+      <span class="station__panel-eyebrow">Station 01</span>
+      <h2 class="station__panel-heading">Step one</h2>
+      <p class="station__panel-sub">Introductory sentence.</p>
+      <!-- panel content -->
+    </div>
+    <!-- Inactive panels get the hidden attribute -->
+    <div class="station__panel" role="tabpanel" id="panel-1" aria-labelledby="tab-1" hidden>...</div>
+  </div>
+
+  <!-- Optional Prev/Next footer -->
+  <div class="station__footer">
+    <button class="btn btn--secondary btn--sm" id="btn-prev" disabled>← Previous</button>
+    <button class="btn btn--primary btn--sm" id="btn-next">Next station →</button>
+  </div>
+
+</div>
+```
+- Keyboard: Arrow Left/Right (wraps), Home, End — focus moves between tabs, panel activates
+- On activate: all panels hidden except the selected; panel `<h2>` receives `tabindex="-1"` focus
+- See `docs/components.html#station` for the full JS snippet
+
+### Sidebar (optional)
+The sidebar is controlled by a modifier on the body wrapper:
+```html
+<!-- With sidebar (default) -->
+<div class="dx-doc-body">
+  <nav class="dx-sidebar" aria-label="Page sections">...</nav>
+  <main id="main" class="dx-main">...</main>
+</div>
+
+<!-- Without sidebar — add modifier, omit the <nav> -->
+<div class="dx-doc-body dx-doc-body--no-sidebar">
+  <main id="main" class="dx-main">...</main>
+</div>
+```
+
 ### Preview container
 ```html
 <div class="preview-container">

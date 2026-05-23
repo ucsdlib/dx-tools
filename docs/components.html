@@ -57,6 +57,7 @@
             <li><a href="#icons">Icons</a></li>
             <li><a href="#drag-drop">Drag &amp; drop</a></li>
             <li><a href="#preview-container">Preview container</a></li>
+            <li><a href="#station">Station panel</a></li>
           </ul>
         </div>
       </nav>
@@ -956,6 +957,220 @@ initKeyboardSort(document.getElementById('sort-demo'), 'sort-announcer');</code>
           </table>
         </section>
 
+        <!-- ── Station panel ──────────────────────────────────────── -->
+        <section class="dx-section" id="station" aria-labelledby="station-title">
+          <h2 id="station-title">Station panel</h2>
+          <p>A numbered multi-step tabpanel for guided, sequential content — tutorials, onboarding flows, and interactive lessons. Follows the ARIA <a href="https://www.w3.org/WAI/ARIA/apg/patterns/tabs/">tablist pattern</a>: Arrow Left/Right moves focus between tabs, Home/End jump to first/last, and tab activation shows its panel and focuses the panel heading.</p>
+
+          <!-- Live demo -->
+          <div class="dx-demo dx-demo--wide">
+            <div class="station" id="station-demo">
+
+              <!-- Tab strip -->
+              <nav class="station__nav" role="tablist" aria-label="Demo stations"
+                   style="margin: 0;">
+                <button class="station__tab" role="tab" id="sdemo-tab-0"
+                        aria-selected="true" aria-controls="sdemo-panel-0" tabindex="0">
+                  <span class="station__tab-num">01</span>
+                  <span class="station__tab-title">Getting started</span>
+                  <span class="station__tab-sub">Set up your workspace</span>
+                </button>
+                <button class="station__tab" role="tab" id="sdemo-tab-1"
+                        aria-selected="false" aria-controls="sdemo-panel-1" tabindex="-1">
+                  <span class="station__tab-num">02</span>
+                  <span class="station__tab-title">Load your content</span>
+                  <span class="station__tab-sub">Upload or paste input</span>
+                </button>
+                <button class="station__tab" role="tab" id="sdemo-tab-2"
+                        aria-selected="false" aria-controls="sdemo-panel-2" tabindex="-1">
+                  <span class="station__tab-num">03</span>
+                  <span class="station__tab-title">Review &amp; export</span>
+                  <span class="station__tab-sub">Confirm and download</span>
+                </button>
+              </nav>
+
+              <!-- Panels -->
+              <div class="station__panels" style="padding: var(--space-6) var(--space-8) 0;">
+                <div class="station__panel" role="tabpanel"
+                     id="sdemo-panel-0" aria-labelledby="sdemo-tab-0">
+                  <span class="station__panel-eyebrow">Station 01</span>
+                  <h3 class="station__panel-heading">Getting started</h3>
+                  <p class="station__panel-sub">Set up your workspace before loading any content. Choose your output format and configure export preferences.</p>
+                  <p>Panel body content goes here — instructions, controls, interactive widgets, or explanatory text. Each panel is a full <code>role="tabpanel"</code> region.</p>
+                </div>
+                <div class="station__panel" role="tabpanel"
+                     id="sdemo-panel-1" aria-labelledby="sdemo-tab-1" hidden>
+                  <span class="station__panel-eyebrow">Station 02</span>
+                  <h3 class="station__panel-heading">Load your content</h3>
+                  <p class="station__panel-sub">Upload a file or paste text directly. Supported formats: CSV, JSON, plain text.</p>
+                  <p>Panel content for step two.</p>
+                </div>
+                <div class="station__panel" role="tabpanel"
+                     id="sdemo-panel-2" aria-labelledby="sdemo-tab-2" hidden>
+                  <span class="station__panel-eyebrow">Station 03</span>
+                  <h3 class="station__panel-heading">Review &amp; export</h3>
+                  <p class="station__panel-sub">Confirm your settings and download the finished output.</p>
+                  <p>Panel content for the final step.</p>
+                </div>
+              </div>
+
+              <!-- Footer nav -->
+              <div class="station__footer" style="margin: 0; padding: var(--space-5) var(--space-8);">
+                <button class="btn btn--secondary btn--sm" id="sdemo-btn-prev" style="visibility: hidden">← Previous</button>
+                <button class="btn btn--primary btn--sm" id="sdemo-btn-next">Next →</button>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Keyboard interaction table -->
+          <h3>Keyboard interaction</h3>
+          <div class="table-wrap">
+            <table class="table table--bordered">
+              <thead>
+                <tr><th>Key</th><th>Action</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><kbd>Arrow Right</kbd></td><td>Move focus to next tab (wraps to first)</td></tr>
+                <tr><td><kbd>Arrow Left</kbd></td><td>Move focus to previous tab (wraps to last)</td></tr>
+                <tr><td><kbd>Home</kbd></td><td>Move focus to first tab</td></tr>
+                <tr><td><kbd>End</kbd></td><td>Move focus to last tab</td></tr>
+                <tr><td><kbd>Tab</kbd></td><td>Move focus into the active panel content</td></tr>
+                <tr><td><kbd>Shift+Tab</kbd></td><td>Move focus back to the active tab</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- HTML snippet -->
+          <h3>HTML</h3>
+<pre class="code-block" data-lang="html"><code>&lt;div class="station" id="my-station"&gt;
+
+  &lt;!-- Tab strip --&gt;
+  &lt;nav class="station__nav" role="tablist" aria-label="Stations"&gt;
+    &lt;button class="station__tab" role="tab" id="tab-0"
+            aria-selected="true" aria-controls="panel-0" tabindex="0"&gt;
+      &lt;span class="station__tab-num"&gt;01&lt;/span&gt;
+      &lt;span class="station__tab-title"&gt;Step one&lt;/span&gt;
+      &lt;span class="station__tab-sub"&gt;Short description&lt;/span&gt;
+    &lt;/button&gt;
+    &lt;button class="station__tab" role="tab" id="tab-1"
+            aria-selected="false" aria-controls="panel-1" tabindex="-1"&gt;
+      &lt;span class="station__tab-num"&gt;02&lt;/span&gt;
+      &lt;span class="station__tab-title"&gt;Step two&lt;/span&gt;
+      &lt;span class="station__tab-sub"&gt;Short description&lt;/span&gt;
+    &lt;/button&gt;
+  &lt;/nav&gt;
+
+  &lt;!-- Panels --&gt;
+  &lt;div class="station__panels"&gt;
+    &lt;div class="station__panel" role="tabpanel"
+         id="panel-0" aria-labelledby="tab-0"&gt;
+      &lt;span class="station__panel-eyebrow"&gt;Station 01&lt;/span&gt;
+      &lt;h2 class="station__panel-heading"&gt;Step one&lt;/h2&gt;
+      &lt;p class="station__panel-sub"&gt;Intro sentence for this step.&lt;/p&gt;
+      &lt;!-- panel content --&gt;
+    &lt;/div&gt;
+    &lt;div class="station__panel" role="tabpanel"
+         id="panel-1" aria-labelledby="tab-1" hidden&gt;
+      &lt;span class="station__panel-eyebrow"&gt;Station 02&lt;/span&gt;
+      &lt;h2 class="station__panel-heading"&gt;Step two&lt;/h2&gt;
+      &lt;p class="station__panel-sub"&gt;Intro sentence for this step.&lt;/p&gt;
+      &lt;!-- panel content --&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Prev / Next footer (optional) --&gt;
+  &lt;div class="station__footer"&gt;
+    &lt;button class="btn btn--secondary btn--sm" id="btn-prev" style="visibility: hidden"&gt;← Previous&lt;/button&gt;
+    &lt;button class="btn btn--primary btn--sm" id="btn-next"&gt;Next →&lt;/button&gt;
+  &lt;/div&gt;
+
+&lt;/div&gt;</code></pre>
+
+          <!-- JS snippet -->
+          <h3>JavaScript</h3>
+          <p>Drop this script into your page after the HTML. It handles the full APG tablist pattern: click activation, Arrow key navigation, Home/End, roving tabindex, and Prev/Next button wiring.</p>
+<pre class="code-block" data-lang="js"><code>(function () {
+  var station = document.getElementById('my-station');
+  if (!station) return;
+
+  var tabs    = Array.from(station.querySelectorAll('.station__tab'));
+  var panels  = Array.from(station.querySelectorAll('.station__panel'));
+  var btnPrev = station.querySelector('#btn-prev');
+  var btnNext = station.querySelector('#btn-next');
+  var current = 0;
+  var LAST    = tabs.length - 1;
+
+  function goTo(n) {
+    current = n;
+
+    // Show/hide panels
+    panels.forEach(function (p, i) { p.hidden = (i !== n); });
+
+    // Roving tabindex + aria-selected
+    tabs.forEach(function (t, i) {
+      var sel = (i === n);
+      t.setAttribute('aria-selected', String(sel));
+      t.setAttribute('tabindex', sel ? '0' : '-1');
+    });
+
+    // Prev / Next — hide at boundaries (visibility: hidden preserves layout space)
+    if (btnPrev) btnPrev.style.visibility = (n === 0) ? 'hidden' : '';
+    if (btnNext) btnNext.style.visibility = (n === LAST) ? 'hidden' : '';
+
+    // Move focus to panel heading (screen reader announcement)
+    var heading = panels[n].querySelector('.station__panel-heading');
+    if (heading) {
+      heading.setAttribute('tabindex', '-1');
+      heading.focus({ preventScroll: true });
+    }
+  }
+
+  // Tab click + keyboard
+  tabs.forEach(function (tab, i) {
+    tab.addEventListener('click', function () { goTo(i); });
+
+    tab.addEventListener('keydown', function (e) {
+      var idx  = tabs.indexOf(e.target);
+      var next = null;
+      if (e.key === 'ArrowRight') next = tabs[(idx + 1) % tabs.length];
+      if (e.key === 'ArrowLeft')  next = tabs[(idx - 1 + tabs.length) % tabs.length];
+      if (e.key === 'Home')       next = tabs[0];
+      if (e.key === 'End')        next = tabs[tabs.length - 1];
+      if (next) { e.preventDefault(); next.focus(); goTo(tabs.indexOf(next)); }
+    });
+  });
+
+  if (btnPrev) btnPrev.addEventListener('click', function () { goTo(current - 1); });
+  if (btnNext) btnNext.addEventListener('click', function () { goTo(current + 1); });
+})();</code></pre>
+
+          <!-- API table -->
+          <h3>Class reference</h3>
+          <div class="table-wrap">
+            <table class="table table--bordered">
+              <thead>
+                <tr><th>Class</th><th>Element</th><th>Notes</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><code>.station</code></td><td>Wrapper <code>&lt;div&gt;</code></td><td>Outer container; no visual styling</td></tr>
+                <tr><td><code>.station__nav</code></td><td><code>&lt;nav&gt;</code> + <code>role="tablist"</code></td><td>Scrollable horizontal tab strip; add <code>aria-label</code></td></tr>
+                <tr><td><code>.station__tab</code></td><td><code>&lt;button&gt;</code> + <code>role="tab"</code></td><td>Requires <code>aria-selected</code>, <code>aria-controls</code>, <code>tabindex</code></td></tr>
+                <tr><td><code>.station__tab-num</code></td><td><code>&lt;span&gt;</code></td><td>Zero-padded step number ("01", "02" …)</td></tr>
+                <tr><td><code>.station__tab-title</code></td><td><code>&lt;span&gt;</code></td><td>Primary tab label</td></tr>
+                <tr><td><code>.station__tab-sub</code></td><td><code>&lt;span&gt;</code></td><td>Optional short descriptor below title</td></tr>
+                <tr><td><code>.station__panels</code></td><td><code>&lt;div&gt;</code></td><td>Wraps all <code>role="tabpanel"</code> divs</td></tr>
+                <tr><td><code>.station__panel</code></td><td><code>&lt;div&gt;</code> + <code>role="tabpanel"</code></td><td>Requires <code>aria-labelledby</code> pointing to its tab; hidden with <code>hidden</code> attribute</td></tr>
+                <tr><td><code>.station__panel-eyebrow</code></td><td><code>&lt;span&gt;</code></td><td>Small label above heading ("Station 01")</td></tr>
+                <tr><td><code>.station__panel-heading</code></td><td><code>&lt;h2&gt;</code> / <code>&lt;h3&gt;</code></td><td>Receives programmatic focus on tab change; use correct heading level for your page outline</td></tr>
+                <tr><td><code>.station__panel-sub</code></td><td><code>&lt;p&gt;</code></td><td>Optional introductory sentence below heading</td></tr>
+                <tr><td><code>.station__footer</code></td><td><code>&lt;div&gt;</code></td><td>Prev/Next navigation bar; optional</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+        </section>
+
       </main>
     </div>
   </div>
@@ -1087,6 +1302,52 @@ initKeyboardSort(document.getElementById('sort-demo'), 'sort-announcer');</code>
           }
         });
       });
+    })();
+
+    // Station panel demo
+    (function() {
+      var station = document.getElementById('station-demo');
+      if (!station) return;
+
+      var tabs    = Array.from(station.querySelectorAll('.station__tab'));
+      var panels  = Array.from(station.querySelectorAll('.station__panel'));
+      var btnPrev = document.getElementById('sdemo-btn-prev');
+      var btnNext = document.getElementById('sdemo-btn-next');
+      var current = 0;
+      var LAST    = tabs.length - 1;
+
+      function goTo(n) {
+        current = n;
+        panels.forEach(function(p, i) { p.hidden = (i !== n); });
+        tabs.forEach(function(t, i) {
+          var sel = (i === n);
+          t.setAttribute('aria-selected', String(sel));
+          t.setAttribute('tabindex', sel ? '0' : '-1');
+        });
+        if (btnPrev) btnPrev.style.visibility = (n === 0) ? 'hidden' : '';
+        if (btnNext) btnNext.style.visibility = (n === LAST) ? 'hidden' : '';
+        var heading = panels[n].querySelector('.station__panel-heading');
+        if (heading) {
+          heading.setAttribute('tabindex', '-1');
+          heading.focus({ preventScroll: true });
+        }
+      }
+
+      tabs.forEach(function(tab, i) {
+        tab.addEventListener('click', function() { goTo(i); });
+        tab.addEventListener('keydown', function(e) {
+          var idx  = tabs.indexOf(e.target);
+          var next = null;
+          if (e.key === 'ArrowRight') next = tabs[(idx + 1) % tabs.length];
+          if (e.key === 'ArrowLeft')  next = tabs[(idx - 1 + tabs.length) % tabs.length];
+          if (e.key === 'Home')       next = tabs[0];
+          if (e.key === 'End')        next = tabs[tabs.length - 1];
+          if (next) { e.preventDefault(); next.focus(); goTo(tabs.indexOf(next)); }
+        });
+      });
+
+      if (btnPrev) btnPrev.addEventListener('click', function() { goTo(current - 1); });
+      if (btnNext) btnNext.addEventListener('click', function() { goTo(current + 1); });
     })();
 
     // Basic tab interaction for demo

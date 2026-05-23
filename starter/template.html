@@ -65,9 +65,24 @@
     </header>
 
     <!-- ── Body ────────────────────────────────────────────────── -->
+    <!--
+      SIDEBAR OPTIONS:
+      ─────────────────────────────────────────────────────────────
+      WITH sidebar (default):
+        <div class="dx-doc-body">
+          <nav class="dx-sidebar" ...> ... </nav>
+          <main id="main" class="dx-main"> ... </main>
+        </div>
+
+      WITHOUT sidebar — add the modifier class, omit the <nav>:
+        <div class="dx-doc-body dx-doc-body--no-sidebar">
+          <main id="main" class="dx-main"> ... </main>
+        </div>
+      ─────────────────────────────────────────────────────────────
+    -->
     <div class="dx-doc-body">
 
-      <!-- Sidebar (optional — remove the <nav> element if not needed) -->
+      <!-- Sidebar — remove this <nav> and add dx-doc-body--no-sidebar above if not needed -->
       <nav class="dx-sidebar" aria-label="Page sections">
         <div class="dx-sidebar-section">
           <span class="dx-sidebar-label">On this page</span>

@@ -122,6 +122,14 @@ input, button, textarea, select {
   margin: 0 auto;
 }
 
+/* No-sidebar layout variant.
+   Usage: <div class="dx-doc-body dx-doc-body--no-sidebar">
+   Omit the <nav class="dx-sidebar"> element entirely when using this. */
+.dx-doc-body--no-sidebar {
+  grid-template-columns: 1fr;
+  grid-template-areas: "main";
+}
+
 /* ================================================================
    TOOL APP LAYOUT  (.dx-app-layout)
    Full-viewport, fixed chrome — for actual tools (not docs).
@@ -562,7 +570,7 @@ input, button, textarea, select {
    RESPONSIVE BREAKPOINTS
    ================================================================ */
 @media (max-width: 1024px) {
-  .dx-doc-body {
+  .dx-doc-body:not(.dx-doc-body--no-sidebar) {
     grid-template-columns: 220px 1fr;
   }
 
@@ -576,7 +584,7 @@ input, button, textarea, select {
 }
 
 @media (max-width: 768px) {
-  .dx-doc-body {
+  .dx-doc-body:not(.dx-doc-body--no-sidebar) {
     grid-template-columns: 1fr;
     grid-template-areas: "main";
   }
