@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documentation — DX Tools Design System</title>
+  <meta http-equiv="refresh" content="0; url=../index.html#docs">
+  <script>const t=localStorage.getItem('dx-theme');document.documentElement.setAttribute('data-theme',t||'light');</script>
+  <link rel="stylesheet" href="../css/fonts.css">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/frame.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/code.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+  <div class="dx-doc-layout">
+    <header class="dx-header" role="banner">
+      <a href="../index.html" class="dx-header__brand" aria-label="DX Tools home">
+        <span class="dx-header__mark" aria-hidden="true">DX</span>
+        <span class="dx-header__wordmark">DX Tools</span>
+        <span class="dx-header__divider" aria-hidden="true"></span>
+        <span class="dx-header__subtitle">Design System</span>
+      </a>
+      <nav class="dx-header__nav" aria-label="Design system sections">
+        <a href="colors.html"        class="dx-header__nav-link">Colors</a>
+        <a href="typography.html"    class="dx-header__nav-link">Typography</a>
+        <a href="components.html"    class="dx-header__nav-link">Components</a>
+        <a href="forms.html"         class="dx-header__nav-link">Forms</a>
+        <a href="dashboard.html"     class="dx-header__nav-link">Dashboard</a>
+        <a href="frame-preview.html" class="dx-header__nav-link">Frame &amp; Preview</a>
+        <a href="accessibility.html" class="dx-header__nav-link">Accessibility</a>
+      </nav>
+      <div class="dx-header__actions">
+        <button class="btn btn--ghost btn--icon" data-theme-toggle aria-label="Switch to light mode" aria-pressed="false">
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun"  width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="dx-doc-body">
+      <main id="main" class="dx-main" style="max-width: 600px;">
+        <span class="eyebrow">Design system</span>
+        <h1 class="page-title">Documentation</h1>
+        <p class="lead">You've landed in the <code>docs/</code> directory. Pick a section below, or go to the <a href="../index.html">design system home</a>.</p>
+
+        <nav aria-label="Documentation sections">
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: var(--space-3); padding: 0; margin-top: var(--space-6);">
+            <li><a href="colors.html" style="font-size: var(--text-md); font-weight: var(--weight-semibold);">Colors</a> — brand palette, semantic tokens, contrast tables</li>
+            <li><a href="typography.html" style="font-size: var(--text-md); font-weight: var(--weight-semibold);">Typography</a> — type scale specimens, Atkinson, Roboto, JetBrains Mono</li>
+            <li><a href="components.html" style="font-size: var(--text-md); font-weight: var(--weight-semibold);">Components</a> — buttons, panels, tables, icons, drag-and-drop, preview container</li>
+            <li><a href="forms.html" style="font-size: var(--text-md); font-weight: var(--weight-semibold);">Forms</a> — inputs, selects, validation, error states</li>
+            <li><a href="dashboard.html" style="font-size: var(--text-md); font-weight: var(--weight-semibold);">Dashboard</a> — stat cards, data tables, progress bars</li>
+            <li><a href="frame-preview.html" style="font-size: var(--text-md); font-weight: var(--weight-semibold);">Frame &amp; Preview</a> — two-layer architecture, cascade rules, control panel demo</li>
+            <li><a href="accessibility.html" style="font-size: var(--text-md); font-weight: var(--weight-semibold);">Accessibility</a> — WCAG AAA checklist, ARIA patterns, focus management</li>
+          </ul>
+        </nav>
+      </main>
+    </div>
+  </div>
+  <script src="../js/lucide.min.js"></script>
+  <script src="../js/theme.js" defer></script>
+</body>
+</html>
