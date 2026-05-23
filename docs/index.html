@@ -3,20 +3,114 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Documentation — DX Tools Design System</title>
-  <meta http-equiv="refresh" content="0; url=../index.html#docs">
+  <title>DX Tools Design System</title>
+  <meta name="description" content="UC San Diego campus brand applied for DX team internal tools. Dark-first, WCAG AAA, tactile controls.">
+  <!-- FOUC prevention: apply stored theme before first paint -->
   <script>const t=localStorage.getItem('dx-theme');document.documentElement.setAttribute('data-theme',t||'light');</script>
+  <!-- Fonts -->
   <link rel="stylesheet" href="../css/fonts.css">
+  <!-- Design System -->
   <link rel="stylesheet" href="../css/tokens.css">
   <link rel="stylesheet" href="../css/frame.css">
   <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/preview.css">
   <link rel="stylesheet" href="../css/code.css">
+  <style>
+    /* Landing page extras */
+    .hero {
+      padding: var(--space-16) var(--space-10) var(--space-12);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      height: 26px;
+      padding: 0 var(--space-3);
+      background-color: var(--color-accent-muted);
+      border: 1px solid var(--color-accent-strong);
+      border-radius: var(--radius-full);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-bold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: var(--space-5);
+    }
+    .hero-title {
+      font-size: var(--text-3xl);
+      font-weight: var(--weight-bold);
+      line-height: var(--leading-tight);
+      color: var(--color-text);
+      margin-bottom: var(--space-4);
+      letter-spacing: -0.02em;
+    }
+    .hero-title span { color: var(--color-accent); }
+    .hero-desc {
+      font-size: var(--text-lg);
+      color: var(--color-text-muted);
+      max-width: 55ch;
+      line-height: var(--leading-normal);
+      margin-bottom: var(--space-8);
+    }
+    .hero-actions {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+    /* Nav card grid */
+    .nav-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: var(--space-4);
+    }
+    .nav-card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      padding: var(--space-5) var(--space-6);
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      text-decoration: none;
+      color: inherit;
+      transition: border-color var(--t-fast), box-shadow var(--t-fast), transform var(--t-fast);
+    }
+    .nav-card:hover {
+      border-color: var(--color-accent);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    .nav-card__icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      background-color: var(--color-accent-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-accent);
+      flex-shrink: 0;
+    }
+    .nav-card__title {
+      font-size: var(--text-md);
+      font-weight: var(--weight-semibold);
+      color: var(--color-text);
+    }
+    .nav-card__desc {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      line-height: var(--leading-snug);
+    }
+  </style>
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to main content</a>
+
   <div class="dx-doc-layout">
+    <!-- Header -->
     <header class="dx-header" role="banner">
-      <a href="../index.html" class="dx-header__brand" aria-label="DX Tools home">
+      <a href="../index.html" class="dx-header__brand" aria-label="DX Tools Design System home">
         <span class="dx-header__mark" aria-hidden="true">DX</span>
         <span class="dx-header__wordmark">DX Tools</span>
         <span class="dx-header__divider" aria-hidden="true"></span>
@@ -34,32 +128,234 @@
       <div class="dx-header__actions">
         <button class="btn btn--ghost btn--icon" data-theme-toggle aria-label="Switch to light mode" aria-pressed="false">
           <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-          <svg class="icon-sun"  width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
         </button>
       </div>
     </header>
 
+    <!-- Body -->
     <div class="dx-doc-body">
-      <main id="main" class="dx-main" style="max-width: 600px;">
-        <span class="eyebrow">Design system</span>
-        <h1 class="page-title">Documentation</h1>
-        <p class="lead">You've landed in the <code>docs/</code> directory. Pick a section below, or go to the <a href="../index.html">design system home</a>.</p>
-
-        <nav aria-label="Documentation sections">
-          <ul style="list-style: none; display: flex; flex-direction: column; gap: var(--space-3); padding: 0; margin-top: var(--space-6);">
-            <li><a href="colors.html" style="font-size: var(--text-md); font-weight: var(--weight-semibold);">Colors</a> — brand palette, semantic tokens, contrast tables</li>
-            <li><a href="typography.html" style="font-size: var(--text-md); font-weight: var(--weight-semibold);">Typography</a> — type scale specimens, Atkinson, Roboto, JetBrains Mono</li>
-            <li><a href="components.html" style="font-size: var(--text-md); font-weight: var(--weight-semibold);">Components</a> — buttons, panels, tables, icons, drag-and-drop, preview container</li>
-            <li><a href="forms.html" style="font-size: var(--text-md); font-weight: var(--weight-semibold);">Forms</a> — inputs, selects, validation, error states</li>
-            <li><a href="dashboard.html" style="font-size: var(--text-md); font-weight: var(--weight-semibold);">Dashboard</a> — stat cards, data tables, progress bars</li>
-            <li><a href="frame-preview.html" style="font-size: var(--text-md); font-weight: var(--weight-semibold);">Frame &amp; Preview</a> — two-layer architecture, cascade rules, control panel demo</li>
-            <li><a href="accessibility.html" style="font-size: var(--text-md); font-weight: var(--weight-semibold);">Accessibility</a> — WCAG AAA checklist, ARIA patterns, focus management</li>
+      <!-- Sidebar -->
+      <nav class="dx-sidebar" aria-label="Page navigation">
+        <div class="dx-sidebar-section">
+          <span class="dx-sidebar-label">On this page</span>
+          <ul class="dx-sidebar-nav">
+            <li><a href="#intro">Introduction</a></li>
+            <li><a href="#quickstart">Quick start</a></li>
+            <li><a href="#docs">Documentation</a></li>
           </ul>
-        </nav>
+        </div>
+        <div class="dx-sidebar-section">
+          <span class="dx-sidebar-label">Reference</span>
+          <ul class="dx-sidebar-nav">
+            <li><a href="colors.html">Colors</a></li>
+            <li><a href="typography.html">Typography</a></li>
+            <li><a href="components.html">Components</a></li>
+            <li><a href="forms.html">Forms</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="frame-preview.html">Frame &amp; Preview</a></li>
+            <li><a href="accessibility.html">Accessibility</a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Main content -->
+      <main id="main" class="dx-main">
+
+        <!-- Hero -->
+        <section class="hero" id="intro" aria-labelledby="hero-title">
+          <div class="hero-badge" aria-label="Version">
+            <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><circle cx="5" cy="5" r="5" fill="currentColor"/></svg>
+            UC San Diego · DX Team
+          </div>
+          <h1 class="hero-title" id="hero-title">
+            Built for the tools <span>we build.</span>
+          </h1>
+          <p class="hero-desc">
+            A design system for the internal tools we build for each other on the UC San Diego Library DX Team. Inspired by the <a href="https://brand.ucsd.edu/">campus brand</a>, and built for behind the scenes work.
+          </p>
+          <div class="hero-actions">
+            <a href="#quickstart" class="btn btn--primary btn--lg">Quick start</a>
+            <a href="components.html" class="btn btn--ghost btn--lg">View components</a>
+          </div>
+        </section>
+
+        <!-- Quick start -->
+        <section class="dx-section" id="quickstart" aria-labelledby="qs-title">
+          <div class="dx-section-header">
+            <h2 id="qs-title">Quick start</h2>
+            <p>Three paths, depending on where you're starting from. All produce the same result: a working tool with this design system in place.</p>
+          </div>
+
+          <!-- Scenario cards -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--space-4); margin-bottom: var(--space-8);">
+            <div class="panel" style="border-color: var(--color-accent);">
+              <div class="panel__header">
+                <div class="panel__icon"><i data-lucide="sparkles" width="18" height="18" aria-hidden="true"></i></div>
+                <h3 class="panel__title" style="font-size: var(--text-base);">New tool</h3>
+              </div>
+              <div class="panel__body" style="font-size: var(--text-sm); color: var(--color-text-muted);">Starting from scratch. Use <code>starter/template.html</code> and this repo's CSS/JS directly.</div>
+            </div>
+            <div class="panel">
+              <div class="panel__header">
+                <div class="panel__icon" style="background-color: var(--color-surface-raised); color: var(--color-text-muted);"><i data-lucide="wrench" width="18" height="18" aria-hidden="true"></i></div>
+                <h3 class="panel__title" style="font-size: var(--text-base);">Existing tool</h3>
+              </div>
+              <div class="panel__body" style="font-size: var(--text-sm); color: var(--color-text-muted);">Retrofitting an existing project. Copy the <code>design-system/</code> files in and add the imports.</div>
+            </div>
+            <div class="panel">
+              <div class="panel__header">
+                <div class="panel__icon" style="background-color: var(--color-surface-raised); color: var(--color-text-muted);"><i data-lucide="bot" width="18" height="18" aria-hidden="true"></i></div>
+                <h3 class="panel__title" style="font-size: var(--text-base);">With Claude</h3>
+              </div>
+              <div class="panel__body" style="font-size: var(--text-sm); color: var(--color-text-muted);">Using Claude Code to build or update a tool. Drop <code>CLAUDE.md</code> in your project root first.</div>
+            </div>
+          </div>
+
+          <!-- New tool -->
+          <h3>New tool from scratch</h3>
+          <p>The fastest path is to build directly inside this repo. Clone it, copy <code>starter/template.html</code> as your starting point, and remove the <code>docs/</code> pages you don't need. Your tool's HTML files sit at the root alongside <code>css/</code>, <code>js/</code>, and <code>fonts/</code> — no path adjustments needed.</p>
+
+          <div class="code-block">
+            <div class="code-block__toolbar"><span class="code-block__lang">bash</span><button class="code-block__copy" aria-label="Copy code">Copy</button></div>
+            <pre><code># Clone dx-tools and start fresh
+git clone https://github.com/your-org/dx-tools your-tool-name
+cd your-tool-name
+
+# Start from the minimal template
+cp starter/template.html index.html
+
+# Wire up git for your new project
+rm -rf .git
+git init
+git add .
+git commit -m "init: new tool from dx-tools starter"</code></pre>
+          </div>
+
+          <p style="margin-top: var(--space-4);">Alternatively, if you want to keep your tool in its own repo while sharing assets with other tools, use the <strong>sibling pattern</strong>: place your tool directory next to <code>dx-tools/</code> and reference CSS with <code>../dx-tools/css/tokens.css</code>. One copy of the fonts, shared by everything.</p>
+
+          <!-- Existing tool -->
+          <h3 style="margin-top: var(--space-8);">Retrofitting an existing tool</h3>
+          <p>Copy the design system files into a <code>design-system/</code> subdirectory in your existing project, then add the imports. This approach keeps the design system self-contained and easy to update by replacing those files.</p>
+
+          <div class="code-block">
+            <div class="code-block__toolbar"><span class="code-block__lang">bash</span><button class="code-block__copy" aria-label="Copy code">Copy</button></div>
+            <pre><code># From your existing project root
+# Copy the core files from dx-tools
+cp -r /path/to/dx-tools/css  design-system/css
+cp -r /path/to/dx-tools/js   design-system/js
+cp -r /path/to/dx-tools/fonts design-system/fonts</code></pre>
+          </div>
+
+          <p style="margin-top: var(--space-4);">Then add this to your page <code>&lt;head&gt;</code> — adjust the path prefix to match where you placed the files:</p>
+
+          <div class="code-block" style="margin-top: var(--space-2);">
+            <div class="code-block__toolbar"><span class="code-block__lang">html</span><button class="code-block__copy" aria-label="Copy code">Copy</button></div>
+            <pre><code>&lt;!-- FOUC prevention: must come first, before any stylesheet --&gt;
+&lt;script&gt;const t=localStorage.getItem('dx-theme');document.documentElement.setAttribute('data-theme',t||'light');&lt;/script&gt;
+
+&lt;!-- Fonts and design system (adjust path prefix as needed) --&gt;
+&lt;link rel="stylesheet" href="design-system/css/fonts.css"&gt;
+&lt;link rel="stylesheet" href="design-system/css/tokens.css"&gt;
+&lt;link rel="stylesheet" href="design-system/css/frame.css"&gt;
+&lt;link rel="stylesheet" href="design-system/css/components.css"&gt;
+&lt;link rel="stylesheet" href="design-system/css/preview.css"&gt;
+&lt;link rel="stylesheet" href="design-system/css/code.css"&gt;
+
+&lt;!-- Icons + theme toggle --&gt;
+&lt;script src="design-system/js/lucide.min.js"&gt;&lt;/script&gt;
+&lt;script src="design-system/js/theme.js" defer&gt;&lt;/script&gt;
+&lt;script src="design-system/js/code-copy.js" defer&gt;&lt;/script&gt;</code></pre>
+          </div>
+
+          <p style="margin-top: var(--space-4);">Wrap your existing content in the frame layout shell to get the header, sidebar, and main area:</p>
+
+          <div class="code-block" style="margin-top: var(--space-2);">
+            <div class="code-block__toolbar"><span class="code-block__lang">html</span><button class="code-block__copy" aria-label="Copy code">Copy</button></div>
+            <pre><code>&lt;body&gt;
+  &lt;a href="#main" class="skip-link"&gt;Skip to main content&lt;/a&gt;
+  &lt;div class="dx-doc-layout"&gt;
+    &lt;header class="dx-header" role="banner"&gt;
+      &lt;!-- your tool name + nav links here --&gt;
+    &lt;/header&gt;
+    &lt;div class="dx-doc-body"&gt;
+      &lt;nav class="dx-sidebar" aria-label="..."&gt;
+        &lt;!-- optional sidebar nav --&gt;
+      &lt;/nav&gt;
+      &lt;main id="main" class="dx-main"&gt;
+        &lt;!-- your tool content --&gt;
+      &lt;/main&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/body&gt;</code></pre>
+          </div>
+
+          <!-- With Claude -->
+          <h3 style="margin-top: var(--space-8);">With Claude</h3>
+          <p>When using Claude Code to build or update a tool, copy <code>CLAUDE.md</code> from this repo into your project root. Claude Code automatically reads it at the start of every session — it provides the token names, component class patterns, and accessibility rules without you having to re-explain the system each time.</p>
+
+          <div class="code-block">
+            <div class="code-block__toolbar"><span class="code-block__lang">bash</span><button class="code-block__copy" aria-label="Copy code">Copy</button></div>
+            <pre><code># Copy CLAUDE.md into your project
+cp /path/to/dx-tools/CLAUDE.md your-project/CLAUDE.md
+
+# Claude Code will now read it automatically.
+# You can also edit it to add project-specific notes.</code></pre>
+          </div>
+
+          <p style="margin-top: var(--space-4);">After copying, open Claude Code in your project directory and ask it to start building. Claude will already know the token names, component classes, HTML patterns, and ARIA requirements for this design system.</p>
+        </section>
+
+        <!-- Documentation nav -->
+        <section class="dx-section" id="docs" aria-labelledby="docs-title">
+          <div class="dx-section-header">
+            <h2 id="docs-title">Documentation</h2>
+            <p>Each section is a standalone reference page. Start with Colors and Typography to understand the token system, then work through Components for implementation patterns.</p>
+          </div>
+          <div class="nav-grid" role="list">
+            <a href="colors.html" class="nav-card" role="listitem">
+              <div class="nav-card__icon" aria-hidden="true"><i data-lucide="palette" width="20" height="20"></i></div>
+              <div class="nav-card__title">Colors</div>
+              <div class="nav-card__desc">Brand palette, semantic tokens, contrast tables. Inverted-brand strategy for tool vs. preview.</div>
+            </a>
+            <a href="typography.html" class="nav-card" role="listitem">
+              <div class="nav-card__icon" aria-hidden="true"><i data-lucide="type" width="20" height="20"></i></div>
+              <div class="nav-card__title">Typography</div>
+              <div class="nav-card__desc">Type scale specimens for Atkinson Hyperlegible, Roboto, and JetBrains Mono.</div>
+            </a>
+            <a href="components.html" class="nav-card" role="listitem">
+              <div class="nav-card__icon" aria-hidden="true"><i data-lucide="layout-panel-left" width="20" height="20"></i></div>
+              <div class="nav-card__title">Components</div>
+              <div class="nav-card__desc">Buttons, badges, panels, tables, icons, drag-and-drop, and the preview container pattern.</div>
+            </a>
+            <a href="forms.html" class="nav-card" role="listitem">
+              <div class="nav-card__icon" aria-hidden="true"><i data-lucide="text-cursor-input" width="20" height="20"></i></div>
+              <div class="nav-card__title">Forms</div>
+              <div class="nav-card__desc">Inputs, selects, checkboxes, inline validation, and accessible error handling.</div>
+            </a>
+            <a href="dashboard.html" class="nav-card" role="listitem">
+              <div class="nav-card__icon" aria-hidden="true"><i data-lucide="bar-chart-2" width="20" height="20"></i></div>
+              <div class="nav-card__title">Dashboard</div>
+              <div class="nav-card__desc">Stat cards, data tables, progress bars, and chart container patterns.</div>
+            </a>
+            <a href="frame-preview.html" class="nav-card" role="listitem">
+              <div class="nav-card__icon" aria-hidden="true"><i data-lucide="layers" width="20" height="20"></i></div>
+              <div class="nav-card__title">Frame &amp; Preview</div>
+              <div class="nav-card__desc">The two-layer architecture — tool frame vs. brand-faithful preview. Live control panel demo.</div>
+            </a>
+            <a href="accessibility.html" class="nav-card" role="listitem">
+              <div class="nav-card__icon" aria-hidden="true"><i data-lucide="accessibility" width="20" height="20"></i></div>
+              <div class="nav-card__title">Accessibility</div>
+              <div class="nav-card__desc">WCAG AAA checklist, ARIA patterns, focus management, and contrast verification.</div>
+            </a>
+          </div>
+        </section>
       </main>
     </div>
   </div>
+
   <script src="../js/lucide.min.js"></script>
   <script src="../js/theme.js" defer></script>
+  <script src="../js/code-copy.js" defer></script>
 </body>
 </html>
