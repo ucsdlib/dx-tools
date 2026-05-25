@@ -294,6 +294,11 @@ The sidebar is controlled by a modifier on the body wrapper:
 <div class="dx-doc-body dx-doc-body--no-sidebar">
   <main id="main" class="dx-main">...</main>
 </div>
+
+<!-- Without sidebar, no max-width — full-width tools and dashboards -->
+<div class="dx-doc-body dx-doc-body--no-sidebar-wide">
+  <main id="main" class="dx-main">...</main>
+</div>
 ```
 
 ### Preview container

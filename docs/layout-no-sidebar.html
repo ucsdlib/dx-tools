@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>No Sidebar Layout Demo — DX Tools Design System</title>
+  <script>const t=localStorage.getItem('dx-theme');document.documentElement.setAttribute('data-theme',t||'light');</script>
+  <link rel="stylesheet" href="../css/fonts.css">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/frame.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/code.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+  <div class="dx-doc-layout">
+    <header class="dx-header" role="banner">
+      <a href="../index.html" class="dx-header__brand" aria-label="DX Tools home">
+        <span class="dx-header__mark" aria-hidden="true">DX</span>
+        <span class="dx-header__wordmark">DX Tools</span>
+        <span class="dx-header__divider" aria-hidden="true"></span>
+        <span class="dx-header__subtitle">Design System</span>
+      </a>
+      <nav class="dx-header__nav" aria-label="Design system sections">
+        <a href="colors.html"        class="dx-header__nav-link">Colors</a>
+        <a href="typography.html"    class="dx-header__nav-link">Typography</a>
+        <a href="components.html"    class="dx-header__nav-link">Components</a>
+        <a href="forms.html"         class="dx-header__nav-link">Forms</a>
+        <a href="dashboard.html"     class="dx-header__nav-link">Dashboard</a>
+        <a href="frame-preview.html" class="dx-header__nav-link">Frame &amp; Preview</a>
+        <a href="layouts.html"       class="dx-header__nav-link" aria-current="page">Layouts</a>
+        <a href="accessibility.html" class="dx-header__nav-link">Accessibility</a>
+      </nav>
+      <div class="dx-header__actions">
+        <button class="btn btn--ghost btn--icon" data-theme-toggle aria-label="Switch to light mode" aria-pressed="false">
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun"  width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
+        </button>
+
+        <button class="btn btn--ghost btn--icon dx-nav-toggle" id="dx-nav-toggle" aria-expanded="false" aria-controls="dx-mobile-nav" aria-label="Open navigation menu">
+          <svg class="icon-menu" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          <svg class="icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <nav class="dx-mobile-nav" id="dx-mobile-nav" aria-label="Design system sections" hidden>
+        <a href="colors.html"        class="dx-mobile-nav__link">Colors</a>
+        <a href="typography.html"    class="dx-mobile-nav__link">Typography</a>
+        <a href="components.html"    class="dx-mobile-nav__link">Components</a>
+        <a href="forms.html"         class="dx-mobile-nav__link">Forms</a>
+        <a href="dashboard.html"     class="dx-mobile-nav__link">Dashboard</a>
+        <a href="frame-preview.html" class="dx-mobile-nav__link">Frame &amp; Preview</a>
+        <a href="layouts.html"       class="dx-mobile-nav__link" aria-current="page">Layouts</a>
+        <a href="accessibility.html" class="dx-mobile-nav__link">Accessibility</a>
+            </nav>
+    </header>
+
+    <!-- No-sidebar layout: single column, max-width constrained, centered -->
+    <div class="dx-doc-body dx-doc-body--no-sidebar">
+
+      <main id="main" class="dx-main">
+        <span class="eyebrow">Layout Demo · No Sidebar</span>
+        <h1 class="page-title">No sidebar layout</h1>
+        <p class="lead">This page uses <code>dx-doc-body--no-sidebar</code> — a single-column layout with no sidebar nav. Content is still constrained by <code>max-width: var(--doc-max)</code> and centered on the page.</p>
+
+        <div class="alert alert--info" role="status" style="margin-bottom: var(--space-6);">
+          <svg class="alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <div class="alert__body">
+            <strong class="alert__title">You are viewing the no-sidebar layout demo</strong>
+            <div class="alert__desc">There is no sidebar column on this page. The content takes up the full grid width, centered within <code>var(--doc-max)</code>. Compare this to the <a href="layout-sidebar.html">sidebar demo</a> and the <a href="layout-wide.html">wide demo</a>.</div>
+          </div>
+        </div>
+
+        <!-- About -->
+        <section class="dx-section" id="about" aria-labelledby="about-title">
+          <h2 id="about-title">About this layout</h2>
+          <p>The no-sidebar layout removes the left navigation column entirely. The modifier class <code>dx-doc-body--no-sidebar</code> collapses the grid to a single column. The outer max-width constraint is preserved — content stays readable without sprawling.</p>
+          <p>This layout works well for pages that have a clear beginning-to-end flow: settings forms, creation wizards, onboarding pages, and any focused tool where sidebar navigation would just be visual noise.</p>
+          <p>Because the sidebar is absent, page-level navigation (if needed) should be placed inline — for example, a breadcrumb trail or a prev/next footer with links to related pages.</p>
+        </section>
+
+        <!-- Sample form content -->
+        <section class="dx-section" id="demo-form" aria-labelledby="demo-form-title">
+          <h2 id="demo-form-title">Sample: Settings form</h2>
+          <p>A focused settings form is a natural fit for the no-sidebar layout. The content is a single continuous flow; the max-width constraint keeps line lengths comfortable.</p>
+
+          <div class="panel">
+            <div class="panel__header">
+              <h3 class="panel__title">Project settings</h3>
+              <span class="badge badge--neutral">Draft</span>
+            </div>
+            <div class="panel__body">
+              <div class="form-group" style="margin-bottom: var(--space-5);">
+                <label class="form-label" for="proj-name">Project name</label>
+                <input class="form-input" id="proj-name" type="text" placeholder="My project" aria-describedby="proj-name-hint">
+                <p class="form-hint" id="proj-name-hint">Used in the page title and navigation.</p>
+              </div>
+
+              <div class="form-group" style="margin-bottom: var(--space-5);">
+                <label class="form-label" for="proj-desc">Description</label>
+                <textarea class="form-input" id="proj-desc" rows="3" placeholder="A short description of this project…" aria-describedby="proj-desc-hint"></textarea>
+                <p class="form-hint" id="proj-desc-hint">Optional. Shown in the project index.</p>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="proj-status">Status</label>
+                <select class="form-select" id="proj-status">
+                  <option>Draft</option>
+                  <option>In review</option>
+                  <option>Published</option>
+                  <option>Archived</option>
+                </select>
+              </div>
+            </div>
+            <div class="panel__footer">
+              <button class="btn btn--primary btn--sm">Save settings</button>
+              <button class="btn btn--ghost btn--sm">Discard changes</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Code -->
+        <section class="dx-section" id="code" aria-labelledby="code-title">
+          <h2 id="code-title">HTML structure</h2>
+          <pre class="dx-code-block"><code><span class="cm">&lt;!-- Add the modifier; omit the sidebar &lt;nav&gt; entirely --&gt;</span>
+<span class="kw">&lt;div</span> <span class="attr">class</span>=<span class="str">"dx-doc-body dx-doc-body--no-sidebar"</span><span class="kw">&gt;</span>
+
+  <span class="kw">&lt;main</span> <span class="attr">id</span>=<span class="str">"main"</span> <span class="attr">class</span>=<span class="str">"dx-main"</span><span class="kw">&gt;</span>
+    ...
+  <span class="kw">&lt;/main&gt;</span>
+
+<span class="kw">&lt;/div&gt;</span></code></pre>
+
+          <p style="margin-top: var(--space-4);">
+            <a href="layouts.html" class="btn btn--secondary btn--sm">← Back to Layouts reference</a>
+          </p>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="../js/lucide.min.js"></script>
+  <script src="../js/theme.js" defer></script>
+</body>
+</html>

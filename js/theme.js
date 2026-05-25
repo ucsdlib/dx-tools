@@ -47,11 +47,63 @@
     /* Initialize Lucide icons if the library is loaded */
     if (typeof lucide !== 'undefined') lucide.createIcons();
 
-    /* Wire up all toggle buttons */
+    /* Wire up all theme toggle buttons */
     document.querySelectorAll('[data-theme-toggle]').forEach(function (btn) {
       btn.addEventListener('click', function () {
         setTheme(getTheme() === 'light' ? 'dark' : 'light');
       });
     });
+
+    /* ── Mobile nav hamburger toggle ─────────────────────────── */
+    const navToggle = document.getElementById('dx-nav-toggle');
+    const mobileNav = document.getElementById('dx-mobile-nav');
+
+    if (navToggle && mobileNav) {
+      function openNav() {
+        mobileNav.hidden = false;
+        navToggle.setAttribute('aria-expanded', 'true');
+        navToggle.setAttribute('aria-label', 'Close navigation menu');
+        var menuIcon  = navToggle.querySelector('.icon-menu');
+        var closeIcon = navToggle.querySelector('.icon-close');
+        if (menuIcon)  menuIcon.hidden  = true;
+        if (closeIcon) closeIcon.hidden = false;
+      }
+
+      function closeNav() {
+        mobileNav.hidden = true;
+        navToggle.setAttribute('aria-expanded', 'false');
+        navToggle.setAttribute('aria-label', 'Open navigation menu');
+        var menuIcon  = navToggle.querySelector('.icon-menu');
+        var closeIcon = navToggle.querySelector('.icon-close');
+        if (menuIcon)  menuIcon.hidden  = false;
+        if (closeIcon) closeIcon.hidden = true;
+      }
+
+      navToggle.addEventListener('click', function () {
+        if (mobileNav.hidden) { openNav(); } else { closeNav(); }
+      });
+
+      /* Close on outside click */
+      document.addEventListener('click', function (e) {
+        if (!mobileNav.hidden &&
+            !mobileNav.contains(e.target) &&
+            !navToggle.contains(e.target)) {
+          closeNav();
+        }
+      });
+
+      /* Close on Escape — return focus to toggle */
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !mobileNav.hidden) {
+          closeNav();
+          navToggle.focus();
+        }
+      });
+
+      /* Close when a nav link is activated */
+      mobileNav.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', closeNav);
+      });
+    }
   });
 })();

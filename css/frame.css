@@ -38,6 +38,10 @@ img, svg, video {
   max-width: 100%;
 }
 
+/* Prevent display overrides from breaking the hidden attribute.
+   Must come AFTER the svg { display: block } rule above. */
+[hidden] { display: none !important; }
+
 /* Inherit fonts in form elements (browser default overrides otherwise) */
 input, button, textarea, select {
   font: inherit;
@@ -128,6 +132,16 @@ input, button, textarea, select {
 .dx-doc-body--no-sidebar {
   grid-template-columns: 1fr;
   grid-template-areas: "main";
+}
+
+/* Wide no-sidebar layout — max-width unconstrained.
+   For dashboards and tools that need maximum horizontal space.
+   Usage: <div class="dx-doc-body dx-doc-body--no-sidebar-wide">
+   Omit the <nav class="dx-sidebar"> element entirely when using this. */
+.dx-doc-body--no-sidebar-wide {
+  grid-template-columns: 1fr;
+  grid-template-areas: "main";
+  max-width: none;
 }
 
 /* ================================================================
@@ -275,6 +289,58 @@ input, button, textarea, select {
   gap: var(--space-2);
   margin-left: auto;
   flex-shrink: 0;
+}
+
+/* Mobile nav toggle — hidden on desktop, shown at mobile breakpoint */
+.dx-nav-toggle {
+  display: none;
+  flex-shrink: 0;
+}
+
+/* ── Mobile nav dropdown ─────────────────────────────────────
+   Positioned fixed so it drops below the sticky header without
+   pushing page content. Hidden by default via the `hidden` attr.
+   ─────────────────────────────────────────────────────────── */
+.dx-mobile-nav {
+  position: fixed;
+  top: var(--header-h);
+  left: 0;
+  right: 0;
+  z-index: var(--z-sticky);
+  background: var(--color-surface-raised);
+  border-bottom: 2px solid var(--color-border-strong);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-2) 0;
+}
+
+.dx-mobile-nav__link {
+  display: flex;
+  align-items: center;
+  min-height: var(--target-md);
+  padding: 0 var(--space-6);
+  font-size: var(--text-base);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: background-color var(--t-fast), color var(--t-fast);
+}
+
+.dx-mobile-nav__link:hover {
+  background: var(--color-accent-muted);
+  color: var(--color-text);
+}
+
+.dx-mobile-nav__link[aria-current="page"] {
+  color: var(--color-accent);
+  background: var(--color-accent-muted);
+  font-weight: var(--weight-semibold);
+  border-left: 3px solid var(--color-accent);
+  padding-left: calc(var(--space-6) - 3px);
+}
+
+.dx-mobile-nav__link:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: -3px;
 }
 
 /* ================================================================
@@ -569,6 +635,7 @@ input, button, textarea, select {
 /* ================================================================
    RESPONSIVE BREAKPOINTS
    ================================================================ */
+/* Tablets and mid-size laptops: narrow sidebar + hamburger nav */
 @media (max-width: 1024px) {
   .dx-doc-body:not(.dx-doc-body--no-sidebar) {
     grid-template-columns: 220px 1fr;
@@ -578,11 +645,21 @@ input, button, textarea, select {
     width: 220px;
   }
 
+  /* Collapse inline nav to hamburger at this breakpoint */
+  .dx-header__nav {
+    display: none;
+  }
+
+  .dx-nav-toggle {
+    display: inline-flex;
+  }
+
   .dx-main {
     padding: var(--space-6) var(--space-8);
   }
 }
 
+/* Mobile: single-column layout, sidebar hidden */
 @media (max-width: 768px) {
   .dx-doc-body:not(.dx-doc-body--no-sidebar) {
     grid-template-columns: 1fr;
@@ -590,10 +667,6 @@ input, button, textarea, select {
   }
 
   .dx-sidebar {
-    display: none;
-  }
-
-  .dx-header__nav {
     display: none;
   }
 
