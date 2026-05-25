@@ -43,7 +43,7 @@ Also: `css/fonts.css` (self-hosted @font-face declarations, references `../fonts
 - Brand-faithful UC San Diego content shown to the user
 - Always light, never inherits dark mode
 - Roboto font
-- Navy headings `#182B49`, Blue links `#00629B`, Gold/Yellow accents
+- Navy headings `#182B49`, Blue links `#00629B`, Yellow `#FFCD00` accents
 
 When adding nav or structural links inside `.dx-preview`, **always use a double-class selector** (e.g. `.dx-preview .your-nav__link`) to reach specificity 0,2,0. Never rely on a single-class selector inside preview — it will lose to the frame's link rule.
 

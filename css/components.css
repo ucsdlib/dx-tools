@@ -764,6 +764,7 @@
 .tabs {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .tabs__list {
@@ -819,6 +820,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
+  width: 100%;
 }
 
 .progress-header {
@@ -840,6 +842,10 @@
   color: var(--color-text-muted);
   font-variant-numeric: tabular-nums;
 }
+
+.progress-value--success { color: var(--color-success-text); }
+.progress-value--warning { color: var(--color-warning-text); }
+.progress-value--danger  { color: var(--color-danger-text); }
 
 .progress-track {
   width: 100%;
@@ -1424,6 +1430,11 @@ button.drag-handle {
   box-shadow: var(--shadow-sm);
 }
 
+/* Icons inside sort items should never shrink */
+.sort-list__item svg {
+  flex-shrink: 0;
+}
+
 /* Insertion indicator — shows where item will land */
 .drop-indicator {
   height: 2px;
@@ -1470,17 +1481,19 @@ button.drag-handle {
   display: flex;
   flex-direction: column;
   width: 100%;  /* fill the parent container regardless of content width */
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);   /* matches .panel */
+  overflow: hidden;                  /* clips tab strip to the border-radius */
 }
 
 /* ── Tab strip ─────────────────────────────────────────────────── */
 .station__nav {
   display: flex;
+  margin: 0;                          /* explicit reset — nav has no default margin, but clear intent */
   border-bottom: 1px solid var(--color-border);
   overflow-x: auto;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
-  /* Negative horizontal margin lets the strip span past the panel padding */
-  /* Omit or set to 0 when used in a tightly-bounded container */
 }
 
 .station__nav::-webkit-scrollbar {
@@ -1551,7 +1564,7 @@ button.drag-handle {
 
 /* ── Content panels ────────────────────────────────────────────── */
 .station__panels {
-  /* Wraps all role="tabpanel" elements. Sizing is up to the consumer. */
+  padding: var(--space-6) var(--space-8) 0;
 }
 
 .station__panel {
@@ -1594,9 +1607,9 @@ button.drag-handle {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: var(--space-6);
+  margin: 0;                         /* no gap between panel content and border-top */
+  padding: var(--space-5) var(--space-8);
   border-top: 1px solid var(--color-border);
-  margin-top: var(--space-6);
   gap: var(--space-3);
 }
 

@@ -484,10 +484,13 @@ input, button, textarea, select {
   background-color: var(--color-bg);
 }
 
-/* Demo variant — for showing full-width things (tables, etc.) */
+/* Demo variant — for showing full-width things (tables, station panels, etc.)
+   No chrome of its own: transparent background, no border, no padding.
+   The contained component is responsible for its own visual boundary. */
 .dx-demo--wide {
   padding: 0;
-  overflow: hidden;
+  background-color: transparent;
+  border: none;
 }
 
 /* ================================================================
