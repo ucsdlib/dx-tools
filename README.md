@@ -9,13 +9,14 @@ A small collection of skills for the TritonAI harness (a Codex-based agent). The
 | [`annotated-bibliography`](annotated-bibliography/) | Research-grade annotated bibliographies that represent sources faithfully and classify evidence | 2026-02-12 | Ready; not yet installed |
 | [`claim-evaluation-skill`](claim-evaluation-skill/) | Claim verification: evidence classification, source checks, confidence ratings | 2026-02-12 | Ready; not yet installed |
 | [`creation-record`](creation-record/) | Creation notes/records documenting AI and human contribution, incl. JSON-LD | 2026-06-04 (v1.3) | Installed |
+| [`uc-library-search`](uc-library-search/) | High-fidelity search strategies and direct links for UC Library Search (Primo VE); adapted from the TritonGPT query generator, with URLs verified live against search-library.ucsd.edu | 2026-09-15 | Installed |
 
 ## Installing into the TritonAI harness
 
 Copy or symlink each skill directory into the harness skills location:
 
 ```bash
-cp -R annotated-bibliography claim-evaluation-skill creation-record ~/.tritonai-harness/codex/skills/
+cp -R annotated-bibliography claim-evaluation-skill creation-record uc-library-search ~/.tritonai-harness/codex/skills/
 ```
 
 Skills load on the next turn or session. `creation-record` is already installed there.
@@ -27,6 +28,7 @@ Skills load on the next turn or session. `creation-record` is already installed 
 - `annotated-bibliography` and `claim-evaluation-skill` were built to counter "helpful but unfaithful" AI behavior in research and writing tasks; they share a three-level evidence classification (direct evidence / reasonable inference / interpretive connection).
 - **2026-09-15** — the collection was added to this repo (commit `128176c`). Skills were previously distributed as Claude-style `.skill` ZIP files; the plain directories here are now the source of truth and the ZIPs were removed.
 - **2026-09-15** — adapted for the TritonAI/Codex harness: search/read guidance now maps to the collaborative browser (`preview_*`) and `exec_command`, and `creation-record` model identification is provider-agnostic (Codex/OpenAI alongside Claude/Anthropic).
+- **2026-09-15** — added `uc-library-search`, adapted from the TritonGPT "UC Library Search Query Generator" system prompt with the values-based workflow preserved (never summarize literature; clarify first, scaled to the request; high-precision strategies). Primo VE URL mechanics were verified live against `search-library.ucsd.edu`: links use the single-parameter `query=` format, and the chained `query=...,AND&query=...` format is documented as unreliable on this instance. `scripts/build_url.py` builds verified links deterministically. Testing log: [`uc-library-search/.testing-log.md`](uc-library-search/.testing-log.md).
 
 ## Rebuilding a `.skill` ZIP (optional)
 

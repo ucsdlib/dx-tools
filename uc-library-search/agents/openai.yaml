@@ -1,0 +1,4 @@
+interface:
+  display_name: "UC Library Search"
+  short_description: "Build UC Library Search search links"
+  default_prompt: "Use $uc-library-search to build a search strategy with direct UC Library Search links for my topic."
