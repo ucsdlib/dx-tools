@@ -14,22 +14,11 @@ see each directory.
 
 ## Installing into the TritonAI harness
 
-Copy or symlink a skill directory into the harness skills location:
+1. From the TritonAI Harness, click `Settings` (gear icon) then `Skills`
+2. Scroll to the "Add From Link" section
+3. Add the URL for the skill directory in this repository, e.g., `https://github.com/ucsdlib/dx-tools/tree/main/uc-library-search`
 
-```bash
-cp -R <skill-directory> ~/.tritonai-harness/codex/skills/
-```
 
-Skills load on the next turn or session. To update a skill, re-copy from this repo.
-
-## Installing from GitHub (for teammates)
-
-Teammates can clone this repo and copy the skill directory as above. The TritonAI/Codex
-skill installer also supports direct GitHub paths:
-
-```bash
-install-skill-from-github.py --repo ucsdlib/dx-tools --path <skill-directory>
-```
 
 ## Development conventions
 
