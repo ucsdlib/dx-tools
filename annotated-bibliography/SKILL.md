@@ -18,9 +18,12 @@ This skill guides creation of faithful, comprehensive annotated bibliographies t
 
 **Stage 0: UC Library Search first.**
 - If the `uc-library-search` skill is available in the session, begin by building UC Library Search strategies for the research question (typically the focused query plus a zoom-out ladder) using that skill's `scripts/build_url.py`.
-- **Tool execution:** Run the searches using available tools and extract results directly.
-- Sources discovered via UC Library Search still MUST pass the existing verification rule before annotation: confirm metadata and abstracts via OpenAlex/Crossref/ERIC APIs or review the full text. Never annotate from a Primo result snippet alone.
-- If the `uc-library-search` skill is not available, note its absence in the search log and proceed directly to the API-based tools below.
+- **Execute via the documented Primo PNX REST API.** Read `references/primo-api.md` before first use each session for the verified endpoints, parameter recipe, filter translation, PNX metadata inventory, and troubleshooting. Use a 120-second timeout; run the preflight probe before trusting the keyless campus mount. Result counts are unreliable — paginate by fidelity, never by count.
+- **Adaptive screening:** fetch one page (`limit=20`, `sort=rank`), classify every record (on-topic / adjacent / noise) using the full PNX metadata, and continue paging only while fidelity (the on-topic plus adjacent share) stays at or above 50%. At 25–50%, fetch one more page, then stop and refine. Below 25%, stop immediately and refine the query instead of dredging. Tier budgets (cumulative records per query — ceilings, not targets): Focused ~40, Comprehensive ~80, Exhaustive ~200. Stop early when a full page yields nothing new. Log fidelity per query.
+- **Component decomposition ("search within"):** after a high-fidelity search, run fresh API calls for each conceptual component of the research question (base query AND component synonyms), giving each sub-topic its own relevance ranking and surfacing on-topic items buried deep in a broad query's ranking. Facet slicing (type, subject) counts as decomposition too. Focused: skip. Comprehensive: 2–3 components. Exhaustive: full decomposition plus facet slices.
+- **Division of labor:** the agent does ALL bulk screening — never ask the human to review result lists. The human contributes only: (a) the breadth-tier choice, (b) optional domain input on query terms when offered, (c) end-of-run retrieval of specific items the agent cannot access (bot-blocked pages, paywalled or campus-SSO content), presented as a short retrieval list.
+- **Verification still applies:** articles found via UC Library Search must have citation metadata confirmed via OpenAlex/Crossref before annotation; books may be annotated at description/TOC level under the rules in "Verify Before Annotating."
+- **If the `uc-library-search` skill is unavailable or both API mounts fail:** proceed directly to the API-based tools below and record a **documented skip — never silent.** The search log must state (a) that Stage 0 was skipped, (b) why, and (c) the expected coverage consequence (books, library-science venues, and UC holdings underweighted). Repeat the coverage gap in the opening summary's pipeline-transparency line.
 
 Search across MULTIPLE perspectives in phases:
 - **Phase 1 (3-5 searches)**: Core concepts directly
@@ -31,7 +34,7 @@ Search across MULTIPLE perspectives in phases:
 **Total: 8-15 searches for comprehensive work, counted across all tools including Stage 0**
 
 **Reliable Search Tools** (use in pipeline order):
-1. **UC Library Search (via `uc-library-search` skill)**: Books, e-books, subject-heading discovery, and UC-specific holdings. Strength: surfaces formats and subject vocabulary that article APIs underweight. Caveat: JavaScript app; outputs links for human screening unless browser tools exist.
+1. **UC Library Search (via `uc-library-search` skill)**: Books, e-books, subject-heading discovery, and UC-specific holdings. Strength: surfaces formats, subject vocabulary, and library-science venues that article APIs underweight. Execute via the Primo PNX REST API (see `references/primo-api.md`).
 2. **OpenAlex API**: Broad scholarly index with machine-readable metadata, reconstructable abstracts, and citation counts. First choice for programmatic discovery and source verification.
 3. **ERIC API**: Education-specific peer-reviewed and grey literature. First choice when the topic touches teaching, learning, or educational policy.
 4. **Crossref API**: Canonical DOI and publication metadata. Use for citation verification even when a source is found elsewhere.
@@ -44,7 +47,10 @@ Search across MULTIPLE perspectives in phases:
 - Always search and access original sources
 - Read full text when available, abstracts when necessary
 - Never rely on memory about sources
-- Note access level (full text / abstract only)
+- Note access level (full text / abstract only / publisher description and TOC / metadata only)
+- **Primo-sourced articles:** the PNX `addata.abstract` is a full abstract, not a snippet — use it for screening and first-pass verification, but confirm citation metadata (DOI, venue, year, authors) via OpenAlex or Crossref before annotating.
+- **Primo-sourced books:** the PNX publisher description (`display.description`) and table of contents (`display.contents`) support a description-level annotation. Label the access level "Publisher description and table of contents reviewed (via Primo record)," cap confidence at MEDIUM, and state that the description is promotional copy and chapter-level quality is unassessed. Never present a publisher description's evaluative claims as independent evidence of effectiveness.
+- **Book verification ladder (stop at first success):** (1) PNX fields (`addata.abstract`, `display.description`, `display.contents`); (2) Google Books API; (3) WorldCat or library catalog record; (4) chapter-level Crossref records; (5) human retrieval via campus library access; (6) if all fail, annotate at metadata level, mark "Metadata only," assign LOW confidence, and make no content claims.
 - Read complete articles when URLs are provided: open them in the collaborative browser
   (`preview_navigate` -> `preview_snapshot` / `preview_evaluate` to extract text); read
   local files directly with `exec_command`. This harness has no `web_search`/`web_fetch`
@@ -58,15 +64,24 @@ Before searching, ask the user ONE question offering three tiers:
 - **Comprehensive (default/recommended):** 10-15 searches, 12-18 sources, UC Library Search plus 3-5 API/web tools. For literature reviews and strategic work.
 - **Exhaustive:** 15+ searches, 18+ sources, all applicable tools, citation chaining, and saved-search alerts. For publication-grade or contested topics.
 
-Ask once, at the beginning only. If the user declines to choose, does not respond, or says "you decide," use **Comprehensive** without asking again. Record the chosen tier in the opening summary of the final bibliography.
+**Mode-aware asking:** if the request context determines the tier (a controlled comparison, a re-run, or an explicit "be thorough"), state the chosen tier and proceed without asking. Otherwise, ask once, at the beginning only; if the user declines to choose, does not respond, or says "you decide," use **Comprehensive** without asking again. Record the chosen tier and its basis (user-selected / default-applied / context-determined) in the opening summary.
+
+**Curation rule:** the tier governs the FINAL annotated set, not the search effort. Stage 0 and API candidates compete for the same slots. When new finds exceed the tier limit, prune the weakest sources (the default) with the justification recorded in the closing synthesis, or ask the user once whether to upgrade the tier. Prune by relevance and confidence, not discovery order — a stronger find supersedes a weaker source on the same theme.
+
+**Adaptive refinement (tier-dependent):** the breadth question is asked once, but mid-run check-ins are permitted when search signals warrant:
+- High count, low fidelity → narrow (add an AND concept, phrase-quote, field search, or filter facet)
+- Very few relevant results across the whole ladder → zoom out or expand synonyms
+- Unexpected high-value cluster → flag it and consider a dedicated component search
+- **Focused:** adjust autonomously and log every decision. **Comprehensive:** up to two autonomous adjustments, logged with rationale; one mid-run question only if scope is genuinely ambiguous. **Exhaustive:** present the preliminary landscape and ask which branches to pursue before the deep pass.
 
 ## Search Log
 
 Record the full pipeline:
 - Which tools were used, in what order
 - How many searches each tool contributed
-- Whether Stage 0 ran, and in which execution mode (automated extraction via available tools vs. links generated for human screening)
-- Any fallbacks or skips, with reasons
+- Whether Stage 0 ran, and in which execution mode (Primo API extraction vs. documented skip with reason)
+- Per-query fidelity estimates and any adaptive screening or refinement decisions they triggered
+- Any fallbacks or skips, with reasons and coverage consequences
 
 ## Understanding the Research Question
 
@@ -87,7 +102,7 @@ For each source:
 
 ---
 **Citation:** [Full APA 7th edition with DOI/URL]
-**Access Level:** [Full text reviewed / Abstract only]
+**Access Level:** [Full text reviewed / Abstract only / Publisher description and TOC reviewed (via Primo record) / Metadata only]
 **Source Type:** [Empirical study / Review / Theoretical / Practitioner / Book]
 ---
 
