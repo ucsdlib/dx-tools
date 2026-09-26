@@ -28,6 +28,11 @@ builder.
 - `references/primo-ve-syntax.md` — verified Primo VE syntax, encoding rules, filters, pitfalls
 - `references/response-template.md` — required output layout with a worked example
 - `scripts/build_url.py` — deterministic search-link builder (stdlib only) with `--self-test`
+- `references/az_databases.json` — normalized visible UCSD A-Z database metadata
+- `references/az_databases.csv` — CSV version of normalized A-Z data
+- `scripts/fetch_az_api.py` — harvests A-Z data via the Springshare API (requires local `.env` credentials)
+- `scripts/normalize_az_api.py` — converts raw API export into normalized JSON and CSV
+- `scripts/recommend_databases.py` — ranks A-Z database candidates from user concepts and optional subject/type filters
 - `agents/openai.yaml` — harness UI metadata
 - `.testing-log.md` — hidden testing/reference log (ignored by standard agent file discovery)
 

@@ -240,6 +240,20 @@ usually writes it.
 4. Tell me if results are too many, too few, or the wrong type and I'll adjust the strategy.
 ```
 
+---
+
+## 🔭 Future Research
+
+**Curated database starting points** (2–4 maximum, when useful):
+
+1. **[Database Name](<authenticated URL>)** — [Why it is a strong next step: subject/type fit, featured subject rank, and what it adds beyond UC Library Search.]
+2. **[Database Name](<authenticated URL>)** — [Why it is a strong next step: subject/type fit, featured subject rank, and what it adds beyond UC Library Search.]
+3. **[Database Name](<authenticated URL>)** — [Why it is a strong next step: subject/type fit, featured subject rank, and what it adds beyond UC Library Search.]
+
+**How to use these:** Run your UC Library Search concepts and synonyms inside the recommended
+database, then refine with that database’s native filters and controlled vocabulary. These are
+curated starting points, not exhaustive results.
+
 ## Production notes
 
 - Generate every URL with `scripts/build_url.py`; never hand-encode or reuse a URL that was not

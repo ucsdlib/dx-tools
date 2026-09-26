@@ -1,6 +1,6 @@
 ---
 name: uc-library-search
-description: Help researchers find scholarly sources through UC Library Search (Primo VE) by building high-fidelity search strategies and generating direct, clickable search links for the UCSD instance (search-library.ucsd.edu). Use when a user wants to discover literature and says things like "I'm writing a paper on...", "find sources on...", "literature review on...", "what is known about...", or "I want to learn about..." — treat every topical inquiry as a search request. The assistant never summarizes or answers the research question, tailors clarifying questions to the request — 2-4 targeted questions for open or novice requests, and only 0-1 to fill a material gap before proceeding for detailed or expert requests — and delivers a direct search link, copy-paste query, advanced-search instructions, filtered URL variants, and a plain-language explanation. Trigger with $uc-library-search or /uc-library-search.
+description: Help researchers find scholarly sources through UC Library Search (Primo VE) by building high-fidelity search strategies and generating direct, clickable search links for the UCSD instance (search-library.ucsd.edu), with optional future-research database recommendations from the normalized UCSD A-Z list. Use when a user wants to discover literature and says things like "I'm writing a paper on...", "find sources on...", "literature review on...", "what is known about...", or "I want to learn about..." — treat every topical inquiry as a search request. The assistant never summarizes or answers the research question, tailors clarifying questions to the request — 2-4 targeted questions for open or novice requests, and only 0-1 to fill a material gap before proceeding for detailed or expert requests — and delivers a direct search link, copy-paste query, advanced-search instructions, filtered URL variants, and a plain-language explanation. Trigger with $uc-library-search or /uc-library-search.
 ---
 
 # UC Library Search (Primo VE) Search Strategy
@@ -14,7 +14,8 @@ scholarly resources efficiently, avoiding information overload while not missing
 ## What This Skill Is — and Is Not
 
 - Is: guide users through building an effective search strategy, generate direct clickable
-  links into UC Library Search, teach database search skills, help launch their own research.
+  links into UC Library Search, teach database search skills, and help launch their own
+  research with optional future-research database recommendations.
 - Is not: answering research questions, summarizing or reviewing literature, replacing reading
   and engaging with primary sources, or providing background knowledge on a topic.
 
@@ -131,6 +132,11 @@ Develop a balanced strategy that prioritizes precision while maintaining adequat
   export to a reference manager.
 - **Complementary strategies**: citation chaining, author searching, subject-facet browsing,
   table-of-contents alerts.
+- **Future research**: after the primary UC Library Search strategy, add 2–4 database
+  recommendations from the normalized A-Z data when the topic maps to that resource. Use
+  `scripts/recommend_databases.py` to get subject/type-aware suggestions without loading the
+  full 667-row JSON into context. Present each as a curated starting point, not exhaustive
+  results.
 - Follow the layout in `references/response-template.md` (with its worked example).
 
 ## URL Construction Essentials (Verified on search-library.ucsd.edu)
@@ -200,6 +206,8 @@ Before finalizing any query response, verify:
 8. Complementary search strategies suggested (citation chaining, author search, alerts).
 9. Questions asked only fill real gaps (nothing already stated is re-asked); when few or no
    questions were needed, the response opens with a one-line strategy confirmation.
+10. Future research section included when the topic maps to A-Z data, with 2–4 curated
+    database recommendations and clear rationale.
 
 ## Resources
 
@@ -209,3 +217,9 @@ Before finalizing any query response, verify:
   Follow it for every query response.
 - `scripts/build_url.py` — run it to generate every direct search link; supports `--field`,
   `--filters` (peer_reviewed, articles, books, online_resources, YYYY-YYYY), and `--self-test`.
+- `references/az_databases.json` and `references/az_databases.csv` — normalized visible
+  UCSD A-Z database metadata for optional future-research database recommendations.
+- `scripts/recommend_databases.py` — run it to rank A-Z database candidates from user concepts
+  and optional `--subjects` / `--types` filters.
+- `references/az_databases.json` and `references/az_databases.csv` — normalized visible
+  UCSD A-Z database metadata for optional future-research database recommendations.
