@@ -59,6 +59,17 @@ python3 scripts/build_url.py '("social media" OR Facebook) AND (depression OR "d
 - Audience: UC San Diego Library digital experience team and the TritonAI/Codex harness
 - Stage: Finalized
 
+**Human contribution summary**
+- **Doug Worsham** — Digital Experience Manager, UC San Diego Library
+  - Roles: Conceptualization, Methodology, Writing – Original Draft (with Claude), Supervision
+  - Contribution: researched and authored the source system instructions (co-authored with
+    Claude) covering high-fidelity search best practices and Primo VE syntax; set the
+    values-based requirements (no literature summarization, staged clarifying workflow, balanced
+    precision/recall); directed the technical-accuracy work; and made the product decisions —
+    needs-based clarifying questions, verified single-parameter URL format only, filtered URL
+    variants, and placement in `dx-tools` for team sharing
+- Initial testing by Doug Worsham, created as an experiment. Further testing and experimentation needed.
+
 **AI contribution summary**
 - Contribution: AI-Assisted (multi-party) — human-authored framework with substantial AI
   implementation and verification
@@ -73,16 +84,6 @@ python3 scripts/build_url.py '("social media" OR Facebook) AND (depression OR "d
 - Prompt characterization: iterative with human source material — Doug's expert-authored
   system prompt was the source; multiple directed rounds refined structure, content, and policy
 
-**Human contribution summary**
-- **Doug Worsham** — Digital Experience Manager, UC San Diego Library
-  - Roles: Conceptualization, Methodology, Writing – Original Draft (with Claude), Supervision
-  - Contribution: researched and authored the source system instructions (co-authored with
-    Claude) covering high-fidelity search best practices and Primo VE syntax; set the
-    values-based requirements (no literature summarization, staged clarifying workflow, balanced
-    precision/recall); directed the technical-accuracy work; and made the product decisions —
-    needs-based clarifying questions, verified single-parameter URL format only, filtered URL
-    variants, and placement in `dx-tools` for team sharing
-- Reviewed and approved by: Doug Worsham
 
 **Process narrative**
 The tool began as a TritonGPT system prompt Doug co-authored with Claude, defining how an
@@ -99,6 +100,3 @@ testing results, refined the clarifying-question policy to scale with request de
 approved sharing the skill through this repo. Testing evidence is logged in
 `.testing-log.md`.
 
-**Responsibility statement**
-Doug Worsham, Digital Experience Manager, UC San Diego Library, reviewed and approved this
-work and accepts responsibility for its accuracy and fitness for its intended use.
